@@ -1,23 +1,16 @@
 ---
-title: Second lecture
-description:
-  Week 2 — the first substantive material, and the run-up to the first review
+title: "Hiss as a signature"
+description: "Three explanations for a shared feature, and a worked pairwise comparison."
 week: 2
 date: 2027-03-01
+draft: true
 teachers:
-  - idris-fenn
+  - wren-halloway
 related:
-  - sessions/02-first-review
-  - assessments/assignment-1
+  - sessions/02-dub
 ---
 
-<!-- STARTER_CONTENT: replace this lecture, then remove this comment. -->
+Three explanations for a shared feature, and a worked pairwise comparison.
 
-Replace this page. It exists so the lectures listing sorts by week and the
-related block has more than one edge to draw.
-
-## Outline
-
-- the first substantive material, and where it shows up in practice
-- what the first review is looking for
-- reading before next week
+Skeleton. The worked example that makes this hour specific is written in
+phase 2; the workshop page owns the activity.

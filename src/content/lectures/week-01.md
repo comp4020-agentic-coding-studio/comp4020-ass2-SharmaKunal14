@@ -1,30 +1,16 @@
 ---
-title: Opening lecture
-description:
-  The first lecture — what the course is, why it is shaped this way, and what
-  happens in week 1
+title: "The office that ate itself"
+description: "What changes when something is copied, and the control that shows change is not guaranteed."
 week: 1
 date: 2027-02-22
+draft: true
 teachers:
-  - marisol-quaye
-slides: /decks/week-01/
+  - wren-halloway
 related:
-  - sessions/01-getting-started
+  - sessions/01-photocopy
 ---
 
-<!-- STARTER_CONTENT: replace this lecture, then remove this comment. -->
+What changes when something is copied, and the control that shows change is not guaranteed.
 
-Replace this page. A lecture entry says what was covered and links to the pages
-that own the detail, so the lecture stays short and nothing is explained twice.
-
-The `related:` ref above is a graph edge: it renders on this page and on the
-session's, so declare a connection once, on whichever side is convenient.
-
-The page renders its `slides:` link automatically. Decks are markdown too,
-under `src/decks/`; the path is part of the lecture's API metadata.
-
-## Outline
-
-- what the course is for
-- how the weeks are shaped
-- what to do before the first session
+Skeleton. The worked example that makes this hour specific is written in
+phase 1; the workshop page owns the activity.
