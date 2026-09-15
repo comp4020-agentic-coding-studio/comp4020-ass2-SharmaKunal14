@@ -2,48 +2,97 @@
 import Card from "astro-theme-university/components/Card.astro";
 import CardGrid from "astro-theme-university/components/CardGrid.astro";
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
-import heroImage from "../assets/images/hero-home.avif";
 import { courseMeta } from "../course-config";
 import { sessionLabels, siteConfig } from "../site-config";
 
-// STARTER_CONTENT: replace the hero artwork and its alt text below, then
-// remove this comment.
+// Root-absolute hrefs written by hand in an .astro file skip Astro base
+// handling: they work on localhost and 404 on the deployed path. The theme
+// components rewrite their own hrefs; an inline link has to do it itself.
+const archiveHref = `${import.meta.env.BASE_URL}archive/`;
 ---
 
 <ContentLayout
   title={`${courseMeta.code}: ${courseMeta.title}`}
   description={courseMeta.description}
-  heroImage={heroImage}
-  heroImageAlt="A lecture theatre reduced to flat gold and black shapes, rows of seats sweeping past the frame, in a two-ink risograph print"
   {...siteConfig}
 >
   <ul class="course-tags" aria-label="Course tags">
     {courseMeta.tags.map((tag) => <li>{tag}</li>)}
   </ul>
 
-  <!-- STARTER_CONTENT: replace the authored page below, then remove this comment. -->
+  <p class="lede">
+    In the first workshop you will put a page through a photocopier ten times and
+    watch it become unreadable. Beside it sits a digital copy of the same page,
+    made ten times over, byte-for-byte identical to the original.
+  </p>
+
+  <p class="lede">
+    <strong>Generation loss is not inevitable.</strong> That is an awkward thing
+    for a course called Generation Loss to admit in week one, and it is where the
+    real question starts: which processes change a copy, what traces those
+    changes leave, and when a trace is good enough evidence to say where
+    something came from.
+  </p>
+
   <h2>What you will do</h2>
   <p>
-    Say what a student spends their time on — the making, reading, arguing or
-    measuring that fills the weeks. Name the artefact they walk out with.
+    Every Wednesday you work on a specimen. You measure what changed, you argue
+    about what the change proves, and you deposit the result in the
+    <a href={archiveHref}>Class Copy Archive</a> for a later week to use.
+  </p>
+  <p>
+    By week six you will reconstruct a family tree of hand-copied texts from the
+    mistakes they share, and name the version nobody in the room has seen — then
+    find out where you were wrong. After that the course tests the method until
+    it breaks: on a replication model, on error-correcting codes, on a
+    restoration that invents detail, and on a provenance record with a hole in it.
+  </p>
+  <p>
+    Scribal error, perceptual audio coding and recursive resampling are three
+    different tests of the same method, not three examples of one mechanism. The
+    course is careful about that difference, and so is the marking.
   </p>
 
   <h2>Who it is for</h2>
   <p>
-    Say who this is aimed at and what they need to already know. Be specific
-    enough that someone can rule themselves in or out without emailing you.
+    Postgraduate students interested in archives, media and evidence. You need to
+    be comfortable reading an argument and using a spreadsheet. No Latin, no
+    virology, no programming and no information theory are assumed — each is
+    introduced where the course needs it, with worked numbers.
+  </p>
+  <p>
+    A laptop and the files on these pages are all you need. Nothing in the core
+    course requires equipment, paid software, a cloud account or code you write
+    yourself.
+  </p>
+
+  <h2>How it runs</h2>
+  <p>
+    One-hour lecture Mondays, two-hour workshop Wednesdays, twelve weeks with a
+    break after week six. About eight hours a week including preparation and
+    assessment work. Four assessments: an investigation you design, a
+    reconstruction from evidence, a preservation argument you have to cost, and a
+    five-minute evidence question at the start of every workshop.
+  </p>
+  <p>
+    Every assessment here can be answered with <em>the evidence does not settle
+    this</em>, where the evidence genuinely does not settle it. Saying so well is
+    worth full marks.
   </p>
 
   <h2>Where to go next</h2>
   <CardGrid columns={2}>
     <Card title={sessionLabels.plural} href="/sessions/">
-      <p>The weekly schedule and what happens in each teaching session.</p>
+      <p>The twelve weeks, what you investigate in each, and what it deposits.</p>
     </Card>
     <Card title="Assessment" href="/assessments/">
-      <p>What is marked, what it is worth, and when it is due.</p>
+      <p>The four pieces, what they ask, how they are marked and when they are due.</p>
+    </Card>
+    <Card title="Archive" href="/archive/">
+      <p>The specimens and model studies the whole course argues from.</p>
     </Card>
     <Card title="People" href="/people/">
-      <p>Who teaches the course and how to reach them.</p>
+      <p>Who teaches it, and what they disagree about.</p>
     </Card>
   </CardGrid>
 </ContentLayout>
@@ -64,5 +113,10 @@ import { sessionLabels, siteConfig } from "../site-config";
     color: var(--at-text-secondary);
     background: var(--at-bg-alt);
     font-size: 0.9rem;
+  }
+
+  .lede {
+    font-size: 1.15rem;
+    line-height: 1.55;
   }
 </style>
