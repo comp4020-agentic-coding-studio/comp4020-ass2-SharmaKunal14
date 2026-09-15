@@ -65,6 +65,77 @@ does not establish that the final website merits 90%.
 These are planning corrections. The tests, homepage and A2 witness have not yet
 been implemented or timed.
 
+## 2026-09-15 — Phase 0 implemented
+
+**Scope:** Course record, navigation, twelve teaching skeletons, four assessment
+briefs, teaching team, policies, archive page, home page and three course
+contracts. Workshop and lecture bodies are skeletons marked `draft: true`; their
+supplied evidence, instructions and indicative answers are not written.
+
+### Decisions and reasons
+
+- Added `learningOutcomes` to the template's local record schema in
+  `src/course-config.ts`. The platform's own `courseMetaSchema` already accepts
+  and emits learning outcomes; the template's local schema is a strict subset
+  that omitted them, so the five outcomes had nowhere to live but page prose.
+  They are now course data on `/api/index.json` with one source of truth. The
+  fixed platform — branding, collection keys, build pipeline, generated API —
+  is untouched.
+- Used `archiveCollections` as an array rather than a single
+  `archiveCollection`. Week 12 is a cross-family preservation decision, and a
+  single-value field would have forced it to declare one family falsely. The
+  contract checks at least one value, and that every value is in the §5 set.
+- Put durations in structured frontmatter (`stages`, `investigation`) rather
+  than prose. A keyword search for "40 minutes" would pass on a sentence that
+  merely mentions it, and would say nothing about whether the published
+  timetable adds up.
+- Omitted portraits for the three staff entries and deleted the starter
+  portrait files rather than replacing them, taking the plan's option to omit
+  images that add little. The home hero and social card are still the starter
+  images and still fail `check:evidence`.
+
+### Verification and limits
+
+`pnpm check` passes: 0 type errors, 40 pages built, axe clean on all 40, no
+broken links, no base-path escapes, course API 32 nodes and 43 edges, 19 tests
+in 4 files green.
+
+The three new contracts were mutation-tested to establish that they detect a
+violation, then reverted. This was a **deliberate test exercise, not an
+accidental failure in the course design**:
+
+| Mutation | Contract | Result |
+|---|---|---|
+| Week 3 workshop moved to Thursday | `teaching-schedule` | 2 of 5 failed |
+| Week 3 `accessibleRoute` deleted | `weekly-contract` | 1 of 5 failed |
+| A1 weight 20 to 25 | `assessment-contract` | 1 of 8 failed |
+| A2 pack released a day before the week 6 workshop | `assessment-contract` | 1 of 8 failed |
+
+All four were reverted and the suite was green at 19 of 19 afterwards.
+
+**Corrected an error carried by the previous revision.** The plan and the
+harness both stated that an offset-bearing local-midnight date could serialize
+to the previous UTC day and break the shipped date-range check. That is false
+for this platform: the course API emits frontmatter dates verbatim. Verified by
+round-tripping `due: 2027-03-26T12:00:00+11:00` through a build and reading
+`dist/api/index.json`, which returned the identical string, so `slice(0, 10)`
+yields the local calendar date. Both documents now say this, and say the earlier
+claim was wrong.
+
+**Found by the build rather than by review:** a hand-written `href="/archive/"`
+in `src/pages/index.astro` escaped the repository base path — the exact failure
+`README.md` warns about, which works on localhost and 404s when deployed. The
+theme's base check caught it; the inline link now derives its href from
+`import.meta.env.BASE_URL`.
+
+No teaching activity has been rehearsed, no reading has been source-verified and
+no timing has been measured.
+
+**Commits:** `d806460...26c5c21` — `3edac8c` course record, `4b30563` course
+content, `491a0f5` home page, `26c5c21` the three contracts. The final tree was
+verified green; intermediate commits were ordered by dependency but not each
+built individually.
+
 ### Template for subsequent observed results
 
 - What was tested and with which materials/version:

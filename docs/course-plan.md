@@ -224,10 +224,12 @@ All clock times are Canberra local time:
 | Generation Check | Wednesday, inside the workshop | 12:00–12:05 |
 
 Lecture and workshop content dates remain bare `YYYY-MM-DD` values. Use
-timestamps for assessment deadlines, with the offsets in §7. Local midnight
-with an offset can serialize to the previous UTC day; do not attach a midnight
-offset to teaching dates. The existing date-range check slices the serialized
-API date. The assessment display must show the clock time and Canberra timezone,
+timestamps for assessment deadlines, with the offsets in §7. The course API
+emits frontmatter dates verbatim rather than rewriting them to UTC, so the
+shipped date-range check slices a local calendar date and an offset-bearing
+timestamp cannot shift a day. Verified empirically on 2026-09-15 by round-tripping
+a `+11:00` deadline through the build; an earlier revision of this plan claimed
+the opposite, which was wrong. The assessment display must show the clock time and Canberra timezone,
 not just the date. This is an implementation requirement, not a completed fix.
 
 ### Standard workshop structure: 120 minutes

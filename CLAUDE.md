@@ -15,9 +15,10 @@ affected consumers second. Avoid copying shared rules into every phase.
   Parent-child edges stay within a family. Label weeks 7 and 9 results as
   simplified models with explicit omissions.
 - Use bare `YYYY-MM-DD` lecture/workshop dates and the canonical assessment
-  timestamps in the course plan. Offset-bearing local midnight can serialize
-  to the previous UTC date. Display assessment clock time in Canberra local
-  time using `Australia/Sydney`; do not change the fixed build to hide a date error.
+  timestamps in the course plan. The course API emits frontmatter dates
+  verbatim rather than converting to UTC (verified 2026-09-15), so the shipped
+  date-range check reads the local calendar date and an offset timestamp is
+  safe. Do not change the fixed build to hide a date error.
 - Verify source support, not merely URL existence. Label hypothetical data;
   retain procedures for empirical measurements and simulated results.
 - Use subject-substitution as an editorial question to find generic filler,
