@@ -50,7 +50,7 @@ Use the workshop stages and quiz rubric from the
 
 ## 4. Resources and accessible participation
 
-**Required deliverable:** Week 5 practice pack, error table, edge list, source/log reveal and commentary; separate nine-witness A2 pack with ambiguity notes; required week 6 deck.
+**Required deliverable:** Week 5 practice pack, error table, edge list, source/log reveal and commentary; separate five-to-nine-witness A2 pack with ambiguity notes; required week 6 deck. Time construction of one A2 witness before fixing the final count, then retain the smallest count that supports the required inference and ambiguity.
 
 **Optional after core acceptance:** Interactive tree drawing and extra datasets.
 
@@ -110,7 +110,10 @@ The existing lecture schema and page support `slides: /decks/week-06/`; verify t
 rendered link and base path. A Markdown link is also supported; avoid duplicates.
 Remove the starter deck only after updating every reference to it.
 
-Keep A2's nine-witness dataset separate from the worked lecture example. The
+Keep A2's five-to-nine-witness dataset separate from the worked lecture example.
+Time construction of one witness before fixing the final count. Reduce the count
+only if the resulting pack still supports branching, a credible alternative and
+an unresolved edge. The
 prototype may publish a clearly labelled practice pack and solution; collapsed
 HTML is not secure storage for an actual assessment key. In the fictional course,
 the graded pack opens at the end of this workshop and the true log follows assessment

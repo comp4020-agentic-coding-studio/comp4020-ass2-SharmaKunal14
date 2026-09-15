@@ -43,7 +43,27 @@ rehearsed through this update, and no student timing or learning result is claim
 Readings still require source review during implementation. A coherent plan
 does not establish that the final website merits 90%.
 
-**Commit:** None created for this update. Add the real hash once committed.
+**Commit:** `5a2bbf0` (`docs: finalize Generation Loss course plan`).
+
+## 2026-09-15 — Pre-implementation corrections and scope decisions
+
+- Removed temporary session-control wording from the permanent harness and plan.
+  The evidence distinction remains: planned work is not a completed result.
+- Made the homepage point of view explicit: an exact-copy control refutes the
+  assumption that every generation loses information, then the course tests when
+  different copying processes leave defensible historical clues.
+- Changed A2 from a fixed nine witnesses to a five-to-nine range. Construct and
+  time one witness first; choose the smallest final count that still supports
+  branching, a credible alternative and an unresolved edge. Time alone does not
+  justify weakening the assessment evidence.
+- Added four planned course contracts: the 120-minute workshop structure,
+  accessible routes, deposits/archive classifications and policy links. Presence
+  checks must use structured course data or rendered links rather than keywords;
+  human review still judges quality and equivalence.
+- Corrected week 2's stale direction from “below” to §2 above.
+
+These are planning corrections. The tests, homepage and A2 witness have not yet
+been implemented or timed.
 
 ### Template for subsequent observed results
 

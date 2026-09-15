@@ -5,8 +5,6 @@ decisions. Detailed weekly teaching/tasks/resources/checks live in `docs/weeks/`
 shared procedures live in its README. Update the owning document first and
 affected consumers second. Avoid copying shared rules into every phase.
 
-- Honour the current planning-only scope. Build, rehearse and deploy only after
-  a subsequent user instruction authorises that work.
 - Preserve SlopU branding, required collections, build pipeline and generated API.
 - Keep exact copying, lossy transformation and inferred ancestry distinct. State
   assumptions and allow unresolved relationships and null results.

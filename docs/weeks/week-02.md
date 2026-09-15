@@ -59,7 +59,7 @@ See the [shared lecture procedure](README.md#shared-teaching-and-page-procedure)
 
 ### Wednesday workshop — 120 minutes
 
-**Investigation (40 minutes):** Use the three-part 40-minute investigation specified in the teaching brief below; retain its feature-selection task and alternative explanation.
+**Investigation (40 minutes):** Use the three-part 40-minute investigation specified in §2 above; retain its feature-selection task and alternative explanation.
 
 Use the workshop stages and quiz rubric from the
 [shared procedure](README.md#shared-teaching-and-page-procedure).

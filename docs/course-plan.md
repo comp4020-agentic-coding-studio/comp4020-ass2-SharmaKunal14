@@ -19,8 +19,8 @@ detailed teaching, implementation tasks, resources and acceptance checks.
 
 Update a course decision here first, then update affected consumers. Shared
 instructions are referenced rather than copied into all twelve phases.
-This revision finalises planning decisions only; implementation and rehearsal
-are future work requiring a subsequent build instruction.
+This plan distinguishes proposed work from observed implementation and rehearsal
+results. Update those statuses only when the work has actually been completed.
 
 ## 1. Purpose, evidence and priorities
 
@@ -80,6 +80,18 @@ extra illustrations or a visual redesign.
 
 The course investigates copying, evidence and uncertainty. It does not promise
 that every copy deteriorates or that every original can be recovered.
+
+### Homepage point of view
+
+Lead with the counterexample: **generation loss is not inevitable**. The first
+workshop places a changed photocopy beside an exact digital copy that is
+byte-for-byte identical to its source. That apparent refusal of the course title
+sets up the semester's real question: which processes change a copy, which clues
+those changes leave, and when those clues justify an inference about history.
+Scribal errors, MP3 psychoacoustics and recursive resampling are then presented
+as different tests of that method, with their limits stated, rather than as one
+universal mechanism. Arrange the first-screen topic, audience, arc and navigation
+around this point of view.
 
 Proposed `src/course-config.ts` values:
 
@@ -362,8 +374,11 @@ budget. Award no premium for expensive equipment or dramatic degradation.
 
 ### A2 — The Stemma (30%; LO2–LO3)
 
-Provide nine instructor-curated text witnesses from one documented source
-family, with informative branching errors and at least one ambiguity. The pack
+Provide an instructor-curated pack of **five to nine text witnesses** from one
+documented source family, with informative branching errors and at least one
+ambiguity. Before fixing the final count, construct one witness and record the
+time required, then use the smallest pack that still supports a branching tree,
+a plausible competing explanation and an unresolved edge. The pack
 includes witness IDs, line numbers, a glossary and a worked example from a
 separate family. Its true source and production log are retained for feedback.
 
@@ -559,7 +574,9 @@ another hardcoded plan. Do not modify the fixed build pipeline.
 | Candidate check | Contract and rationale | Limits |
 |---|---|---|
 | `assessment-contract.test.ts` | Four weights total 100%; A1–A3 use the agreed weighted marking model and criteria (the existing schema already validates criterion totals); A2 pack release follows the week 6 workshop and precedes its deadline; A3 follows weeks 10–12 | Does not establish pedagogical quality |
-| `teaching-schedule.test.ts` | Exactly twelve numbered lecture/workshop pairs; Monday lecture and Wednesday workshop in each week; two-week gap after week 6; no check in the break | Reuse baseline date-range coverage |
+| `teaching-schedule.test.ts` | Exactly twelve numbered lecture/workshop pairs; Monday lecture and Wednesday workshop in each week; two-week gap after week 6; no check in the break; each workshop's five declared stages total 120 minutes and its investigation subtasks total 40 | Store or derive durations structurally; do not accept a keyword search as timing evidence |
+| `weekly-contract.test.ts` | Every published workshop provides a structured accessible route, expected archive deposit and one declared archive collection/model study from §5 | Confirms presence and allowed classification, not equivalent access or pedagogical quality; inspect those manually |
+| `assessment-contract.test.ts` rendered-link check | Every assessment brief links to the published policies page using a base-safe internal URL | Link existence does not establish that the policy is fair or clearly explained |
 | `quiz-policy.test.ts`, if grading logic is implemented | Best ten of twelve, bounded raw scores, result on a 0–10 scale; all-zero, all-full and dropped-score cases | Do not build a grader just to create tests; otherwise verify the published formula manually |
 | `archive-contract.test.ts`, if structured archive data is used | Unique IDs; known parents exist in the same family; no cycles among known ancestry edges; inference is explicitly labelled | No global one-root rule; cross-family comparison links remain allowed |
 | `citations.test.ts`, if source records are implemented | Published source IDs map to records with identifier, locator and recorded verification | Human inspection must establish source existence and claim support |
@@ -658,7 +675,6 @@ rehearse that work before expanding. The submission deadline remains noon on
 Monday 21 September 2026. Calendar targets are planning targets, not verified
 estimates that all listed work fits a day.
 
-This planning revision does not authorise building, deployment or rehearsal.
 Do not report planned materials or validation as completed.
 
 ## 15. Risks and responses

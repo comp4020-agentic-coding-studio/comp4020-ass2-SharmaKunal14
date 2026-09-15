@@ -22,8 +22,8 @@ Read the relevant master-plan sections before implementation: §2–5 for identi
 and resources, §6 for weeks, §7–8 for assessments and policies, §10–12 for scope
 and verification, and §13–16 for process and delivery.
 
-Teaching order is not mandatory build order. On a future build instruction, start
-with the home page, weeks 5–6 and their necessary dependencies, including the
+Teaching order is not mandatory build order. Start implementation with the home
+page, weeks 5–6 and their necessary dependencies, including the
 separate A2 pack. Rehearse that work before expanding to weeks 2–4 and the rest.
 Draft dependent pages together where useful. Each finished page
 must make sense when opened independently; links provide context without making
@@ -52,7 +52,7 @@ another page compulsory reading merely to understand the task.
 ## Phase 0 — shared foundations
 
 The timetable, timestamp values, ownership and resource floor are now decided.
-The implementation work below remains pending until building is authorised.
+The implementation work below remains pending until it is completed and verified.
 Complete these foundations before treating the whole site as accepted; supporting
 pages may be developed alongside the first home/week 5–6 prototype.
 Stubs are useful internally but are not finished student-facing content.
@@ -92,8 +92,10 @@ it must not appear as a separate final submission deadline.
 
 Build a small reference archive linking directly to the examples on weekly pages;
 do not duplicate every evidence table or create a separate download for each one.
-Weeks 5–6 share a six-witness editable practice pack, plus a separate nine-witness
-A2 pack and the required deck. Weeks 2–4 use small working examples of their
+Weeks 5–6 share a six-witness editable practice pack, plus a separate A2 pack of
+five to nine witnesses and the required deck. Time one A2 witness before fixing the final
+count; retain the smallest pack that supports branching, a credible alternative
+and an unresolved edge. Weeks 2–4 use small working examples of their
 distinct tasks. Remaining weeks use one compact dataset, comparison or worksheet
 with feedback. Every phase §4 specifies its required deliverable and optional extras.
 
@@ -225,12 +227,12 @@ that judgement automatically.
 
 ## Integration, release and final review
 
-This section owns the delivery procedure. All build, rehearsal and release work
-remains pending a subsequent build instruction. The deadline is fixed; dates
+This section owns the delivery procedure. Build, rehearsal and release results
+remain pending until performed. The deadline is fixed; dates
 below are targets, not demonstrated estimates of how long implementation takes.
 
 1. **First build:** home page, week 5 branching text activity, week 6 reconstruction
-   practice and deck, and a separate nine-witness A2 pack. Create necessary
+   practice and deck, and a separate five-to-nine-witness A2 pack. Create necessary
    navigation/policy/assessment dependencies. The home page's first screen must
    communicate topic, audience, investigations, arc and navigation concisely;
    test that at both viewports rather than assuming it fits.
