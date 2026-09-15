@@ -136,6 +136,87 @@ content, `491a0f5` home page, `26c5c21` the three contracts. The final tree was
 verified green; intermediate commits were ordered by dependency but not each
 built individually.
 
+## 2026-09-15 — Week 6 pack spike
+
+**Scope:** Built the week 6 reconstruction puzzle ahead of the weekly phases,
+as a feasibility spike. Not the week 6 page — the pack only. Nothing links to
+it yet.
+
+### Why this was built out of order
+
+The plan's build order (`weeks/README.md`) says to start with the home page and
+weeks 5–6. On review, three of the four reasons for that had already been paid
+off by phase 0: all twelve skeletons exist so forward refs resolve in any fill
+order, the arc is designed in the week files rather than discovered by writing,
+and weeks 2–4's distinct tasks are already specified. Only the risk argument
+survived — the week 6 pack is the course's central artefact, the input to a 30%
+assessment, and the one thing that might not be constructible.
+
+So the order chosen is **sequential 1 → 12, with this one spike first**. A
+smaller deviation than reordering the whole build, and it resolves the risk
+that sequential order would otherwise expose too late.
+
+### Decisions and reasons
+
+- **Generate the witnesses; do not type them.** A hand-typed witness set can
+  disagree with the collation table beside it, and the result is a puzzle
+  nobody checked, with no build error and nothing visible on the page. The
+  witnesses, collation table and reveal are all derived from one archetype and
+  one variant list.
+- **Publish the collation table as the primary evidence, files as secondary.**
+  The accessible route cannot be an afterthought when the task is textual
+  comparison. The table is the evidence; the `.txt` files are for anyone who
+  wants to diff them.
+- **Withhold the archetype, and mark no reading as earlier.** Establishing
+  direction of error is the work. Giving students the original would reduce the
+  task to spotting differences.
+- **Five witnesses, not nine.** This is the practice pack; A2's is separate and
+  larger. Five is the minimum that carries a nesting ladder, a refutable trap
+  and an unresolved pair.
+- **Commit the generated output.** It is what students download and what the
+  build copies into `dist/`; CI would not otherwise have it. The contract test
+  guards it against drift rather than a `.gitignore` hiding the problem.
+- **Publish the reveal.** This is practice feedback and the plan permits it.
+  A2's pack is a separate artefact whose key is deliberately not in this
+  repository, because repository files are not secure storage for an answer key.
+
+### Verification and limits
+
+`pnpm check` green: 0 type errors, 40 pages, axe clean, no broken links, 29
+tests in 5 files. The pack is served at `/packs/week-06/`.
+
+The puzzle's structure was verified computationally, not just by inspection.
+Of the four multi-carrier variants, exactly one (point 4) is incompatible with
+the others; discarding it leaves the groups laminar, with the nesting ladder
+`{B,C,D,E} > {C,D,E} > {D,E}`. That is one tree topology, plus one pair whose
+order the text cannot fix.
+
+The new contract was mutation-tested — a **deliberate exercise, not an
+accidental failure**:
+
+| Mutation | Result |
+|---|---|
+| Edited published witness C so it no longer matches its variants | 1 of 10 failed |
+| Split the identical D/E pair, removing the unresolved answer | 2 of 10 failed |
+| Made the misleading variant a genuine clade (carriers D,E) | 2 of 10 failed |
+| Appended the withheld archetype to the student README | 1 of 10 failed |
+
+All four reverted; 10 of 10 green afterwards.
+
+**Limit on the solvability claim.** I worked the puzzle from the collation table
+alone and reached the supported tree in four steps. That is an **author
+consistency check, not a blind learner trial**: I wrote the variants, so I
+cannot establish how long this takes someone who has not. The 40-minute
+investigation budget remains an estimate. What has been established is that the
+evidence is sufficient, internally consistent, and admits exactly one tree with
+one deliberately unresolved edge.
+
+Not yet done: the week 6 page, the deck, the week 5 activity that produces
+these witnesses in class, and the separate A2 pack.
+
+**Commits:** `b48f3fa` definition, `fc91e59` generator and generated pack,
+`11d3555` contract.
+
 ### Template for subsequent observed results
 
 - What was tested and with which materials/version:
