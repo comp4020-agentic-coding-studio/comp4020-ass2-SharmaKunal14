@@ -363,6 +363,87 @@ scenario, labelled as such in every file, not measurements from a real machine.
 **Commits:** `30c5c55` plan split, `4809b51` pack, `07710d4` pack contract,
 `c7d2c5a` pack-link fix, `6e45cfe` pages and archive records.
 
+## 2026-09-16 — Week 1 review corrections
+
+**Scope:** Review of the week 1 build found two defects and several imprecise
+claims. All fixed; pack regenerated; contract extended and mutation-tested.
+
+### Two defects
+
+- **The worksheet was the answer.** `worksheet.csv` shipped with every count
+  filled in while the workshop page instructed students to fill it in. This is
+  the same failure the week 6 contract explicitly guards against in its own
+  pack, committed here in the same sitting as that guard. Fixed: answer columns
+  ship empty; counts live only in `worked-answer.md`, which the page tells
+  students to open last. A contract now asserts the blank columns.
+- **The control was not comparable.** One copy operation against the photocopy
+  chain's eight. A student could fairly object that the control was never
+  tested, and the week's central claim — this process damages copies, copying
+  as such does not — would not survive that objection. Fixed: eight byte-for-
+  byte copies, checksummed at each step, labelled by channel and operation
+  count rather than as "generation 0". A contract now requires the control's
+  operation count to equal the longest photocopy chain.
+
+The second fix forced a structural change to the contract. The control is not a
+generation of the photocopy chain, it is a different process run the same number
+of times, so the monotonic check now compares inside the photocopy channel and
+the control is asserted separately.
+
+### Imprecise claims corrected
+
+- **"The rule is reproducible"** conflated three things. Now stated apart on
+  both pages: the counting algorithm is deterministic; a student's own
+  repeatability is what they test by counting one transcription twice; readers
+  still differ because resolving a damaged mark is an interpretation. A course
+  about being careful with claims cannot be loose in its own.
+- **"Neither reader is wrong"** is dropped. There is a fact of the matter — the
+  card says what it says — and a reader who wrote a capital O for a zero did
+  misread it. What is true is that both followed the same procedure and the
+  authored scenario records them resolving one ambiguous mark differently.
+- The **authored-scenario labelling** now appears on the workshop page and in
+  the archive record, not only inside the pack files.
+
+### A correction to the review's own suggestion
+
+The review proposed adding five interpretation tasks to the 40-minute
+investigation. Four of them are analysis rather than evidence-gathering, and the
+investigation's 10/15/15 split is already spoken for and enforced by
+`teaching-schedule.test.ts`. They now sit in **Evaluate**, which has 30 minutes
+and was previously underspecified: why not average the readers, what the control
+supports, what the evidence cannot establish, and one improvement to the
+experiment. Investigate keeps one addition that is genuinely evidence work —
+recording the positions where readers disagree, not only their totals, since two
+readers can reach the same total by differing in different places.
+
+### Verification
+
+`pnpm check` green: 0 type errors, 42 pages axe-clean, no broken links, 41 tests
+in 7 files.
+
+Manual check that no file a student opens before the worked answer carries a
+count: all thirteen student-facing pack files return zero answer-shaped matches,
+all eight worksheet rows have empty answer columns, and the worked answer still
+carries the full table.
+
+New contracts mutation-tested — a **deliberate exercise, not an accidental
+failure**:
+
+| Mutation | Result |
+|---|---|
+| Refilled the worksheet answer columns | 1 of 9 failed |
+| Shortened the control to one copy operation | 2 of 9 failed |
+| Gave the control one misread character | 3 of 9 failed |
+
+All three reverted; 9 of 9 green afterwards.
+
+**Limit worth stating.** The workshop page's "What you should find" section names
+the shape of the result, including that reader R1 scores below R2 after four
+operations and above after eight. That is an indicative answer, which the plan
+requires on every week page, and it is a judgement call rather than a leak: the
+numbers stay in the worked answer, the conclusions do not.
+
+**Commits:** `d03a2e2` the two defects, `6355320` the sharpened pages.
+
 ### Template for subsequent observed results
 
 - What was tested and with which materials/version:
