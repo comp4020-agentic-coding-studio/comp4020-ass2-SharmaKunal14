@@ -630,6 +630,85 @@ labelled as its inputs.
 
 **Commit:** `4b4ca30`.
 
+## 2026-09-16 — Week 4 built
+
+**Scope:** Two-routes pack, workshop, lecture, image collection records,
+contract. Weeks 1–4 are real; eight skeletons remain. The weeks 2–4 progression
+the plan requires is now complete and reviewable.
+
+### Decisions and reasons
+
+- **Compatibility is computed, not claimed.** The week rests on both routes
+  fitting the observations. A pack that asserts an ambiguity it does not have
+  teaches students to accept an assertion, which is the opposite of the point,
+  so a contract computes each route's prediction against the observation at the
+  declared tolerance and fails if any route does not fit. Route A is 6 KB and 0
+  quality points off; route B is 7 KB and 2 points off; the bounds are 15 KB and
+  4 points.
+- **The evidence menu mixes three outcomes on purpose.** One obtainable item
+  separates the routes; two obtainable items do not; two items do not exist at
+  all. If every obtainable item resolved the question, asking for evidence would
+  be risk-free and the honest outcome — a reasonable request that turns out
+  silent — would be unreachable. Contracts now require at least one of each.
+- **Absent evidence is recorded with a reason.** The EXIF is gone and the upload
+  log was never kept. Stating that is more useful than omitting the rows, and it
+  is the first thing most people would ask for.
+- **The non-discriminating items had to be reasonable, not silly.** The retained
+  log excerpt is genuine and relevant and silent on exactly the operation the
+  two routes disagree about. That is the ordinary condition of a provenance
+  record, and it sets up week 11 rather than wasting a student's time.
+- **Route predictions are withheld.** Deriving them and checking them is the
+  task — the same reasoning that blanked week 1's worksheet and withheld week
+  3's totals.
+- **"Ruling out is not establishing" is stated as the week's closing claim.**
+  The reveal names route B and then immediately limits it: two routes were
+  proposed, others fit the same observations, and the defensible claim is "not
+  route A, and consistent with route B". The archive record says the same, so
+  the site does not quietly upgrade an inference into a fact.
+
+### The weeks 2–4 progression
+
+The plan's acceptance gate is that the same reasoning with the media swapped
+must not complete all three. It does not:
+
+- **Week 2** selects which of several shared features supports a relationship.
+  It never holds a variable fixed and never asks what evidence is missing.
+- **Week 3** judges whether a comparison can support a claim and designs one
+  that can. It never asks which copy is related to which.
+- **Week 4** shows that the available evidence underdetermines the history and
+  asks what further observation would discriminate. It never controls a process
+  and never proposes a relationship.
+
+Products differ too: an evidence table, a protocol with a results table, an
+ambiguity report.
+
+### Verification and limits
+
+`pnpm check` green: 0 type errors, 45 pages axe-clean, no broken links, 75 tests
+in 10 files.
+
+Contract mutation-tested — a **deliberate exercise, not an accidental failure**:
+
+| Mutation | Result |
+|---|---|
+| Pushed route B's prediction outside tolerance | 1 of 14 failed |
+| Made every available item discriminate | 1 of 14 failed |
+| Removed the only discriminating item | 1 of 14 failed |
+| Leaked a predicted size into the student route cards | 1 of 14 failed |
+
+All four reverted; 14 of 14 green afterwards.
+
+**Limits.** The observations and predictions are authored and internally
+consistent; they were not produced by running real image software, and no claim
+about how any real tool behaves follows from them. The double-quantisation
+reasoning behind the discriminating item reflects a real forensic technique, but
+the numbers here do not demonstrate it. Not rehearsed by anyone who did not
+write it, so the 40-minute investigation remains an estimate. The Steyerl
+reading is freely available online and is the first reading in the course a
+student can reach without a library.
+
+**Commits:** `02347bc` pack, `007a08e` contract, `a234bac` pages and archive.
+
 ### Template for subsequent observed results
 
 - What was tested and with which materials/version:
