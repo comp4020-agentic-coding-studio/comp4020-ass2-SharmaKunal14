@@ -569,6 +569,67 @@ a physical copy.
 
 **Commits:** `db908c9` pack, `d5835ad` contract, `3937bf3` pages.
 
+## 2026-09-16 — Week 3 review corrections
+
+**Scope:** Review accepted the learning design and the data, and rejected the
+presentation of the metric. All six corrections applied; pack regenerated;
+contract corrected; 61 tests green.
+
+### The defect
+
+The metric was published as "total band deviation" in dB. It is a sum of eight
+per-band decibel differences, and adding decibel differences does not produce a
+decibel quantity — it produces an arbitrary composite. Publishing it with a dB
+label gave every downstream claim an authority it had not earned, in a week
+whose subject is whether a comparison can support a claim.
+
+### Corrections
+
+- Renamed to **simplified deviation score**, in score points, with an explicit
+  note in the pack and on both pages that it is an invented composite on its own
+  scale and useful only for comparisons inside this scenario.
+- **0.5 is now the repeatability of a pairwise difference**, not of a single
+  score. The student reports a difference between two conditions, so the figure
+  that governs them is how much that difference moves on repetition. The earlier
+  framing described the repeatability of the wrong quantity.
+- "Real effect" replaced by **"detectable in this scenario"** throughout.
+- 0.4 is a **non-detection**, not "not a result". The earlier wording
+  contradicted the lecture's own argument that a result below resolution is a
+  finding. Both pages now state that "we did not detect a difference" and "there
+  is no difference" are different claims, and only the first belongs to the
+  student.
+- **Control claim softened.** A clean control rules out one specific failure —
+  that the procedure manufactures differences regardless of treatment. It does
+  not establish that the procedure is sound, and plenty of faults would leave it
+  clean.
+- **Bitrate conclusion scoped**, with an explicit statement that it is not a
+  claim about MP3 and that a real investigation would need real measurements and
+  a physically defensible score.
+- **Threshold boundary made consistent**: "0.5 or less is a non-detection"
+  everywhere, matching the contract's inclusive comparison.
+
+### A contract correction that fell out of it
+
+Adding "non-detection" to the leakage regex failed `measure.txt` — correctly.
+The measure definition must state the threshold rule or a student cannot apply
+it, so the term is a definition rather than an answer. The regex now guards
+which comparison is confounded, and the reasoning is recorded at the assertion
+rather than left implicit.
+
+This is worth noting as a general point: a leakage check calibrated on the
+answer will also flag the vocabulary needed to reach it, and the fix is to
+narrow the check rather than to remove the vocabulary.
+
+### Verification
+
+`pnpm check` green: 0 type errors, 44 pages axe-clean, no broken links, 61 tests
+in 9 files. Terminology swept across both pages and the pack: no occurrence of
+"real effect" or "not a result" remains; the four surviving mentions of dB are
+the per-band differences the score is built from, which are genuinely in dB and
+labelled as its inputs.
+
+**Commit:** `4b4ca30`.
+
 ### Template for subsequent observed results
 
 - What was tested and with which materials/version:
