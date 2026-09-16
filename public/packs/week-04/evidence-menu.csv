@@ -1,0 +1,6 @@
+id,item,status
+E1,"Histogram of quantised DCT coefficients for the output",available
+E2,"Transformation log excerpt for the output",available
+E3,"Visual inspection of the output at 400 per cent",available
+E4,"EXIF metadata dump for the output",unavailable — No EXIF survives in the output, and the intermediate files were not retained.
+E5,"Upload log from the service the output was distributed through",unavailable — Not retained by the service, and the course has no account with it.

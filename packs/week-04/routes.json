@@ -1,0 +1,88 @@
+{
+  "pack": "week-04",
+  "note": "Authored teaching scenario. The observations and predictions below are constructed to be internally consistent. They were not produced by running real image software, and no claim about how any real tool behaves follows from them.",
+  "source": "image/source — an authored image, 2400 x 1600",
+  "artefact": { "id": "image/output-7", "label": "Output 7", "provenance": "unknown — this is the question" },
+  "tolerance": {
+    "fileSizeKb": 15,
+    "qualityEstimate": 4,
+    "note": "Two predictions count as indistinguishable on a measurement when they fall inside these bounds of each other. Indistinguishable means this evidence cannot separate them. It does not mean the two files are identical."
+  },
+  "observed": {
+    "width": 1200,
+    "height": 800,
+    "fileSizeKb": 148,
+    "qualityEstimate": 72,
+    "chromaSubsampling": "4:2:0",
+    "exif": "absent"
+  },
+  "routes": [
+    {
+      "id": "A",
+      "label": "Route A — resize once, save once",
+      "steps": [
+        "Open the 2400 x 1600 source",
+        "Resize to 1200 x 800",
+        "Save as JPEG at quality 72"
+      ],
+      "predicted": { "width": 1200, "height": 800, "fileSizeKb": 142, "qualityEstimate": 72, "chromaSubsampling": "4:2:0", "exif": "absent" }
+    },
+    {
+      "id": "B",
+      "label": "Route B — save, resize, save again",
+      "steps": [
+        "Open the 2400 x 1600 source",
+        "Save as JPEG at quality 90",
+        "Reopen and resize to 1200 x 800",
+        "Save as JPEG at quality 78"
+      ],
+      "predicted": { "width": 1200, "height": 800, "fileSizeKb": 155, "qualityEstimate": 74, "chromaSubsampling": "4:2:0", "exif": "absent" }
+    }
+  ],
+  "evidenceMenu": [
+    {
+      "id": "E1",
+      "item": "Histogram of quantised DCT coefficients for the output",
+      "available": true,
+      "discriminates": true,
+      "why": "A file compressed twice carries periodicity in its coefficient histogram that a file compressed once does not. This separates a single-save route from a save-resize-save route."
+    },
+    {
+      "id": "E2",
+      "item": "Transformation log excerpt for the output",
+      "available": true,
+      "discriminates": false,
+      "why": "The retained excerpt records one resize operation and its timestamp. It does not record whether a save happened before that resize, which is exactly the difference between the two routes. Requesting it is reasonable and it does not settle the question."
+    },
+    {
+      "id": "E3",
+      "item": "Visual inspection of the output at 400 per cent",
+      "available": true,
+      "discriminates": false,
+      "why": "Both routes end at a comparable final quality, so both show blocking of a similar character at this magnification. Nothing visible at 400 per cent distinguishes one save from two."
+    },
+    {
+      "id": "E4",
+      "item": "EXIF metadata dump for the output",
+      "available": false,
+      "unavailableBecause": "No EXIF survives in the output, and the intermediate files were not retained.",
+      "discriminates": false,
+      "why": "Listed because it is the first thing most people ask for. It is not available here, which is itself worth recording."
+    },
+    {
+      "id": "E5",
+      "item": "Upload log from the service the output was distributed through",
+      "available": false,
+      "unavailableBecause": "Not retained by the service, and the course has no account with it.",
+      "discriminates": false,
+      "why": "Would have been informative. It does not exist."
+    }
+  ],
+  "reveal": {
+    "truth": "Output 7 was produced by route B.",
+    "whyBothFit": "At the declared tolerance every initial observation is compatible with both routes. Dimensions, chroma subsampling and the absence of EXIF are identical. Predicted file size differs from the observation by 6 KB for route A and 7 KB for route B, both inside the 15 KB bound. Predicted quality estimate differs by 0 and 2, both inside the 4-point bound.",
+    "whatResolvesIt": "E1. The coefficient histogram shows the periodicity that a second quantisation leaves behind, which route A cannot produce.",
+    "whatDoesNot": "E2 and E3 are both reasonable requests that fail to separate the routes — E2 because the retained excerpt is silent on the one operation that differs, E3 because the routes converge on a similar final quality. A student who chose either and reported the question as still open has done the week correctly.",
+    "limits": "Two routes were constructed. Others fit the same observations: a different resize algorithm, a route through a third intermediate size, or a save at quality 80 followed by a stronger resize. Ruling out route A is not the same as establishing route B, and the evidence here supports the weaker claim."
+  }
+}

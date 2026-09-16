@@ -1,0 +1,8 @@
+Observation tolerance
+Authored teaching scenario. The observations and predictions below are constructed to be internally consistent. They were not produced by running real image software, and no claim about how any real tool behaves follows from them.
+
+File size: within 15 KB.
+Quality estimate: within 4 points.
+Dimensions, chroma subsampling and EXIF presence: must match exactly.
+
+Two predictions count as indistinguishable on a measurement when they fall inside these bounds of each other. Indistinguishable means this evidence cannot separate them. It does not mean the two files are identical.
