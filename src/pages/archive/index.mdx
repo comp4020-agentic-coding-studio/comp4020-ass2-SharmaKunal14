@@ -40,10 +40,10 @@ could recall, and the exercise would test memory instead of evidence.
 | ID | Item | Source | Operation | Used in |
 |---|---|---|---|---|
 | `print/card` | Copy room test card 0S1I-B85l | Authored; four lines built from confusable glyph pairs | none — this is the reference | 1 |
-| `print/card-control` | Exact digital copy of the card | `print/card`, parent known | copied byte for byte; no printing, no re-encoding | 1 |
-| `print/card-g1` | Photocopy, generation 1 | `print/card`, parent known | one photocopy pass, fixed machine and settings | 1 |
-| `print/card-g4` | Photocopy, generation 4 | `print/card-g3`, parent known, not published | copy of the previous generation, same settings | 1 |
-| `print/card-g8` | Photocopy, generation 8 | `print/card-g7`, parent known, not published | copy of the previous generation, same settings | 1 |
+| `print/card-control` | Digital control, 8 copy operations | `print/card`, parent known | copied byte for byte eight times, checksummed at each step, so it is comparable with the eight-operation photocopy | 1 |
+| `print/card-g1` | Photocopy, 1 copy operation | `print/card`, parent known | one photocopy pass, fixed machine and settings | 1 |
+| `print/card-g4` | Photocopy, 4 copy operations | `print/card-g3`, parent known, not published | copy of the previous generation, same settings | 1 |
+| `print/card-g8` | Photocopy, 8 copy operations | `print/card-g7`, parent known, not published | copy of the previous generation, same settings | 1 |
 | `print/ordinance` | Ordinance of the Copy-House | Authored; twelve numbered lines | none — withheld until week 6's reveal | 5, 6 |
 | `print/ordinance-a` to `-e` | Five witnesses | `print/ordinance`, parents known and withheld | hand copying in a branching assignment | 5, 6 |
 
@@ -51,6 +51,9 @@ Each copy of the card is published as **two readers' transcriptions** rather tha
 as an image of damaged print. The measurement is a comparison of texts, so an
 image would add an eyesight test this course refuses to grade, and it would make
 the accessible route a lesser version of the task instead of the task itself.
+
+Every card copy is an authored teaching scenario, labelled as such in its own
+file, rather than a recording of a real machine and real readers.
 
 Accessibility alternative for this collection: plain text throughout, one
 labelled line per row, every transcription the same length as its source.

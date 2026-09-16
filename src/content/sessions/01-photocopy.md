@@ -56,16 +56,24 @@ it concentrates the failure so it can be counted.
 
 You are given four copies of it:
 
-| Copy | What was done to it |
-|---|---|
-| Control | Copied byte for byte. No printing, no re-encoding. |
-| Generation 1 | One photocopy pass. |
-| Generation 4 | A copy of the generation 3 copy, same machine and settings. |
-| Generation 8 | A copy of the generation 7 copy, same machine and settings. |
+| Copy | Channel | Operations | What was done to it |
+|---|---|---:|---|
+| Digital control | digital | 8 | Copied byte for byte eight times, checksummed at each step |
+| Photocopy | photocopy | 1 | One pass, at settings held fixed for every generation |
+| Photocopy | photocopy | 4 | A copy of the third copy, same machine and settings |
+| Photocopy | photocopy | 8 | A copy of the seventh copy, same machine and settings |
+
+The control runs **the same eight operations** as the longest photocopy chain.
+That is the whole point of it: a control copied once would tell you nothing
+about a chain of eight, and the comparison this week rests on would not hold.
 
 Each copy comes as **two transcriptions**, made by two different readers. Every
 transcription is exactly as long as the card, so you can compare position by
 position and never have to decide what lines up with what.
+
+Everything in the pack is an authored teaching scenario. These are constructed
+transcriptions, not recordings of what a real photocopier and two real readers
+did, and every file says so.
 
 ## Investigate — 40 minutes
 
@@ -76,43 +84,66 @@ and declined to guess. That is not the same as getting it wrong, and your table
 keeps the two apart.
 
 **Count all four copies (15 minutes).** Apply the rule in `counting-rule.txt`
-without modifying it. Fill in `worksheet.csv`: misreadings, illegibles and total,
-for each copy and each reader.
+without modifying it. `worksheet.csv` arrives blank; fill in misreadings,
+illegibles and total for each copy and each reader.
 
-Then apply the rule a second time to one transcription you have already counted.
-You should get the same number. If you do not, the disagreement is with your
-application of the rule, not with the copy — find it before you go on.
+Then count one transcription a second time. You should get the same number. This
+is a check on **your** repeatability, not on the rule's: the algorithm is
+deterministic by construction, and what you are testing is whether you applied
+it the same way twice.
 
-**Compare readers, and compare against the control (15 minutes).** Two questions:
+**Compare readers, and check the control (15 minutes).** Record the **positions**
+where the readers differ, not only their totals. Two readers can reach the same
+total by disagreeing in different places, and the totals alone would hide that.
 
-- Where did the readers agree, and where did only one of them find an error?
-- What did the control do?
+Then look at the control. It ran eight operations. What did it come back as?
 
 ## Evaluate — 30 minutes
 
-Write the table up with a short method note. State the rule you applied, the
-counts you got, and one thing your numbers do not establish.
+Write the table up with a method note. Then answer four questions in a paragraph
+each — these are what the week is actually assessed on, not the counting.
 
-A worked answer is in the pack. Open it after you have your own table.
+1. **Why not average the two readers?** An average would give you one number per
+   copy, which is tidier. Say what it would destroy.
+2. **What does the control support?** State the claim it licenses, precisely, and
+   say what makes the comparison fair.
+3. **What can your evidence not establish?** One card, one machine, two readers,
+   one authored scenario. Name a conclusion someone might draw from your table
+   that the table does not carry.
+4. **What would you change?** One concrete improvement to this experiment, and
+   what it would buy you.
+
+A worked answer is in the pack. Open it after you have your own table and your
+own four paragraphs.
 
 ## What you should find
 
-The totals rise with generation, and the control has none. The control went
-through the same number of copy operations as generation 8 and came back
-identical to the card.
+Inside the photocopy channel the totals rise with the number of operations. The
+control ran the same eight operations and came back with none.
 
 That pair of facts is the course's opening claim and its first qualification.
 This copying process damages what it copies. Copying as such does not.
 
-The second finding is smaller and more awkward. At generation 1 the two readers
-already disagree: one found an error, the other found none, in the same copy.
-Neither is wrong. Legibility is a relation between a copy and a reader, and the
-number you write down is a fact about the pair.
+The second finding is smaller and more awkward. After a single photocopy
+operation the two readers already disagree: one found an error, the other found
+none, in the same copy. Both followed the same transcription procedure; the
+scenario records them interpreting one damaged mark differently. There is still
+a fact of the matter — the card says what it says — but a reader facing an
+ambiguous mark has to decide, and two people decide differently.
 
 This is where the week could go badly. It is tempting to conclude that the
-measurement is therefore worthless. It is not: the *rule* is reproducible, which
-is why you applied it twice. What varies is the reading, and a good measurement
-reports that rather than hiding it behind an average.
+measurement is therefore worthless. Keep three things apart:
+
+- the **counting algorithm is deterministic** — the same transcription against
+  the same card gives the same number every time;
+- **your own repeatability** is something you check, by counting twice;
+- **readers still differ**, because resolving a damaged mark is an
+  interpretation.
+
+Legibility is a relation between a copy and a reader. Note too that reader R1
+scores below R2 after four operations and above R2 after eight, so you cannot
+even rank the readers consistently — which is why an average would have been
+worse than useless here, not merely less informative.
 
 ## Deposit
 

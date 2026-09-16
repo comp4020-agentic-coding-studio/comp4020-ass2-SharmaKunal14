@@ -1,6 +1,6 @@
 ---
 title: "The office that ate itself"
-description: "What changes when something is copied, the control that shows change is not guaranteed, and why a measurement can be reproducible while a reading is not."
+description: "What changes when something is copied, the eight-operation control that shows change is not guaranteed, and why a deterministic rule still leaves readers disagreeing."
 week: 1
 date: 2027-02-22
 teachers:
@@ -38,8 +38,8 @@ think about what the second one was like. That question is ours.
 Copy room test card 0S1I-B85l, four lines, deliberately built from characters
 that are easy to confuse.
 
-Take line 1 of the card and line 1 of a fourth-generation copy, as transcribed
-by one reader:
+Take line 1 of the card and line 1 of a copy that went through four photocopy
+operations, as transcribed by one reader:
 
 ```
 card   The clerk in Room 108 filed 1,051 slips before noon.
@@ -57,27 +57,44 @@ carefully is an impression.
 
 ## Two results, and the second is the interesting one
 
-**Generation 8 is worse than generation 1, and the control is not worse at all.**
-The control is a digital copy, made the same number of times, and it comes back
-identical to the card. So the damage belongs to the photocopier, not to copying.
+**Eight photocopy operations are worse than one, and eight digital operations
+are not worse at all.** The control is copied byte for byte, eight times,
+checksummed at each step, and it comes back identical to the card. So the damage
+belongs to this photocopier, not to copying.
 
-This is why the course opens with a control rather than a dramatic chain of
-degraded pages. A chain on its own shows you something got worse. It does not
-tell you what made it worse, and the answer is not "being copied."
+The matching operation count is what makes that a control rather than a gesture.
+A digital copy made once, set beside a photocopy chain of eight, would license
+nothing: the obvious objection is that it was never tested. Both channels run
+eight times, and only one of them degrades.
 
-**Two readers of the same copy disagree.** At generation 1 in Wednesday's pack,
-one reader records an error and the other records none. Both transcribed
-honestly.
+This is also why the course opens with a control rather than a dramatic chain of
+ruined pages. A chain on its own shows you something got worse. It does not tell
+you what made it worse, and the answer is not "being copied."
+
+**Two readers of the same copy disagree.** After one photocopy operation in
+Wednesday's pack, one reader records an error and the other records none. Both
+followed the same transcription procedure; the scenario records them resolving
+one damaged mark differently.
 
 The tempting conclusion is that the measurement is subjective and therefore
-worthless. Resist it, because it conflates two things. The *rule* is
-reproducible — apply it twice to a fixed transcription and you get the same
-number, and Wednesday asks you to demonstrate exactly that. What varies is the
-*reading*: whether a particular damaged mark resolves as `0` or `O` for a
-particular person.
+worthless. Resist it, because three claims are being run together.
+
+The **counting algorithm is deterministic**. Give it the same transcription and
+the same card and it returns the same number, always.
+
+**Your own repeatability** is a separate question, and Wednesday asks you to test
+it by counting one transcription twice. If your two counts differ, you applied
+the rule inconsistently — that is a fact about you, not about the copy.
+
+**Readers still differ**, because resolving an ambiguous mark as a zero or a
+capital O is an interpretation. There is a fact of the matter — the card says
+what it says — but the mark on a damaged copy underdetermines it, and two people
+decide differently.
 
 So legibility is not a property of the copy. It is a relation between a copy and
 a reader, and an honest table reports the spread instead of averaging it away.
+Wednesday's pack makes that concrete: reader R1 scores below R2 after four
+operations and above R2 after eight, so the readers cannot be ranked either.
 
 ## One more distinction
 
