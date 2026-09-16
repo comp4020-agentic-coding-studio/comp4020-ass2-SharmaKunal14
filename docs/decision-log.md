@@ -709,6 +709,119 @@ student can reach without a library.
 
 **Commits:** `02347bc` pack, `007a08e` contract, `a234bac` pages and archive.
 
+## 2026-09-16 — Week 4 review corrections
+
+**Scope:** Review rejected week 4. Three defects made the activity impossible or
+scientifically misleading, and 75 green tests had not caught any of them. All
+seven corrections applied; 80 tests green.
+
+### The general lesson, before the specifics
+
+The tests verified that the authored data was internally consistent with the
+authored answer. They never asked whether a student could act on the data. Every
+one of the three critical defects sits in that gap:
+
+- predictions were consistent and unobtainable;
+- the evidence menu was well-formed and pointed at nothing;
+- the discriminating item was correctly labelled discriminating in the JSON and
+  rested on a technique that may not apply.
+
+A mutation table is evidence of data integrity. It is not evidence that the
+activity works, and the contracts now include the "can a student do this"
+questions that were missing.
+
+### Defect 1 — the predictions could not be derived
+
+The pack withheld each route's predicted file size, and a contract asserted the
+withholding, on the reasoning that deriving them was the task. Nothing in the
+pack — no formula, no encoder, no lookup table — would let anyone compute a file
+size from a list of steps.
+
+The precedent I reasoned from was wrong. Week 1 withholds counts a student
+computes from a stated rule and supplied transcriptions; week 3 withholds totals
+a student computes by adding eight supplied numbers. Both supply a method and
+inputs. Week 4 supplied neither, so withholding was not demanding, it was
+impossible.
+
+Predictions are now published beside the observations. This gives nothing away:
+both routes fit, which is the week's finding. The assertion is inverted, and the
+reasoning is recorded at the assertion so it is not re-broken later.
+
+### Defect 2 — none of the evidence existed
+
+The menu offered three obtainable items and the pack contained none of them.
+Their outcomes appeared only inside the complete reveal, so the four-step
+investigation could not be performed: a student could only open the answer.
+
+Each obtainable item now ships as `evidence/e1.txt`, `e2.txt`, `e3.txt`,
+carrying its result and nothing else. Four contracts: every available item has a
+file with its result, the menu points at that file, no file contains another
+item's result or its own verdict, and an unavailable item has no file.
+
+### Defect 3 — the double-JPEG claim did not fit the route
+
+The reveal asserted that a coefficient histogram would carry periodicity route A
+could not produce. Route B is save, **resize**, save. Resizing between the two
+compressions disrupts the block structure that standard double-quantisation
+detection relies on, and resized double-compressed images are treated in the
+literature as a separate forensic problem rather than a case the simple
+histogram test settles. The quality ordering used, 90 then 78, is also among
+those reported as difficult to separate from single compression.
+
+So this was a real technique asserted in conditions where it may not apply, with
+no actual histogram behind it — in a course about whether evidence supports a
+claim.
+
+Replaced with a **retained working-directory listing** showing a full-size JPEG
+that existed before the smaller output. It excludes any route that resizes
+before its only save; it is representable honestly as a text record; it is
+suppliable directly; and it remains only consistent with route B, since every
+history that saved at full size before resizing leaves the same listing. The
+discriminating evidence is now mundane, which is arguably a better lesson than a
+clever detector.
+
+### Four further corrections
+
+- **Quality estimate removed rather than defined.** The course never stated
+  which estimator produced it, its uncertainty, or whether values compare across
+  encoders, so a two-point difference was uninterpretable. Defining a fictional
+  estimator with a fictional uncertainty would have added a second unfalsifiable
+  number; removing the field leaves an observation set that is fully checkable.
+- **The 15 KB tolerance is labelled a scenario rule** on the page, in the pack
+  and in a contract — set so a threshold can be applied consistently, not
+  measured from anything, and not to be carried elsewhere.
+- **The visual-inspection item no longer asserts the routes look alike.** It
+  supplies an authored inspection report recording no distinguishable
+  difference, and states on its face that no images were produced to generate it.
+- **Steyerl is no longer generalised.** The lecture claimed a circulated image
+  "has lost most of the record of where it came from". It now says such an image
+  *may* arrive without the metadata, logs or intermediate files needed to
+  reconstruct its history, and notes explicitly that she is not claiming
+  provenance is always destroyed.
+
+### Verification
+
+`pnpm check` green: 0 type errors, 45 pages axe-clean, no broken links, 80 tests
+in 10 files. Residue swept: no mention of DCT, coefficient histograms, quality
+estimate or the universal provenance claim survives in either page or the pack.
+
+Mutations — a **deliberate exercise, not an accidental failure**:
+
+| Mutation | Result |
+|---|---|
+| Stripped the predictions back out of the student CSV | 2 of 19 failed |
+| Declared an available item with no result | 2 of 19 failed |
+| Leaked one evidence file's result into another | 1 of 19 failed |
+| Dropped the scenario-rule labelling | 1 of 19 failed |
+
+All four reverted; 19 of 19 green afterwards.
+
+**Still not established.** Nobody who did not write the activity has attempted
+it, so the 40-minute investigation remains an estimate and the claim that the
+task is now performable is a reasoned claim rather than an observed one.
+
+**Commit:** `d7863b6`.
+
 ### Template for subsequent observed results
 
 - What was tested and with which materials/version:
