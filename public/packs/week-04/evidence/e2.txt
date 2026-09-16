@@ -1,12 +1,14 @@
-E2 — Transformation log excerpt for the output
-Authored teaching scenario. Every observation, prediction and evidence record below was written for this exercise. None was produced by running image software, and nothing here supports a claim about how any real tool or forensic technique behaves.
+E2 — Working-directory listing
+Authored teaching scenario. Every observation, prediction and record below was written for this exercise. None was produced by running image software or by examining an image, and nothing here supports a claim about how any real tool or forensic technique behaves.
 
-Transformation log, excerpt as retained
+Working directory listing, retained
 
-  09:52:14  resize  2400x1600 -> 1200x800  filter=lanczos
-  09:52:14  encode  jpeg quality=78 subsampling=4:2:0
+  2027-03-02  09:14  source-2400x1600.tif      11,240 KB
+  2027-03-02  09:41  interim-2400x1600.jpg      1,903 KB
+  2027-03-02  09:52  output-7-1200x800.jpg          148 KB
 
-Earlier entries were not retained. The log begins at the resize.
+A file-system listing. It records what existed and when. It does not
+record what read what.
 
 This file contains the result of this request only. What it means for the
 two routes is for you to say; the other requests are in their own files.

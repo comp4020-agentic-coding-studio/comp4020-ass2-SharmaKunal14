@@ -1,16 +1,13 @@
-E3 — Inspection report for the output at 400 per cent
-Authored teaching scenario. Every observation, prediction and evidence record below was written for this exercise. None was produced by running image software, and nothing here supports a claim about how any real tool or forensic technique behaves.
+E3 — Handover note retained with the output
+Authored teaching scenario. Every observation, prediction and record below was written for this exercise. None was produced by running image software or by examining an image, and nothing here supports a claim about how any real tool or forensic technique behaves.
 
-Inspection report, authored for this scenario
+Note retained with the output, author's initials only
 
-  Examined: output-7-1200x800.jpg at 400 per cent
-  Recorded: blocking visible at 8-pixel boundaries throughout;
-            no feature recorded that the examiner could attribute
-            to one save rather than two.
-  Conclusion recorded by the examiner: no distinguishable difference.
+  "Resized for the newsletter — 1200 wide as requested. Big version
+   is in the shared folder if anyone needs it. Didn't keep the
+   in-between stuff."
 
-This is a written report supplied with the scenario. No images were
-produced or examined to generate it.
+  No date. No further pages retained.
 
 This file contains the result of this request only. What it means for the
 two routes is for you to say; the other requests are in their own files.

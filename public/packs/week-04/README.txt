@@ -1,5 +1,5 @@
 Two routes, one output — week 4 pack
-Authored teaching scenario. Every observation, prediction and evidence record below was written for this exercise. None was produced by running image software, and nothing here supports a claim about how any real tool or forensic technique behaves.
+Authored teaching scenario. Every observation, prediction and record below was written for this exercise. None was produced by running image software or by examining an image, and nothing here supports a claim about how any real tool or forensic technique behaves.
 
 observations.csv lists what was observed about Output 7 and what
 each proposed route predicts. tolerance.txt gives the scenario rule for how

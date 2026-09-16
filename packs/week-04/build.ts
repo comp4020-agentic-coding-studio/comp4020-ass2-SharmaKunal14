@@ -38,6 +38,13 @@ export interface Pack {
   artefact: { id: string; label: string; provenance: string };
   tolerance: { fileSizeKb: number; note: string; exactFields: string[] };
   observed: Observation; routes: Route[]; evidenceMenu: Evidence[];
+  /** The step both routes end with, so the final operation cannot separate them. */
+  sharedFinalStep: string;
+  sharedFinalStepNote: string;
+  /** Settings appearing in one route and not the other; barred from any item
+   *  shown to a student as non-discriminating. */
+  distinguishingValues: string[];
+  distinguishingValuesNote: string;
   reveal: Record<string, string>;
 }
 

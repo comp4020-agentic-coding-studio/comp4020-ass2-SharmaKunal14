@@ -40,9 +40,13 @@ Here is Output 7. Five observations: 1200 by 800, 148 KB, 4:2:0 subsampling, no
 EXIF.
 
 Someone proposes it was resized once and saved once. Someone else proposes it
-was saved, resized, and saved again. Wednesday's pack supplies what each route
-predicts — nothing in it would let you compute a file size from a list of steps,
-and asking you to would be asking for a guess.
+was saved, resized, and saved again. Both end with the same save at the same
+quality, so the final encode settings are no help: the routes disagree about one
+thing only, whether a full-size JPEG was written before the resize.
+
+Wednesday's pack supplies what each route predicts — nothing in it would let you
+compute a file size from a list of steps, and asking you to would be asking for
+a guess.
 
 Apply the tolerance and both land inside it on every measurement. The evidence
 does not choose. It is not that the question is meaningless — the file has
@@ -62,10 +66,14 @@ and it may dissolve. Add a measurement and it may dissolve. Say which
 measurements and which tolerance, every time, or you are asserting something
 much stronger than you can support.
 
-You have the tolerance in the pack: 15 KB on size, exact match on dimensions,
-subsampling and EXIF presence. That figure is a **scenario rule** — set so you
-can apply a threshold consistently, not measured from anything. It is the
-boundary of what you are entitled to say inside this exercise and nowhere else.
+You have the tolerance in the pack: a route is compatible on size when its
+prediction is within 15 KB of the observed size, with dimensions, subsampling
+and EXIF presence matching exactly. If more than one route passes, size does not
+distinguish them.
+
+That 15 KB is a **scenario rule** — set so you can apply a threshold
+consistently, not measured from anything. It is the boundary of what you are
+entitled to say inside this exercise and nowhere else.
 
 ## Asking for evidence
 
@@ -79,14 +87,25 @@ thing that stops it.
 
 Wednesday's menu has five items. Two do not exist: the EXIF is gone and the
 upload log was never kept. The three that do exist each have a file you can
-open, and **one separates the routes while two do not** — the log excerpt that
-survived begins at the resize and is silent on exactly the operation the routes
-disagree about, and the inspection report records nothing distinguishable.
+open, and **one separates the routes while two do not**.
 
-The one that works is mundane. A retained working-directory listing shows a
-full-size JPEG existing before the smaller output. Route A resizes before its
-only save, so route A cannot have produced that file. No signal analysis, no
-clever detector — a directory listing somebody happened to keep.
+The distinction between them is the most useful thing in this week, and it is
+not about how technical the record is.
+
+A **working-directory listing** shows a full-size JPEG sitting there before the
+output. That feels like the answer. It is not, because co-existence is not
+descent: the interim file could be an unrelated export and the output could have
+come straight from the source. A **handover note** reaches the same dead end
+from the human direction — a big version exists somewhere, and nothing about
+whether it was read.
+
+A **transformation record** naming the interim file as the input to the resize,
+with a matching hash, does separate them. Route A resizes the source directly
+and has no full-size JPEG to read.
+
+Records that list what existed are cheap and common. Records that name what read
+what are rarer and are what you actually need. Week 11 is about how often the
+second kind is missing.
 
 If you ask for a reasonable item and it turns out to be silent, that is a
 finding. Report what you asked for, why it was reasonable, and what it did not
@@ -101,11 +120,11 @@ Suppose the discriminating evidence rules out route A. You have not shown route 
 happened. You have shown that of the two histories somebody thought to propose,
 one is excluded.
 
-Others fit the same observations, and the same directory listing: any history
-that saved at full size before resizing leaves that file behind. A save at
-quality 85 then a resize. A route through a third intermediate size. Nobody
-wrote those on a card, which is a fact about who was asked rather than an
-argument against them.
+Others fit the same observations, and the same transformation record: any
+history that saved at full size before resizing produces a record of that shape.
+A save at a different quality then a resize. A route through a third
+intermediate size. Nobody wrote those on a card, which is a fact about who was
+asked rather than an argument against them.
 
 So the claim your evidence supports is: *not route A, and consistent with route
 B.* That is weaker than "it was route B", and it is what you can defend. Week 6

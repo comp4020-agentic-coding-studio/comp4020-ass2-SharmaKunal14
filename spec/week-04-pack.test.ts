@@ -103,6 +103,70 @@ describe("every obtainable request has something to open", () => {
   });
 });
 
+describe("a non-discriminating item really is non-discriminating", () => {
+  // The contract that was missing, and the bug it exists for.
+  //
+  // An earlier version of this pack labelled a transformation-log excerpt
+  // non-discriminating while its content read "quality=78". Route A saved at
+  // 72 and route B's final save was 78, so the excerpt matched one route and
+  // contradicted the other: it separated them, whatever the label said. Every
+  // test passed, because the tests read the label rather than the content.
+  //
+  // Labels are now checked against content, on two fronts.
+
+  it("ends both routes with the same final step, so the last operation cannot tell them apart", () => {
+    expect(pack.sharedFinalStep, "no shared final step declared").toBeTruthy();
+    for (const route of pack.routes) {
+      expect(route.steps.at(-1), `route ${route.id} ends differently`).toBe(pack.sharedFinalStep);
+    }
+  });
+
+  it("declares the settings that appear in one route and not the other", () => {
+    expect(pack.distinguishingValues.length, "nothing declared as distinguishing").toBeGreaterThan(0);
+    // Each declared value must genuinely appear in exactly one route.
+    for (const value of pack.distinguishingValues) {
+      const normalise = (text: string) => text.toLowerCase().replace(/[^a-z0-9]/g, "");
+      const needle = normalise(value);
+      const carriers = pack.routes.filter((r) => normalise(r.steps.join(" ")).includes(needle));
+      expect(carriers.length, `"${value}" is not unique to one route`).toBeLessThanOrEqual(1);
+    }
+  });
+
+  it("keeps every declared distinguishing value out of every non-discriminating item", () => {
+    const honest = pack.evidenceMenu.filter((e) => e.available && !e.discriminates);
+    expect(honest.length).toBeGreaterThan(0);
+    for (const item of honest) {
+      for (const value of pack.distinguishingValues) {
+        expect(
+          item.result!.toLowerCase(),
+          `${item.id} is labelled non-discriminating but contains "${value}"`,
+        ).not.toContain(value.toLowerCase());
+      }
+      // And the file a student actually opens, not just the declaration.
+      for (const value of pack.distinguishingValues) {
+        expect(
+          published(evidenceFile(item)).toLowerCase(),
+          `${evidenceFile(item)} contains "${value}"`,
+        ).not.toContain(value.toLowerCase());
+      }
+    }
+  });
+
+  it("makes the discriminating item link rather than merely list", () => {
+    // A listing of files that co-existed does not establish descent, which is
+    // why the working-directory listing is the non-discriminating item. The
+    // item that resolves the question has to name what read what.
+    const decisive = pack.evidenceMenu.filter((e) => e.discriminates && e.available);
+    expect(decisive.length).toBe(1);
+    expect(decisive[0].result!.toLowerCase(), "the decisive record names no input").toMatch(
+      /\binput\b/,
+    );
+    expect(decisive[0].result!.toLowerCase(), "the decisive record names no output").toMatch(
+      /\boutput\b/,
+    );
+  });
+});
+
 describe("week 4 pack is genuinely ambiguous", () => {
   it("has at least two routes", () => {
     expect(pack.routes.length).toBeGreaterThanOrEqual(2);
@@ -173,6 +237,16 @@ describe("the answer stays out of the evidence", () => {
   it("labels the tolerance as a scenario rule rather than a validated figure", () => {
     expect(pack.tolerance.note).toMatch(/scenario rule/i);
     expect(published("tolerance.txt")).toMatch(/scenario rule/i);
+  });
+
+  it("states the tolerance rule the way it is actually applied", () => {
+    // The note used to say two predictions within 15 KB "of each other" are
+    // indistinguishable, while the check compares each prediction against the
+    // observation. Different rules; they happened to agree on these numbers.
+    expect(pack.tolerance.note, "the note describes a prediction-to-prediction rule").toMatch(
+      /within 15 KB of the observed size/i,
+    );
+    expect(pack.tolerance.note).not.toMatch(/of each other/i);
   });
 
   it("keeps the artefact's provenance stated as unknown", () => {

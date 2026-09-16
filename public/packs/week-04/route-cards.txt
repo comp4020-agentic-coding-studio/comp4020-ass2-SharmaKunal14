@@ -1,5 +1,5 @@
 Candidate routes
-Authored teaching scenario. Every observation, prediction and evidence record below was written for this exercise. None was produced by running image software, and nothing here supports a claim about how any real tool or forensic technique behaves.
+Authored teaching scenario. Every observation, prediction and record below was written for this exercise. None was produced by running image software or by examining an image, and nothing here supports a claim about how any real tool or forensic technique behaves.
 
 Two processing histories someone has proposed for Output 7.
 What each one predicts is in observations.csv, beside what was observed.
@@ -9,7 +9,7 @@ tell the two routes apart.
 Route A — resize once, save once
   1. Open the 2400 x 1600 source
   2. Resize to 1200 x 800
-  3. Save as JPEG at quality 72
+  3. Save as JPEG at quality 78
 
 Route B — save, resize, save again
   1. Open the 2400 x 1600 source

@@ -58,8 +58,6 @@ describe("week 6 pack is what it publishes", () => {
 });
 
 describe("week 6 pack teaches what week 6 claims", () => {
-  const carriersOf = (id: number) =>
-    new Set(pack.variants.find((v) => v.id === id)!.carriers);
   const shared = pack.variants.filter((v) => v.carriers.length > 1);
 
   it("contains a nested subgroup, so a tree can be built at all", () => {

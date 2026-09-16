@@ -63,14 +63,18 @@ known about it is five lines in `observations.csv`: dimensions, file size,
 chroma subsampling, and the absence of EXIF.
 
 Two processing histories have been proposed. Route A resizes once and saves
-once. Route B saves, resizes, then saves again. **What each one predicts is
-supplied**, beside what was observed — nothing in this pack would let you derive
+once. Route B saves, resizes, then saves again. **Both end with the same save**,
+at the same quality, so nothing about the final encode can tell them apart —
+the only thing they disagree about is whether a full-size JPEG was written
+before the resize. **What each one predicts is supplied**, beside what was
+observed — nothing in this pack would let you derive
 a file size from a set of steps, and pretending otherwise would make the exercise
 impossible rather than demanding. Your work is applying the tolerance.
 
-`tolerance.txt` is the part to read carefully. File size within 15 KB;
-dimensions, subsampling and EXIF presence matching exactly. Inside those bounds
-this evidence cannot tell two predictions apart.
+`tolerance.txt` is the part to read carefully. A route is compatible on file
+size when **its prediction is within 15 KB of the observed size**; dimensions,
+subsampling and EXIF presence must match exactly. If more than one route
+satisfies that, file size does not distinguish them.
 
 The 15 KB figure is a **scenario rule**. It is set for this exercise so you can
 apply a stated threshold consistently. It is not an empirically validated
@@ -140,21 +144,29 @@ both inside the 15 KB rule.
 So the initial evidence does not determine the process, and no amount of
 staring at it will change that. The question is which further observation would.
 
-One item on the menu does separate them: a retained working-directory listing
-showing a full-size JPEG that existed before the smaller output. Route A resizes
-before its only save, so route A cannot have produced that file.
+One item separates them, and it is worth being precise about why. The retained
+transformation record **names** a full-size JPEG as the input to the resize, and
+the input hash matches a file that was present. Route A resizes the source
+directly and never has a full-size JPEG to read, so route A is excluded.
 
-Two available items do not separate them. The transformation log excerpt begins
-at the resize and is silent about whether anything was saved earlier — the one
-operation the routes disagree about. The inspection report records no
-distinguishable difference. Both are reasonable requests, and a report that says
-what it asked for and what it failed to learn is a correct answer here.
+Two available items do not separate them, and they fail the same way. The
+working-directory listing shows a full-size JPEG existed before the output —
+which looks decisive and is not, because **co-existence is not descent**. That
+interim file could be an unrelated export, with the output made straight from
+the source. The handover note arrives at the same gap from a different
+direction: it confirms a big version exists somewhere and says nothing about
+whether it was read.
+
+That distinction — between a record that lists what existed and a record that
+names what read what — is the whole week in one sentence. Both requests are
+reasonable, and a report that asks for one, notices the gap and leaves the
+question open is a correct answer here.
 
 And even having excluded route A, notice what you are left with. Any history
-that saved at full size before resizing would leave the same listing — a save at
-a different quality, or a route through a third size. **Ruling out one route is
-not establishing another**, and the claim you can defend is "not route A, and
-consistent with route B".
+that saved at full size before resizing would produce a record of that shape — a
+save at a different quality, or a route through a third size. **Ruling out one
+route is not establishing another**, and the claim you can defend is "not route
+A, and consistent with route B".
 
 ## Deposit
 

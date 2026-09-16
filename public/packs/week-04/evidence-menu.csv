@@ -1,6 +1,6 @@
 id,item,status,open
-E1,"Retained intermediate-file record from the working directory",available,evidence/e1.txt
-E2,"Transformation log excerpt for the output",available,evidence/e2.txt
-E3,"Inspection report for the output at 400 per cent",available,evidence/e3.txt
+E1,"Retained transformation record for Output 7, with file hashes",available,evidence/e1.txt
+E2,"Working-directory listing",available,evidence/e2.txt
+E3,"Handover note retained with the output",available,evidence/e3.txt
 E4,"EXIF metadata dump for the output","unavailable — No EXIF survives in the output, and no intermediate metadata was retained.",
 E5,"Upload log from the service the output was distributed through","unavailable — Not retained by the service, and the course has no account with it.",

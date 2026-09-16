@@ -99,20 +99,22 @@ record establishes and what it omits.
 | ID | Item | Source | Operation | Used in |
 |---|---|---|---|---|
 | `image/source` | Authored source image, 2400 x 1600 | Authored | none — this is the reference | 4, 10, 11 |
-| `image/output-7` | Output 7, 1200 x 800 | **inferred**: consistent with a save, resize and second save; a single-save route is excluded by a retained working-directory listing | see the week 4 route cards | 4, 10, 11 |
+| `image/output-7` | Output 7, 1200 x 800 | **inferred**: consistent with a save, resize and second save; a single-save route is excluded by a retained transformation record naming a full-size JPEG as the resize input, with a matching hash | see the week 4 route cards | 4, 10, 11 |
 
-Output 7's parent is recorded as **inferred, and partially**. A retained
-working-directory listing shows a full-size JPEG existing before the smaller
-output, which excludes any route that resizes before its only save. It does not
+Output 7's parent is recorded as **inferred, and partially**. A retained transformation
+record names a full-size JPEG as the input to the resize, with a matching hash,
+which excludes any route that resizes the source directly. The working-directory
+listing retained alongside it does not support that conclusion on its own: it
+shows the files co-existed, not that one was read to make the other. It does not
 establish the route that was proposed: every history that saved at full size
 before resizing would leave the same listing. Ruling out is not establishing,
 and the record says which of the two it is doing.
 
-The transformation log excerpt retained for this output records one resize and
-its timestamp. It does not record whether a save preceded that resize, which is
-the operation the two proposed routes disagree about — so the archive holds a log
-that is genuine, relevant and insufficient. That is the ordinary condition of a
-provenance record, and week 11 returns to it.
+The archive holds two records of the same events that differ in what they
+captured: a listing of what existed, and a record of what read what. Only the
+second supports an ancestry claim. A listing that is genuine, relevant and
+insufficient is the ordinary condition of a provenance record, and week 11
+returns to it.
 
 Two evidence items a reader might expect are absent: no EXIF survives, and no
 upload log was retained. Their absence is recorded rather than left as a gap.
