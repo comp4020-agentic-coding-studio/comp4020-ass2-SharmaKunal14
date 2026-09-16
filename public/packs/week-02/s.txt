@@ -1,0 +1,7 @@
+Source recording
+Authored teaching scenario. The features below are constructed to show how a shared property is reasoned about. Nothing here was measured from a real tape, a real deck or a real recording.
+
+Thirty seconds, held by the copy room. Not a copy of anything in this collection.
+
+Features present:
+  F5  00:04.900     Door closing, 300 ms

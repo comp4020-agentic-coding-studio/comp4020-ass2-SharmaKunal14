@@ -1,0 +1,7 @@
+Copy Y
+Authored teaching scenario. The features below are constructed to show how a shared property is reasoned about. Nothing here was measured from a real tape, a real deck or a real recording.
+
+Features present:
+  F1  throughout    Broadband noise floor raised by about 9 dB
+  F2  00:12.400     Dropout, 40 ms, left channel only
+  F5  00:04.900     Door closing, 300 ms

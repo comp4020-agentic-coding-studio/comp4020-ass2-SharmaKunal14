@@ -1,0 +1,86 @@
+{
+  "pack": "week-02",
+  "note": "Authored teaching scenario. The features below are constructed to show how a shared property is reasoned about. Nothing here was measured from a real tape, a real deck or a real recording.",
+  "source": { "id": "S", "label": "Source recording", "description": "Thirty seconds, held by the copy room. Not a copy of anything in this collection." },
+  "copies": [
+    { "id": "W", "label": "Copy W" },
+    { "id": "X", "label": "Copy X" },
+    { "id": "Y", "label": "Copy Y" },
+    { "id": "Z", "label": "Copy Z" }
+  ],
+  "features": [
+    {
+      "id": "F1",
+      "name": "Broadband noise floor raised by about 9 dB",
+      "location": "throughout",
+      "kind": "process",
+      "inSource": false,
+      "carriers": ["W", "X", "Y", "Z"],
+      "explanation": "Every analogue dub raises the noise floor. It is absent from the source and present in all four copies, so it distinguishes copies from the source and distinguishes nothing among the copies.",
+      "groupsAncestry": false
+    },
+    {
+      "id": "F2",
+      "name": "Dropout, 40 ms, left channel only",
+      "location": "00:12.400",
+      "kind": "one-off event",
+      "inSource": false,
+      "carriers": ["X", "Y"],
+      "explanation": "A single physical flaw at one timestamp in one channel. Two dubs producing the same 40 ms dropout at the same 00:12.400 independently is not a plausible coincidence, so the most economical explanation is that both descend from a copy that already had it.",
+      "groupsAncestry": true
+    },
+    {
+      "id": "F3",
+      "name": "Mains hum at 50 Hz",
+      "location": "throughout",
+      "kind": "one-off event",
+      "inSource": false,
+      "carriers": ["W"],
+      "explanation": "Present in one copy only, so it says nothing about relationships. It does confirm W is not identical to any other copy.",
+      "groupsAncestry": false
+    },
+    {
+      "id": "F4",
+      "name": "Click, 6 ms",
+      "location": "00:21.150",
+      "kind": "one-off event",
+      "inSource": false,
+      "carriers": ["Z"],
+      "explanation": "Present in one copy only. Same role as F3.",
+      "groupsAncestry": false
+    },
+    {
+      "id": "F5",
+      "name": "Door closing, 300 ms",
+      "location": "00:04.900",
+      "kind": "source content",
+      "inSource": true,
+      "carriers": ["W", "X", "Y", "Z"],
+      "explanation": "It is in the source. Every faithful copy carries it, so sharing it is evidence of nothing beyond having been copied from this source at all. This is the first explanation to rule out whenever two copies share something.",
+      "groupsAncestry": false
+    },
+    {
+      "id": "F6",
+      "name": "High-frequency rolloff above 12 kHz",
+      "location": "throughout",
+      "kind": "equipment",
+      "inSource": false,
+      "carriers": ["X", "Z"],
+      "explanation": "Frequency response is a property of the deck and its settings, not of the recording's history. Two dubs made on the same worn machine share it without being related. It groups X with Z, which contradicts F2's grouping of X with Y — and F2 wins, because a one-off flaw at a fixed timestamp is far harder to produce twice than a generic response curve.",
+      "groupsAncestry": false
+    }
+  ],
+  "trueStructure": {
+    "note": "Withheld from students until the reveal.",
+    "edges": [
+      { "parent": "S", "child": "W", "how": "dubbed directly from the source" },
+      { "parent": "S", "child": "Z", "how": "dubbed directly from the source" },
+      { "parent": "S", "child": "beta", "how": "dubbed directly from the source; this copy is lost" },
+      { "parent": "beta", "child": "X", "how": "dubbed from the lost copy, which already carried F2" },
+      { "parent": "beta", "child": "Y", "how": "dubbed from the lost copy, which already carried F2" }
+    ],
+    "equipment": "X and Z were dubbed on the same deck, which is why they share F6. W and Y were dubbed on a second deck. Shared equipment is not shared ancestry.",
+    "supported": "The evidence supports X and Y sharing an intermediate that W and Z do not descend from. It does not establish how many copies sat between, nor whether the intermediate still exists.",
+    "unsupported": "Nothing here orders X against Y, and nothing distinguishes W from Z beyond their own features."
+  }
+}

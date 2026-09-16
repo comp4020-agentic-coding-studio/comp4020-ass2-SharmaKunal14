@@ -1,0 +1,11 @@
+Feature list — week 2
+Authored teaching scenario. The features below are constructed to show how a shared property is reasoned about. Nothing here was measured from a real tape, a real deck or a real recording.
+
+F1  throughout    Broadband noise floor raised by about 9 dB
+F2  00:12.400     Dropout, 40 ms, left channel only
+F3  throughout    Mains hum at 50 Hz
+F4  00:21.150     Click, 6 ms
+F5  00:04.900     Door closing, 300 ms
+F6  throughout    High-frequency rolloff above 12 kHz
+
+Where each feature appears is in feature-table.csv.
