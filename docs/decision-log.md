@@ -290,6 +290,79 @@ briefs stay fully specified.
 
 **Commit:** `03f8d03`.
 
+## 2026-09-16 — Week 1 built
+
+**Scope:** The week 1 pack, workshop page, lecture page, print collection
+records, and a fix for a deploy-only link failure found while building them.
+
+### Decisions and reasons
+
+- **Split the print collection into two documents.** The plan had week 5
+  branching from the week 1 card and week 6 reconstructing that branch's
+  archetype. Both cannot hold: a student who read the card in week 1
+  reconstructs week 6 from memory rather than from evidence. The collection now
+  holds a legibility test card, built from confusable glyph pairs for counting,
+  and the Ordinance, which students do not see until week 6's reveal. Also the
+  better split pedagogically — a test card concentrates character-level failure
+  so it can be counted; prose is what scribal error happens to.
+- **Supply copies as two readers' transcriptions, not as images.** The
+  measurement is a comparison of texts. An image of damaged print would add an
+  eyesight test the course refuses to grade, and would make the accessible
+  route a lesser version of the task instead of the task itself. Every
+  transcription is the card's length, so the counting rule needs no alignment
+  judgement.
+- **Compute the worked answer; do not type it.** A worked answer that disagrees
+  with its own evidence is the worst artefact on a teaching page: confidently
+  wrong, and a student who trusts it learns the measurement incorrectly.
+- **Two readers, not one.** Without disagreement the week cannot teach that
+  legibility is a relation between a copy and a reader. The pack is built so
+  they already disagree at generation 1.
+
+### Verification and limits
+
+`pnpm check` green: 0 type errors, 42 pages scanned by axe with no violations,
+no broken links, 39 tests in 7 files.
+
+Counts produced by the rule, from the transcriptions:
+
+| Copy | Generation | R1 | R2 |
+|---|---:|---:|---:|
+| Control | 0 | 0 | 0 |
+| Photocopy | 1 | 1 | 0 |
+| Photocopy | 4 | 4 | 5 |
+| Photocopy | 8 | 10 | 9 |
+
+Both readers rise with generation, the control stays clean, and the readers
+disagree from generation 1. Note that R1 is below R2 at generation 4 and above
+it at generation 8, so the readers cannot even be ranked consistently — a point
+the page makes rather than hides.
+
+**A deploy-only failure found by testing, not by reading.** The week 1 page
+links to `/packs/week-01/`. A pack is a folder under `public/`, and a folder is
+not a page: GitHub Pages serves no directory listing, so the link returned 404.
+The build's own link checker passed it, because it validates links between
+rendered routes and treats a static asset path as opaque. The link rendered
+correctly, passed CI and would have been dead on the deployed site — the only
+place this is marked. Found by curling the path.
+
+Both packs now emit an `index.html`, and `spec/pack-links.test.ts` asserts every
+`/packs/` href on every built page resolves to a file that exists in `dist`,
+that a directory link has an index behind it, and that every such href carries
+the repository base path.
+
+The theme's axe pass then failed those new index pages for content outside a
+landmark — a second deploy-class bug in the same change, caught by a check
+already in the build. Content is now inside `<main>`.
+
+**Limits.** The activity has not been rehearsed by anyone who did not write it,
+so the 40-minute investigation budget is still an estimate. The Owen reading is
+cited by chapter with its claim stated rather than quoted; the edition has not
+been checked against a physical copy. The photocopy generations are an authored
+scenario, labelled as such in every file, not measurements from a real machine.
+
+**Commits:** `30c5c55` plan split, `4809b51` pack, `07710d4` pack contract,
+`c7d2c5a` pack-link fix, `6e45cfe` pages and archive records.
+
 ### Template for subsequent observed results
 
 - What was tested and with which materials/version:
