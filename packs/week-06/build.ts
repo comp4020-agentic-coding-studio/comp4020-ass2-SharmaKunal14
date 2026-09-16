@@ -11,6 +11,7 @@
 // The archetype and the production log are published under reveal/ because
 // this is practice feedback. The Stemma's own pack is a separate artefact and
 // its key is not stored in this repository.
+import { writePackIndex } from "../pack-index.ts";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 
@@ -166,6 +167,19 @@ ${JSON.stringify(pack.supportedStemma, null, 2)}
 \`\`\`
 `,
   );
+
+  writePackIndex(OUT, "Week 6 pack — Ordinance of the Copy-House",
+    "Five witnesses of a text none of them is. The original is not in this folder.",
+    [
+      { name: "collation.csv", what: "the seven points where the witnesses disagree" },
+      { name: "witness-a.txt", what: "witness A" },
+      { name: "witness-b.txt", what: "witness B" },
+      { name: "witness-c.txt", what: "witness C" },
+      { name: "witness-d.txt", what: "witness D" },
+      { name: "witness-e.txt", what: "witness E" },
+      { name: "README.txt", what: "what is in this folder" },
+      { name: "reveal/production-log.md", what: "the answer — open it after you have a tree" },
+    ]);
 
   console.log(
     `week-06 pack: ${pack.witnesses.length} witnesses, ${rows.length} collation points, reveal written`,
