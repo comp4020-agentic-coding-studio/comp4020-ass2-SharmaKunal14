@@ -444,6 +444,71 @@ numbers stay in the worked answer, the conclusions do not.
 
 **Commits:** `d03a2e2` the two defects, `6355320` the sharpened pages.
 
+## 2026-09-16 — Week 2 built
+
+**Scope:** Audio feature pack, workshop, lecture, audio collection records and a
+contract. Weeks 1 and 2 are now both real; ten skeletons remain.
+
+### Decisions and reasons
+
+- **Four explanations for a shared feature, not the three the plan specified.**
+  The plan lists present-in-the-source, inherited-from-an-intermediate, and
+  introduced-independently. Building the pack made a fourth case obvious and
+  sharper than any of them: **shared equipment**. Two dubs made on the same worn
+  deck share a frequency rolloff without being related, and that produces
+  exactly the pattern shared ancestry produces — a feature in some copies and
+  not others. It is the trap that looks most like evidence, and it gives the
+  week a better answer to its own question than "independent introduction",
+  which sounds like bad luck rather than a mechanism.
+- **The diagnostic feature is the least dramatic thing in the table.** A 40 ms
+  dropout in one channel at one timestamp, against a raised noise floor and a
+  rolloff that are audible across the whole recording. The point is that
+  evidential weight comes from how hard a feature is to produce twice by
+  accident, not from how obvious it is.
+- **No recordings are supplied.** The inference runs on the feature table, so
+  clips would let hearing affect the answer and would make the non-listening
+  route a lesser version of the task rather than the task itself. The plan
+  already made audio an optional extension; this states why it stays optional.
+- **The archive files the rolloff as an equipment note, not an edge.** X and Z
+  share it, and filing that as ancestry would assert a relationship nobody has
+  evidence for. Known parents (W, Z) and inferred parents (X, Y) are separate
+  kinds of entry and are recorded separately.
+
+### Differentiation from week 1
+
+Week 1 measured one copy at a time against a source, and produced a count.
+Week 2 selects which of several shared properties supports a relationship, and
+produces an argument. The same reasoning with the media swapped would not
+complete both: week 1's counting rule says nothing about which shared feature is
+diagnostic, and week 2 never counts anything.
+
+### Verification and limits
+
+`pnpm check` green: 0 type errors, 43 pages axe-clean, no broken links, 50 tests
+in 8 files.
+
+The competing groupings are incompatible by construction: F2 groups {X, Y} and
+F6 groups {X, Z}, which overlap without nesting, so a student cannot accept both.
+
+Contract mutation-tested — a **deliberate exercise, not an accidental failure**:
+
+| Mutation | Result |
+|---|---|
+| Removed the competing grouping, leaving one obvious shared row | 2 of 9 failed |
+| Made the diagnostic feature a generic property, not a one-off event | 1 of 9 failed |
+| Dropped the source-content feature, removing the first explanation | 1 of 9 failed |
+| Appended a kind label to the student-facing feature table | 3 of 9 failed |
+
+All four reverted; 9 of 9 green afterwards.
+
+**Limits.** Not rehearsed by anyone who did not write it, so the 40-minute
+investigation remains an estimate. The Manuel reading is cited by chapter with
+its claim stated rather than quoted; the edition has not been checked against a
+physical copy. Every feature is authored, labelled as such in the pack and now
+on the page and in the archive record, and none of it was measured.
+
+**Commits:** `1e176ce` pack, `904e543` contract, `8259fa3` pages and archive.
+
 ### Template for subsequent observed results
 
 - What was tested and with which materials/version:
