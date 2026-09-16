@@ -217,6 +217,79 @@ these witnesses in class, and the separate A2 pack.
 **Commits:** `b48f3fa` definition, `fc91e59` generator and generated pack,
 `11d3555` contract.
 
+## 2026-09-16 — Reference review
+
+**Scope:** The Phase 0 row that was skipped. Inspected two of the brief's three
+named example courses and recorded what was taken and what was refused.
+
+**Limit on this review.** Two syllabi read through a page fetcher, on one day.
+That is a look at two artefacts, not a survey of course-design literature, and
+the position below is drawn from what those two pages actually do rather than
+from any broader reading.
+
+### Sources inspected
+
+- Calling Bullshit, syllabus — <https://www.callingbullshit.org/syllabus.html>
+- CS 007: Personal Finance for Engineers, course material —
+  <https://cs007.blog/>
+
+### Adopted — from Calling Bullshit
+
+**Practice:** nearly every required reading is hyperlinked directly to a
+retrievable copy (author site, university server, repository or publisher page),
+so a reader reaches the text without a library lookup. Books are the stated
+exception and are given chapter specifications instead of links.
+
+**Why it was taken:** this course's own policy page already says a resolving URL
+is not proof of a claim. That is a rule about *verification*, and it left the
+opposite failure unaddressed — a correctly cited reading a student cannot get
+to. Calling Bullshit treats reachability as a design obligation rather than a
+courtesy, and does so without pretending books can be linked.
+
+**What changed:** a harness rule now requires every reading to carry a locator
+and either a direct link or, where the work is a book or paywalled, an original
+teaching summary of the specific claim in use. This makes the citation policy
+operational for the twelve week pages still to be written, rather than
+aspirational. A contract test is deferred until week 1 has real readings, so it
+can be written against a genuine case rather than an empty collection.
+
+**Also taken:** Calling Bullshit names its case studies concretely — "Food
+stamp fraud", "99% caffeine-free", "Musicians and mortality". This course's
+skeletons say "a photograph" and "a short recording". A named specimen is one a
+reader can picture, and a week a reader can picture is one they can tell apart
+from the other eleven, which is exactly the problem a marker sampling
+non-adjacent weeks creates. Added as a second harness rule and applied as each
+week is written.
+
+### Rejected — from CS 007
+
+**Practice:** the slide deck is the only distributed artefact. Sessions are a
+heading, a date and a PDF link; no readings, notes or exercises. Several
+cohort years list sessions with no deck at all.
+
+**Why it was refused:** it works for CS 007 because the deck carries the
+content of a guest-speaker-driven course. Here the content of a week is the
+evidence pack — the witnesses, the collation table, the worked example — and a
+week reduced to a deck link would be unattemptable. The second half is a
+sharper refusal: a listed session with no materials is precisely the
+unimplemented promise this plan forbids, and seeing it in a well-regarded real
+course is a useful reminder that it happens by accretion rather than intent.
+
+**Not taken, but noted:** CS 007 keeps nine cohorts live on one page so a
+reader can compare how a topic was framed in 2018 against 2025. For a course
+about what changes between versions of a text that is an attractive idea, and
+it is out of scope for a single fictional instance of a course.
+
+### Assessment specification — a deliberate divergence
+
+Calling Bullshit's syllabus specifies assessment thinly: credits and grading
+status, one described exercise, no weighting or breakdown. That is defensible
+for a public artefact, and wrong here — this deliverable is marked as a course
+website against a spec line requiring assessment totalling 100%. The four
+briefs stay fully specified.
+
+**Commit:** `03f8d03`.
+
 ### Template for subsequent observed results
 
 - What was tested and with which materials/version:

@@ -21,6 +21,15 @@ affected consumers second. Avoid copying shared rules into every phase.
   safe. Do not change the fixed build to hide a date error.
 - Verify source support, not merely URL existence. Label hypothetical data;
   retain procedures for empirical measurements and simulated results.
+- List no reading a student cannot reach. Give every reading a locator (page,
+  section or chapter) and either a direct link to a retrievable copy or, where
+  the work is a book or paywalled, an original teaching summary of the specific
+  claim being used. Adopted from Calling Bullshit, which links nearly every
+  required reading to a retrievable PDF and specifies chapters for the books it
+  cannot link.
+- Name the specimen each week works on, concretely, rather than "a photograph"
+  or "a recording". A week a reader can picture is a week they can tell apart
+  from the others.
 - Use subject-substitution as an editorial question to find generic filler,
   not a ban on useful transferable instructions. Keep planning prose out of
   student-facing pages.
