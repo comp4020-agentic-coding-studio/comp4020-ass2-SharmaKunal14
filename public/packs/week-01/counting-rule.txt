@@ -1,0 +1,1 @@
+Compare the transcription to the card one character position at a time, within each labelled line. Every position where the two differ is one error. A position transcribed as U+00B7 (a middle dot) is an illegible, not a misreading, and is counted separately. Every transcription is the same length as the card, so no alignment judgement is needed.

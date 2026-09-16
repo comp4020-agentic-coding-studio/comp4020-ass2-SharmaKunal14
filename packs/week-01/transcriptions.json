@@ -1,0 +1,48 @@
+{
+  "pack": "week-01",
+  "note": "Authored teaching scenario. The transcriptions below are constructed to show how readers resolve damaged characters, not recorded from a real photocopier.",
+  "countingRule": "Compare the transcription to the card one character position at a time, within each labelled line. Every position where the two differ is one error. A position transcribed as U+00B7 (a middle dot) is an illegible, not a misreading, and is counted separately. Every transcription is the same length as the card, so no alignment judgement is needed.",
+  "copies": [
+    { "id": "control", "label": "Exact digital copy (control)", "generation": 0,
+      "operation": "File copied byte for byte. No re-encoding, no printing.",
+      "readers": { "R1": [], "R2": [] } },
+    { "id": "g1", "label": "Photocopy, generation 1", "generation": 1,
+      "operation": "One pass, same machine and settings as every later generation.",
+      "readers": {
+        "R1": [ { "line": "L1", "from": "Room 108", "to": "Room 1O8" } ],
+        "R2": [] } },
+    { "id": "g4", "label": "Photocopy, generation 4", "generation": 4,
+      "operation": "Copy of the generation 3 copy, same machine and settings.",
+      "readers": {
+        "R1": [
+          { "line": "L1", "from": "Room 108", "to": "Room 1O8" },
+          { "line": "L1", "from": "1,051", "to": "1,05l" },
+          { "line": "L2", "from": "5S5S", "to": "SS5S" },
+          { "line": "L3", "from": "lOO l00", "to": "1OO l00" } ],
+        "R2": [
+          { "line": "L1", "from": "Room 108", "to": "Room 1O8" },
+          { "line": "L2", "from": "5S5S", "to": "SS5S" },
+          { "line": "L3", "from": "Bill 100", "to": "Bill 1OO" },
+          { "line": "L4", "from": "Room B25", "to": "Room 825" } ] } },
+    { "id": "g8", "label": "Photocopy, generation 8", "generation": 8,
+      "operation": "Copy of the generation 7 copy, same machine and settings.",
+      "readers": {
+        "R1": [
+          { "line": "L1", "from": "Room 108", "to": "Room 1O8" },
+          { "line": "L1", "from": "1,051", "to": "1,O5l" },
+          { "line": "L2", "from": "0O0O", "to": "OO0O" },
+          { "line": "L2", "from": "1lI1lI", "to": "1II1lI" },
+          { "line": "L2", "from": "8B8B", "to": "8B8·" },
+          { "line": "L3", "from": "Illinois", "to": "IIIinois" },
+          { "line": "L4", "from": "09:15", "to": "O9:15" },
+          { "line": "L4", "from": "28 June", "to": "2B June" } ],
+        "R2": [
+          { "line": "L1", "from": "Room 108", "to": "Room 1O8" },
+          { "line": "L2", "from": "0O0O", "to": "OOOO" },
+          { "line": "L2", "from": "8B8B", "to": "·B8B" },
+          { "line": "L2", "from": "9g9g", "to": "9g9·" },
+          { "line": "L3", "from": "lOO l00", "to": "1OO l00" },
+          { "line": "L4", "from": "09:15", "to": "O9:l5" },
+          { "line": "L4", "from": "Room B25", "to": "Room 825" } ] } }
+  ]
+}
