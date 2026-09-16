@@ -822,6 +822,101 @@ task is now performable is a reasoned claim rather than an observed one.
 
 **Commit:** `d7863b6`.
 
+## 2026-09-16 — Week 4, second round of corrections
+
+**Scope:** Review found four reasoning errors surviving the first round. All
+confirmed against the files and fixed. 85 tests green.
+
+### The gap, named precisely
+
+The previous entry recorded that a mutation table shows data integrity rather
+than a working activity, and then shipped contracts that still did not close
+the gap. The reviewer's finding proves it: **E2 was labelled
+`discriminates: false` while its content read `quality=78`.** Route A saved at
+72; route B's final save was 78. The excerpt matched one route and contradicted
+the other, so it was decisive — and every test passed, because the tests read
+the label and never the content.
+
+The lesson is narrower than "tests can be wrong". It is that a contract
+asserting a property of a *declaration* proves nothing about the *artefact the
+declaration describes*, and the two have to be checked against each other.
+
+### The four errors
+
+- **E2 separated the routes.** Fixed structurally rather than by editing the
+  text: both routes now end with the same save at quality 78, so the final
+  encode settings cannot distinguish them under any record. The routes now
+  disagree about exactly one thing — whether a full-size JPEG was written before
+  the resize.
+- **E1 did not establish descent.** A directory listing shows that three files
+  existed; it does not show that the output was made from the interim JPEG,
+  which could be an unrelated export. The evidence file said so in its own last
+  line, contradicting the reveal's conclusion.
+
+  E1 and E2 have **swapped roles**, because the objection identifies the right
+  reason for an item to be insufficient. E1 is now a transformation record
+  naming the interim file as the resize input with a matching hash, which does
+  exclude any route that resizes the source directly. E2 is the listing, and is
+  non-discriminating precisely because co-existence is not descent. E3 reaches
+  the same gap from the human direction.
+
+  That distinction — a record that **lists what existed** versus one that
+  **names what read what** — is now the week's central point, and it is a better
+  lesson than the version it replaced.
+- **The tolerance note described a different rule from the implementation.** It
+  said two predictions within 15 KB of each other; the check compares each
+  prediction against the observation. They agreed on these numbers by
+  coincidence. The note now states the rule as applied, and a contract asserts
+  the wording.
+- **E3 was a fabricated examination.** It reported an examination and then
+  disclosed that none occurred. Disclosure made it honest and left it
+  incoherent. Replaced with a handover note retained alongside the output: a
+  human record, genuinely textual, genuinely incomplete, silent on whether the
+  big version was read or merely sat nearby. No file in the pack now reports an
+  examination that did not happen.
+
+### The contracts that close the gap
+
+Three additions, checking labels against content:
+
+- both routes must end with the declared shared final step;
+- every setting declared as appearing in one route and not the other is barred
+  from any item labelled non-discriminating — checked in the declaration **and**
+  in the file a student opens;
+- the decisive record must name an input and an output rather than list files.
+
+The declared distinguishing values are `quality 90`, `quality=90`, `q90`. An
+earlier attempt used naive tokenisation and flagged "903 KB" as containing
+"90", so the values are declared explicitly rather than inferred — a design
+statement rather than a heuristic.
+
+### Verification
+
+`pnpm check` green: 0 type errors, 45 pages axe-clean, no broken links, 85 tests
+in 10 files.
+
+Typecheck caught two fields added to the JSON without being declared on the
+`Pack` interface, which vitest had run straight past. Worth noting that the two
+checks fail on different things and both are needed.
+
+Mutations — a **deliberate exercise, not an accidental failure** — including a
+reconstruction of the original bug:
+
+| Mutation | Result |
+|---|---|
+| Put `quality=90` back into a non-discriminating item | 1 of 24 failed |
+| Gave the routes different final saves | 1 of 24 failed |
+| Reduced the discriminator to a bare listing | 1 of 24 failed |
+| Restored the prediction-to-prediction tolerance wording | 1 of 24 failed |
+
+All four reverted; 24 of 24 green afterwards.
+
+**Still not established.** No fresh reader has attempted the activity. The
+reviewer's recommendation is that week 4 is now ready for a timed
+fresh-reader trial, and that trial has not been run.
+
+**Commit:** `11fa9c5`.
+
 ### Template for subsequent observed results
 
 - What was tested and with which materials/version:
