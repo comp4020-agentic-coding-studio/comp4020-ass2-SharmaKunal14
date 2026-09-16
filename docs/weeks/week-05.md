@@ -19,7 +19,8 @@ and the agreed [clock timetable](../course-plan.md#4-timetable-and-vocabulary).
 
 - Question: Which copying mistakes can become useful evidence?
 - Target: classify omissions, repetitions and substitutions with examples.
-- Activity: start a new text branch from the week 1 card using a supplied
+- Activity: start a new text branch from the Ordinance, the print collection's
+  second document and one students have not read, using a supplied
   branching assignment, not just one linear chain. Introduce controlled errors;
   retain the true parent log for the later reveal. Use an instructor fallback
   dataset if the class copies are not informative enough.

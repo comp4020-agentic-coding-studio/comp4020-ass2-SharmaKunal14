@@ -10,7 +10,7 @@ acceptance checks for this week. Course decisions and dates live in the
 
 **Distinct capability:** Define and apply a reproducible measure before drawing a conclusion.
 
-**Archive placement:** Print. Create the print family. Week 2 reuses the measurement discipline, not the print page as an audio ancestor. Week 5 uses the card for a documented text-copying branch.
+**Archive placement:** Print. Create the print family. Week 2 reuses the measurement discipline, not the print page as an audio ancestor. Week 5 works on a second print document, the Ordinance, which students have not seen. The print collection holds both: a legibility test card built from confusable glyphs for counting, and a prose text for scribal error. Reusing one document would let a student reconstruct week 6 from memory instead of from evidence.
 
 ## 2. Weekly teaching brief
 
