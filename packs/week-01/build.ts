@@ -22,7 +22,8 @@ export interface Edit { line: string; from: string; to: string }
 export interface Copy {
   id: string;
   label: string;
-  generation: number;
+  channel: string;
+  operations: number;
   operation: string;
   readers: Record<string, Edit[]>;
 }
@@ -99,15 +100,14 @@ function main(): void {
         `${copy.label} — transcribed by reader ${reader}\n` +
           `${pack.note}\n\n${render(heading, read)}\n`,
       );
-      const count = countErrors(card, read);
-      rows.push(
-        [copy.id, copy.generation, reader, count.misreadings, count.illegibles, count.total].join(","),
-      );
+      // Answer cells stay empty. A worksheet that arrives already filled in is
+      // the answer, and the page asks the student to fill it in.
+      rows.push([copy.id, copy.channel, copy.operations, reader, "", "", ""].join(","));
     }
   }
   writeFileSync(
     `${OUT}/worksheet.csv`,
-    ["copy,generation,reader,misreadings,illegibles,total", ...rows].join("\n") + "\n",
+    ["copy,channel,operations,reader,misreadings,illegibles,total", ...rows].join("\n") + "\n",
   );
 
   const answer = pack.copies.map((copy) => {
@@ -132,13 +132,13 @@ ${pack.countingRule}
 
 ## Counts
 
-| Copy | Generation | Reader | Misreadings | Illegibles | Total |
-|---|---:|---|---:|---:|---:|
+| Copy | Channel | Operations | Reader | Misreadings | Illegibles | Total |
+|---|---|---:|---|---:|---:|---:|
 ${answer
   .flatMap(({ copy, per }) =>
     per.map(
       (p) =>
-        `| ${copy.label} | ${copy.generation} | ${p.reader} | ${p.misreadings} | ${p.illegibles} | ${p.total} |`,
+        `| ${copy.label} | ${copy.channel} | ${copy.operations} | ${p.reader} | ${p.misreadings} | ${p.illegibles} | ${p.total} |`,
     ),
   )
   .join("\n")}
@@ -159,19 +159,31 @@ ${answer
 
 ## What the table supports, and what it does not
 
-The totals rise with generation, and the control has none. That is enough to say
-this copying process damaged these copies, and that copying as such does not:
-the exact digital copy went through the same number of copy operations and came
-back identical.
+Within the photocopy channel the totals rise with the number of copy operations.
+The digital control ran **the same eight operations** and came back with none.
 
-It is not enough to say a higher count proves a later generation. The counts
+That comparison is the week's claim, and it only works because the operation
+counts match. A control copied once would prove nothing about a chain of eight.
+
+It is not enough to say a higher count proves more copy operations. The counts
 come from one card, one machine and two readers. A different card, a different
-machine or a third reader would give different numbers, and at generation 1 the
-two readers here already disagree — one found an error and the other found none
-in the same copy.
+machine or a third reader would give different numbers, and after a single
+photocopy operation the two readers here already disagree — one found an error
+and the other found none in the same copy.
 
-Legibility is a relation between a copy and a reader, not a property of the copy
-alone. The counting rule is reproducible; the reading is not.
+Three separate claims are worth keeping apart:
+
+- The **counting algorithm is deterministic**: the same transcription compared
+  against the same card yields the same number, every time.
+- **Personal repeatability** is something you check, by counting one
+  transcription twice and seeing whether you agree with yourself.
+- **Readers still differ**, because resolving a damaged mark as a zero or a
+  capital O is an interpretation, and two people can follow the same procedure
+  and interpret the same mark differently.
+
+Legibility is therefore a relation between a copy and a reader, not a property of
+the copy alone. Note also that reader R1 scores below R2 after four operations
+and above R2 after eight: the readers cannot be ranked consistently either.
 `,
   );
 
@@ -181,11 +193,12 @@ alone. The counting rule is reproducible; the reading is not.
 ${pack.note}
 
 card.txt is the source. Every copy in this folder is a transcription of a copy
-of it, made by one of two readers, and every transcription is the same length as
+of it, made by one of two readers, in an authored scenario rather than a
+recorded one, and every transcription is the same length as
 the card so you can compare position by position without judgement calls.
 
-counting-rule.txt is the rule. worksheet.csv is the blank shape of the table you
-are producing. worked-answer.md has the answer and the argument; it is computed
+counting-rule.txt is the rule. worksheet.csv is the blank table you fill in —
+its answer columns are empty on purpose. worked-answer.md has the answer and the argument; it is computed
 from these files rather than typed beside them.
 
 The card is deliberately built from characters that look like one another:

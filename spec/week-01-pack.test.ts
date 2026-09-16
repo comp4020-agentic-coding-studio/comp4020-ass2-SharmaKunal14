@@ -32,12 +32,29 @@ describe("week 1 pack is what it publishes", () => {
     }
   });
 
-  it("matches the published worksheet to the counts the rule produces", () => {
-    const csv = published("worksheet.csv");
+  it("ships the worksheet blank, with one row per copy and reader", () => {
+    // The page asks students to fill this in. A worksheet that arrives with
+    // its answer columns populated hands over the result of the exercise —
+    // the same failure the week 6 contract guards against in its own pack.
+    const lines = published("worksheet.csv").trim().split("\n");
+    expect(lines[0]).toBe("copy,channel,operations,reader,misreadings,illegibles,total");
+    expect(lines.length - 1, "one row per copy and reader").toBe(readings.length);
+    for (const row of lines.slice(1)) {
+      const [copy, channel, operations, reader, ...answers] = row.split(",");
+      expect(copy, "row has no copy").not.toBe("");
+      expect(channel, `${copy} has no channel`).not.toBe("");
+      expect(Number.isFinite(Number(operations)), `${copy} has no operation count`).toBe(true);
+      expect(reader, `${copy} has no reader`).not.toBe("");
+      expect(answers, `${copy} ${reader}: answer cells are not empty`).toEqual(["", "", ""]);
+    }
+  });
+
+  it("keeps the counts in the worked answer, where the student looks last", () => {
+    const answer = published("worked-answer.md");
     for (const { copy, reader, lines } of readings) {
       const c = countErrors(card, lines);
-      expect(csv, `${copy.id} ${reader}`).toContain(
-        `${copy.id},${copy.generation},${reader},${c.misreadings},${c.illegibles},${c.total}`,
+      expect(answer, `${copy.id} ${reader}`).toContain(
+        `| ${copy.label} | ${copy.channel} | ${copy.operations} | ${reader} | ${c.misreadings} | ${c.illegibles} | ${c.total} |`,
       );
     }
   });
@@ -65,29 +82,44 @@ describe("week 1 pack supports what week 1 claims", () => {
   it("leaves the exact-copy control clean for every reader", () => {
     // This is the counterexample the home page leads with. If the control
     // carried a single error, the course would open by contradicting itself.
-    const control = readings.filter((r) => r.copy.id === "control");
+    const control = readings.filter((r) => r.copy.channel === "digital");
     expect(control.length).toBeGreaterThan(1);
     for (const { reader, lines } of control) {
       expect(countErrors(card, lines).total, `control, reader ${reader}`).toBe(0);
     }
   });
 
-  it("rises with generation for each reader", () => {
-    const byReader = new Map<string, { generation: number; total: number }[]>();
-    for (const { copy, reader, lines } of readings) {
-      const entry = { generation: copy.generation, total: countErrors(card, lines).total };
+  it("rises with copy operations inside the photocopy channel", () => {
+    // Compared within one channel, not across both: the control is not a
+    // generation of the photocopy chain, it is a different process run the
+    // same number of times.
+    const byReader = new Map<string, { operations: number; total: number }[]>();
+    for (const { copy, reader, lines } of readings.filter((r) => r.copy.channel === "photocopy")) {
+      const entry = { operations: copy.operations, total: countErrors(card, lines).total };
       byReader.set(reader, [...(byReader.get(reader) ?? []), entry]);
     }
+    expect(byReader.size, "no photocopy readings").toBeGreaterThan(0);
     for (const [reader, series] of byReader) {
-      const ordered = [...series].sort((a, b) => a.generation - b.generation);
+      const ordered = [...series].sort((a, b) => a.operations - b.operations);
       for (let i = 1; i < ordered.length; i++) {
         expect(
           ordered[i].total,
-          `reader ${reader}: generation ${ordered[i].generation} is not worse than ${ordered[i - 1].generation}`,
+          `reader ${reader}: ${ordered[i].operations} operations is not worse than ${ordered[i - 1].operations}`,
         ).toBeGreaterThanOrEqual(ordered[i - 1].total);
       }
       expect(ordered.at(-1)!.total, `reader ${reader} never degrades`).toBeGreaterThan(0);
     }
+  });
+
+  it("runs the control for as many operations as the longest photocopy chain", () => {
+    // The week's claim is that this process damages copies and copying as such
+    // does not. That comparison is only fair if both channels ran the same
+    // number of times; a control copied once would prove nothing about eight.
+    const control = pack.copies.find((c) => c.channel === "digital")!;
+    const longest = Math.max(
+      ...pack.copies.filter((c) => c.channel === "photocopy").map((c) => c.operations),
+    );
+    expect(control.operations, "the control is not comparable to the longest chain").toBe(longest);
   });
 
   it("has the two readers disagree on at least one copy", () => {
