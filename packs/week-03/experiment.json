@@ -1,0 +1,42 @@
+{
+  "pack": "week-03",
+  "note": "Hypothetical values, supplied to practise experimental design. They are arithmetically consistent and were not measured from a real encoder. Any conclusion drawn here is a conclusion about reasoning, not about a codec.",
+  "source": "audio/source — the same thirty-second recording as week 2",
+  "measure": {
+    "name": "Total band deviation",
+    "unit": "dB",
+    "howTo": "For each of the eight frequency bands, take the absolute difference in band energy between the condition and the source. Add the eight numbers. The result is one number per condition.",
+    "repeatability": 0.5,
+    "repeatabilityNote": "Repeating the whole measurement on the same files varies by up to 0.5 dB total. A difference smaller than that is not a difference this measure can see."
+  },
+  "bands": ["0-250 Hz", "250-500", "500-1k", "1-2k", "2-4k", "4-8k", "8-12k", "12-16k"],
+  "conditions": [
+    { "id": "control", "label": "Exact digital copy", "bitrate": null, "cycles": 0,
+      "operations": 10, "deviations": [0, 0, 0, 0, 0, 0, 0, 0],
+      "note": "Copied byte for byte ten times. No encoder involved." },
+    { "id": "c1-320", "label": "1 cycle at 320 kbps", "bitrate": 320, "cycles": 1,
+      "operations": 1, "deviations": [0, 0, 0, 0, 0.1, 0.1, 0.1, 0] },
+    { "id": "c10-320", "label": "10 cycles at 320 kbps", "bitrate": 320, "cycles": 10,
+      "operations": 10, "deviations": [0, 0, 0.1, 0.1, 0.1, 0.1, 0.2, 0.1] },
+    { "id": "c1-128", "label": "1 cycle at 128 kbps", "bitrate": 128, "cycles": 1,
+      "operations": 1, "deviations": [0, 0.1, 0.1, 0.1, 0.2, 0.2, 0.2, 0.2] },
+    { "id": "c10-128", "label": "10 cycles at 128 kbps", "bitrate": 128, "cycles": 10,
+      "operations": 10, "deviations": [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.9, 1.3] },
+    { "id": "c10-96", "label": "10 cycles at 96 kbps", "bitrate": 96, "cycles": 10,
+      "operations": 10, "deviations": [0.2, 0.4, 0.7, 1.0, 1.4, 1.8, 2.1, 2.2] }
+  ],
+  "comparisons": [
+    { "id": "M", "label": "The comparison you are given", "left": "c1-320", "right": "c10-96",
+      "claim": "Ten encoding cycles cause a large loss.", "published": true },
+    { "id": "P1", "label": "Corrected, at 128 kbps", "left": "c1-128", "right": "c10-128",
+      "claim": "At 128 kbps, ten cycles produce a change this measure can see.", "published": false },
+    { "id": "P2", "label": "Corrected, at 320 kbps", "left": "c1-320", "right": "c10-320",
+      "claim": "At 320 kbps, ten cycles produce no change this measure can see.", "published": false }
+  ],
+  "reveal": {
+    "confound": "Comparison M changes two things at once: the number of encoding cycles (1 to 10) and the bitrate (320 to 96). Its 9.5 dB difference cannot be attributed to either variable, and most of it is the bitrate.",
+    "corrected": "Holding the bitrate fixed isolates the cycle count. At 128 kbps the difference is 3.2 dB, which the measure can see. At 320 kbps it is 0.4 dB, which is inside the 0.5 dB repeatability and therefore not a result.",
+    "conclusion": "The effect of re-encoding depends on the bitrate. At 320 kbps, in this hypothetical setup, ten cycles produced nothing measurable. A null result is a result, and the confounded comparison overstated the effect by roughly threefold even at the bitrate where the effect is real.",
+    "limits": "One source, one measure, one hypothetical encoder. The measure sums eight bands and would miss a change confined to a narrower range, or one that does not show up as band energy at all."
+  }
+}

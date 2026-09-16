@@ -1,0 +1,9 @@
+Total band deviation (dB)
+Hypothetical values, supplied to practise experimental design. They are arithmetically consistent and were not measured from a real encoder. Any conclusion drawn here is a conclusion about reasoning, not about a codec.
+
+For each of the eight frequency bands, take the absolute difference in band energy between the condition and the source. Add the eight numbers. The result is one number per condition.
+
+Repeatability: 0.5 dB.
+Repeating the whole measurement on the same files varies by up to 0.5 dB total. A difference smaller than that is not a difference this measure can see.
+
+Source: audio/source — the same thirty-second recording as week 2

@@ -1,0 +1,8 @@
+The comparison you are given
+
+  c1-320  versus  c10-96
+
+  Claim made from it: "Ten encoding cycles cause a large loss."
+
+The band deviations for both conditions are in band-deviations.csv, along
+with four other conditions that were run at the same time.
