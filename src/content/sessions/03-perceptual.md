@@ -9,8 +9,8 @@ teachers:
 learningTarget: "Design a comparison that isolates one variable, and report a result the comparison cannot see as a result."
 archiveCollections:
   - audio
-archiveDeposit: "One-page protocol and results table for a comparison that holds the bitrate fixed, with a conclusion limited to the source, settings and measure used."
-accessibleRoute: "The evidence is a table of numbers with a stated arithmetic rule. Nothing requires listening, and the measure is eight additions."
+archiveDeposit: "One-page protocol and results table for a comparison that holds the bitrate fixed, with a conclusion limited to the source, settings and score used."
+accessibleRoute: "The evidence is a table of numbers with a stated arithmetic rule. Nothing requires listening, and the score is eight additions."
 stages:
   check: 5
   receive: 15
@@ -59,18 +59,24 @@ comparison could support the claim at all, and if not, what comparison would.
 The same source recording as week 2, and six conditions run on it — an exact
 digital copy, and five encodings at various bitrates and cycle counts.
 
-The measure is **total band deviation**: for each of eight frequency bands, the
-absolute difference in band energy from the source, all eight added together.
-One number per condition, computed by eight additions.
+The score is a **simplified deviation score**: for each of eight frequency
+bands, the absolute difference in band energy from the source, all eight added
+together. One number per condition, computed by eight additions.
 
-**It repeats to within 0.5 dB.** Run the whole measurement again on the same
-files and the total moves by up to half a decibel. That number matters more than
-any other in the pack: a difference smaller than 0.5 dB is not a difference this
-measure can see.
+It is worth being clear about what that number is not. The band differences are
+in decibels, but adding eight of them does not produce a decibel quantity. The
+score is an invented composite on its own scale, and it is useful only for
+comparing conditions inside this scenario.
+
+**Pairwise differences repeat to within 0.5 points.** Run the whole procedure
+again and recompute the difference between two conditions, and that difference
+moves by up to half a point. The figure is the repeatability of a *difference*,
+not of a single score, because a comparison is what you are reporting. A
+difference of **0.5 or less is a non-detection**.
 
 The values are hypothetical, supplied to practise experimental design. They are
-arithmetically consistent and were not measured from a real encoder. Every file
-says so.
+arithmetically consistent and were not produced by a real encoder. Every file
+says so, and nothing here supports a claim about how any real codec behaves.
 
 ## Investigate — 40 minutes
 
@@ -89,8 +95,8 @@ ceremony. The whole of `band-deviations.csv` is available to you, and a
 prediction written afterwards is not a prediction.
 
 **Compute your corrected comparison (15 minutes).** The conditions you need are
-already in the file. Compute the totals and the difference, and compare it
-against the 0.5 dB repeatability.
+already in the file. Compute the two scores and the difference between them, and
+compare that difference against the 0.5-point repeatability.
 
 Then run your protocol a second time at a different bitrate. The answer changes.
 Work out why, and what that does to the original claim.
@@ -102,12 +108,13 @@ three questions in a paragraph each.
 
 1. **What did the original comparison actually measure?** Not "it was wrong" —
    say what its difference is a measurement *of*.
-2. **What does your null tell you?** One of your corrected comparisons produces a
-   difference smaller than the measure can resolve. State what that licenses and
-   what it does not. It is not the same as "nothing happened."
-3. **What would you have to change to detect it?** If an effect is there but
-   below your resolution, name one change to the measure or the setup that would
-   find it — and what that change would cost you.
+2. **What does your non-detection tell you?** One of your corrected comparisons
+   produces a difference the procedure cannot resolve. State what that licenses
+   and what it does not. "We did not detect a difference" and "there is no
+   difference" are not the same claim.
+3. **What would you have to change to detect it?** If a difference exists but
+   sits below your resolution, name one change to the score or the setup that
+   might reveal it — and what that change would cost you.
 
 The analysis is in the pack. Open it after your protocol, your prediction and
 your three paragraphs.
@@ -115,27 +122,28 @@ your three paragraphs.
 ## What you should find
 
 The comparison you were handed changes **two** things: the cycle count goes from
-1 to 10, and the bitrate goes from 320 to 96. Its 9.5 dB difference is real, and
-it is not evidence about cycles, because you cannot say which variable produced
-it. Most of it is the bitrate.
+1 to 10, and the bitrate goes from 320 to 96. Its 9.5-point difference is there
+in the numbers, and it is not evidence about cycles, because you cannot say
+which variable produced it.
 
 Hold the bitrate fixed and the picture changes twice over.
 
-At 128 kbps, ten cycles produce a 3.2 dB difference — above the repeatability,
-so the measure can see it. The effect is real, and it is **about a third** of
+At 128 kbps, ten cycles produce a 3.2-point difference — above the
+repeatability, so it is **detectable in this scenario**, and roughly a third of
 what the confounded comparison suggested.
 
-At 320 kbps, ten cycles produce 0.4 dB. That is inside the 0.5 dB
-repeatability. This measure cannot see it, and the honest report is that there
-is no detectable effect.
+At 320 kbps, ten cycles produce 0.4 points. That is at or below the 0.5-point
+repeatability, so it is a **non-detection**: this procedure gives you no basis
+for saying the two conditions differ.
 
-So the answer to "does re-encoding degrade the recording?" is: **it depends on
-the bitrate, and at 320 kbps we could not measure it.** That is a worse headline
-and a better finding.
+So the answer inside this scenario is: **whether a difference is detectable
+depends on the bitrate, and at 320 kbps it was not.** That is a worse headline
+and a better finding — and it is a finding about this scenario, not about MP3.
 
 Notice what the exact-copy control does here, as it did in week 1. Ten copy
-operations, no encoder, zero deviation. It tells you the measurement apparatus
-is not manufacturing the differences you see elsewhere.
+operations, no encoder, a score of zero. That is consistent with the procedure
+not generating differences on its own. It does not prove the procedure is sound;
+a control that had come back non-zero would have shown it was not.
 
 ## Deposit
 

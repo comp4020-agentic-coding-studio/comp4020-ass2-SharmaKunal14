@@ -1,5 +1,5 @@
 Re-encoding experiment — week 3 pack
-Hypothetical values, supplied to practise experimental design. They are arithmetically consistent and were not measured from a real encoder. Any conclusion drawn here is a conclusion about reasoning, not about a codec.
+Hypothetical values, supplied to practise experimental design. The score below is an invented composite, not a physical measurement, and it was not produced by a real encoder. Conclusions drawn here are about experimental reasoning, not about codec behaviour.
 
 the-comparison.txt is the comparison you have been handed, and the claim
 someone drew from it. band-deviations.csv has the raw numbers for that

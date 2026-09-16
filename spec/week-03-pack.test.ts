@@ -6,9 +6,13 @@ import { difference, loadPack, total, varied } from "../packs/week-03/build.ts";
 // Week 3 teaches students to spot a confound and repair it. That requires a
 // pack containing a genuinely confounded comparison, a repair that isolates one
 // variable, and — the part most easily lost — a corrected comparison whose
-// honest answer is "no effect this measure can see". Without the null, the week
-// teaches that a well-designed experiment finds the effect you expected, which
-// is the opposite of the lesson.
+// honest answer is a non-detection. Without it the week teaches that a
+// well-designed experiment finds the difference you expected, which is the
+// opposite of the lesson.
+//
+// The score is an invented composite, so the contracts below check the design of
+// the scenario and the arithmetic of the score. They establish nothing about any
+// real encoder, and no test here should be read as doing so.
 
 const pack = loadPack();
 const OUT = resolve("public/packs/week-03");
@@ -62,25 +66,31 @@ describe("week 3 pack contains a confound, a repair and a null", () => {
     }
   });
 
-  it("has a corrected comparison whose honest answer is no measurable effect", () => {
+  it("has a corrected comparison whose honest answer is a non-detection", () => {
     const nulls = pack.comparisons.filter(
       (c) =>
         varied(pack, c).length === 1 &&
         Math.abs(difference(pack, c)) <= pack.measure.repeatability,
     );
-    expect(nulls.length, "every sound comparison finds an effect — the null is missing").toBeGreaterThan(0);
+    expect(
+      nulls.length,
+      "every isolated comparison exceeds repeatability — the non-detection is missing",
+    ).toBeGreaterThan(0);
   });
 
-  it("has a corrected comparison that does find an effect, above repeatability", () => {
+  it("has a corrected comparison that is detectable, above repeatability", () => {
     const real = pack.comparisons.filter(
       (c) =>
         varied(pack, c).length === 1 &&
         Math.abs(difference(pack, c)) > pack.measure.repeatability,
     );
-    expect(real.length, "no sound comparison finds anything, so the null is uninformative").toBeGreaterThan(0);
+    expect(
+      real.length,
+      "no isolated comparison is detectable, so the non-detection carries no contrast",
+    ).toBeGreaterThan(0);
   });
 
-  it("makes the confounded comparison overstate the real effect", () => {
+  it("makes the confounded comparison overstate the isolated difference", () => {
     // The point of the repair is that it changes the answer. If the confounded
     // difference matched the corrected one, spotting the confound would be an
     // academic exercise with no consequence.
@@ -112,7 +122,10 @@ describe("the answer stays out of the evidence", () => {
   it("names no confound and no verdict in any student-facing file", () => {
     for (const file of STUDENT_FACING) {
       expect(published(file), `${file} gives the answer away`).not.toMatch(
-        /\b(confound|confounded|corrected|null result|overstat)\w*\b/i,
+        // "non-detection" is deliberately absent from this list: the measure
+        // definition has to state the threshold rule, and a student cannot apply
+        // it otherwise. What stays hidden is which comparison is confounded.
+        /\b(confound|confounded|corrected|overstat)\w*\b/i,
       );
     }
   });

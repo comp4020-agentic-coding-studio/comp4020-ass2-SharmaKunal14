@@ -1,9 +1,11 @@
-Total band deviation (dB)
-Hypothetical values, supplied to practise experimental design. They are arithmetically consistent and were not measured from a real encoder. Any conclusion drawn here is a conclusion about reasoning, not about a codec.
+Simplified deviation score (score points)
+Hypothetical values, supplied to practise experimental design. The score below is an invented composite, not a physical measurement, and it was not produced by a real encoder. Conclusions drawn here are about experimental reasoning, not about codec behaviour.
 
-For each of the eight frequency bands, take the absolute difference in band energy between the condition and the source. Add the eight numbers. The result is one number per condition.
+The score is built from per-band differences expressed in decibels, but adding eight of them together does not produce a decibel quantity. It is an arbitrary composite on its own scale, useful only for comparing conditions inside this scenario.
 
-Repeatability: 0.5 dB.
-Repeating the whole measurement on the same files varies by up to 0.5 dB total. A difference smaller than that is not a difference this measure can see.
+For each of the eight frequency bands, take the absolute difference in band energy between the condition and the source, in dB. Add the eight numbers. The result is one score per condition.
+
+Repeatability: 0.5 score points.
+Repeating the whole procedure and recomputing the difference between two conditions moves that difference by up to 0.5 score points. The figure is the repeatability of a pairwise difference, not of a single score, because a comparison is what you are reporting. A difference of 0.5 or less is a non-detection: this scenario gives you no basis for saying the conditions differ.
 
 Source: audio/source — the same thirty-second recording as week 2

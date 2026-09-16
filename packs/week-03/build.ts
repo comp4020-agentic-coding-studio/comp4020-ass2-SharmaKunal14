@@ -22,7 +22,7 @@ export interface Comparison {
 }
 export interface Pack {
   pack: string; note: string; source: string;
-  measure: { name: string; unit: string; howTo: string; repeatability: number; repeatabilityNote: string };
+  measure: { name: string; unit: string; unitNote: string; howTo: string; repeatability: number; repeatabilityNote: string };
   bands: string[]; conditions: Condition[]; comparisons: Comparison[];
   reveal: Record<string, string>;
 }
@@ -30,7 +30,7 @@ export interface Pack {
 export const loadPack = (): Pack =>
   JSON.parse(readFileSync(resolve(HERE, "experiment.json"), "utf8")) as Pack;
 
-/** The measure: add the eight band deviations. Rounded to the reported precision. */
+/** The score: add the eight band differences. An invented composite, not a dB quantity. */
 export const total = (c: Condition): number =>
   Math.round(c.deviations.reduce((a, b) => a + b, 0) * 10) / 10;
 
@@ -64,7 +64,7 @@ function main(): void {
   writeFileSync(
     `${OUT}/measure.txt`,
     `${pack.measure.name} (${pack.measure.unit})\n${pack.note}\n\n` +
-      `${pack.measure.howTo}\n\nRepeatability: ${pack.measure.repeatability} ${pack.measure.unit}.\n` +
+      `${pack.measure.unitNote}\n\n${pack.measure.howTo}\n\nRepeatability: ${pack.measure.repeatability} ${pack.measure.unit}.\n` +
       `${pack.measure.repeatabilityNote}\n\nSource: ${pack.source}\n`,
   );
 
@@ -102,11 +102,11 @@ function main(): void {
   writeFileSync(
     `${OUT}/reveal/analysis.md`,
     `# Analysis — week 3\n\n${pack.note}\n\n## Totals\n\n` +
-      `| Condition | Bitrate | Cycles | Total deviation (dB) |\n|---|---|---:|---:|\n` +
+      `| Condition | Bitrate | Cycles | Deviation score |\n|---|---|---:|---:|\n` +
       pack.conditions
         .map((c) => `| ${c.label} | ${c.bitrate ?? "none"} | ${c.cycles} | ${total(c)} |`)
         .join("\n") +
-      `\n\n## Comparisons\n\n| Comparison | Varies | Difference (dB) | Verdict |\n|---|---|---:|---|\n` +
+      `\n\n## Comparisons\n\n| Comparison | Varies | Difference (score) | Verdict |\n|---|---|---:|---|\n` +
       pack.comparisons
         .map((m) => {
           const d = difference(pack, m);
@@ -115,8 +115,8 @@ function main(): void {
             v.length > 1
               ? "confounded — the difference cannot be attributed to either variable"
               : Math.abs(d) <= pack.measure.repeatability
-                ? `inside the ${pack.measure.repeatability} dB repeatability — no effect this measure can see`
-                : "sound, and the difference is larger than the repeatability";
+                ? `non-detection — at or below the ${pack.measure.repeatability}-point repeatability of a pairwise difference`
+                : "isolates one variable, and the difference exceeds the repeatability, so it is detectable in this scenario";
           return `| ${m.label} (${m.left} vs ${m.right}) | ${v.join(" and ")} | ${d} | ${verdict} |`;
         })
         .join("\n") +
