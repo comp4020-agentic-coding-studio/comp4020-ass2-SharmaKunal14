@@ -60,9 +60,34 @@ labelled line per row, every transcription the same length as its source.
 
 ### Audio
 
-A short recording and its analogue and compressed branches. Used in weeks 2
-and 3. Week 2 looks for inherited features; week 3 holds settings fixed and
-changes one thing.
+A thirty-second source recording and everything dubbed from it. Week 2 asks
+which shared features are evidence of a relationship; week 3 keeps the same
+source and asks how a claim about it would be tested.
+
+| ID | Item | Source | Operation | Used in |
+|---|---|---|---|---|
+| `audio/source` | Source recording, 30 seconds | Authored | none — this is the reference | 2, 3 |
+| `audio/w` | Copy W | `audio/source`, parent known | dubbed directly from the source, deck 2 | 2 |
+| `audio/x` | Copy X | lost intermediate, parent inferred | dubbed from a copy that already carried the 00:12.400 dropout, deck 1 | 2 |
+| `audio/y` | Copy Y | lost intermediate, parent inferred | dubbed from the same copy as X, deck 2 | 2 |
+| `audio/z` | Copy Z | `audio/source`, parent known | dubbed directly from the source, deck 1 | 2 |
+
+The relationship between X and Y is recorded as **inferred**, with the feature
+that supports it and the assumption it rests on. The parents of W and Z are
+**known**, because the log records them. Those are different kinds of entry and
+the archive does not merge them.
+
+X and Z share a high-frequency rolloff because they were dubbed on the same deck.
+That is recorded as an equipment note, not as an edge. Shared equipment is not
+shared ancestry, and an archive that filed it as ancestry would be asserting a
+relationship nobody has evidence for.
+
+No recordings are published. The evidence is the feature table, so the inference
+does not depend on hearing and the non-listening route is the route. Every item
+is an authored teaching scenario, labelled as such in its own file.
+
+Accessibility alternative for this collection: feature tables in plain text, with
+locations as timestamps and presence stated per recording.
 
 ### Image
 

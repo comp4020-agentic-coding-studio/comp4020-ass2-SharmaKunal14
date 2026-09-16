@@ -3,15 +3,14 @@ title: "Hiss as a signature"
 description: "Which shared features are useful evidence of a common intermediate copy?"
 week: 2
 date: 2027-03-03
-draft: true
 teachers:
   - wren-halloway
   - tobias-renn
-learningTarget: "Distinguish a branch-specific inherited feature from one found in the source or introduced independently."
+learningTarget: "Distinguish a feature two copies inherited from one they both descend from, from one they share for some other reason."
 archiveCollections:
   - audio
-archiveDeposit: "Feature-to-relationship evidence table naming one supported pair and its stated assumptions."
-accessibleRoute: "Aligned feature tables with timings carry the same evidence without listening."
+archiveDeposit: "Feature-to-relationship evidence table naming one supported pair, the feature that supports it, and the alternative explanation tested against it."
+accessibleRoute: "The evidence is a feature table: what each feature is, where it sits, and which recordings carry it. No recordings are supplied and nothing here requires listening, because the inference runs on the table."
 stages:
   check: 5
   receive: 15
@@ -25,25 +24,135 @@ investigation:
 related:
   - lectures/week-02
   - sessions/01-photocopy
+  - assessments/the-stemma
 spec:
-  - you can state the week's question in your own words before you start
-  - your evidence table separates what you observed from what you inferred
-  - you name one alternative explanation your evidence does not rule out
+  - every relationship you propose names the specific feature that supports it
+  - you state the assumption under which that feature is good evidence
+  - you test one alternative explanation and say why you rejected it
 ---
 
 > Which shared features are useful evidence of a common intermediate copy?
 
-**Learning target.** Distinguish a branch-specific inherited feature from one found in the source or introduced independently.
+**Learning target.** Distinguish a feature two copies inherited from a copy they
+both descend from, from one they share for some other reason entirely.
 
-## Investigate (40 minutes)
+## Before the workshop
 
-Skeleton. The supplied evidence, step-by-step instructions and indicative answer
-for this workshop are written in phase 2; see `docs/weeks/week-02.md`.
+Open the [week 2 pack](/packs/week-02/) and read `feature-table.csv` and
+`features.txt`. Ten minutes.
+
+**Reading.** Peter Manuel, *Cassette Culture: Popular Music and Technology in
+North India* (University of Chicago Press, 1993), introduction and chapter 3, on
+duplication as a distribution system and what it cost in fidelity. No linkable
+copy exists; the lecture states the specific claim used.
+
+## The specimen
+
+**One source recording and four copies of it** — W, X, Y and Z. Six features have
+been identified across them: two dropouts and a click at fixed timestamps, a
+raised noise floor, a high-frequency rolloff, and a door closing.
+
+You are not given the recordings. The evidence is the table, and the inference
+runs on the table. Supplying clips would let your hearing affect your answer, and
+this task is not about hearing.
+
+Everything in the pack is an authored teaching scenario. Nothing was measured
+from a real tape, a real deck or a real recording, and every file says so.
+
+## Last week, and this week
+
+Week 1 measured **one copy at a time** against a source. That told you a copy had
+changed; it told you nothing about which copies are related to which.
+
+This week two copies share something. The whole question is what that licenses.
+
+## Investigate — 40 minutes
+
+**Tabulate the features (10 minutes).** For each of the six, write down where it
+sits and which of the five recordings carry it. Work from the table; do not
+assume a feature is important because it has a dramatic name.
+
+**Compare against the source (15 minutes).** For every feature shared by two or
+more copies, check first whether the *source* has it too. A shared feature that
+is in the source tells you only that both copies were made from this source. Rule
+those out before going further, and record that you did.
+
+**Propose one pair, then attack it (15 minutes).** Choose two copies you think
+share an ancestor that the others do not descend from. Name the single feature
+that supports it. Then find the strongest feature that supports a *different*
+pairing, and say why you are not persuaded by it.
+
+You will find at least one feature that groups two copies and contradicts your
+answer. That is deliberate. Deciding between them is the work.
+
+## Evaluate — 30 minutes
+
+Build the evidence table you are depositing: feature, location, which copies
+carry it, your proposed explanation, and your confidence. Then answer three
+questions in a paragraph each.
+
+1. **What makes one shared feature better evidence than another?** Not "it is
+   rarer" — say what property of the feature makes independent occurrence
+   implausible.
+2. **What would change your mind?** Name an observation that would overturn your
+   proposed pair.
+3. **What does your answer not establish?** You may have shown two copies share
+   an ancestor. Say what you still cannot say about them.
+
+The construction log is in the pack. Open it after you have your table and your
+three paragraphs.
+
+## What you should find
+
+Four explanations compete whenever two copies share something, and only one of
+them is ancestry.
+
+**It is in the source.** The door closing is in the original recording, so all
+four copies have it. Sharing it means nothing.
+
+**Every copy acquired it separately.** The raised noise floor is absent from the
+source and present in all four. Every dub does that. It separates copies from the
+source and separates nothing among the copies.
+
+**They were made on the same equipment.** The high-frequency rolloff groups two
+copies — and frequency response is a property of a machine, not of a history. Two
+dubs made on the same worn deck share it without being related at all. This is
+the one that looks most like evidence and is not.
+
+**They share an ancestor.** One 40-millisecond dropout, in one channel, at one
+timestamp. Two dubs producing that independently is not a plausible coincidence.
+That is the feature that carries the claim.
+
+The general lesson is not "shared means related". It is that a shared feature is
+evidence in proportion to how hard it would be to produce twice by accident —
+and that the strongest evidence here is the smallest, least dramatic thing in
+the table.
 
 ## Deposit
 
-Feature-to-relationship evidence table naming one supported pair and its stated assumptions.
+Your evidence table goes into the [audio collection](/archive/#audio), with the
+relationship you propose recorded as **inferred**, separately from what is known.
+Week 3 keeps this source recording and stops asking what happened to it, asking
+instead how you would *test* a claim about what happened to it.
 
-## Accessible route
+## The five-minute check
 
-Aligned feature tables with timings carry the same evidence without listening.
+A fresh feature table. One pair of copies shares a local dropout; another pair
+shares a raised noise floor. Which better supports a proposed relationship, and
+why?
+
+*Indicative answer.* The dropout, because it is a one-off event at a fixed
+location, and independent occurrence in two copies would be a coincidence.
+Raised noise is what dubbing does, so it is expected everywhere. Independent
+introduction of the dropout is still possible — it is less likely, not ruled out,
+and an answer that says so scores the limitation point.
+
+## Assessment
+
+This is the reasoning [The Stemma](/assessments/the-stemma/) is marked on, four
+weeks early and with four copies instead of nine. Its largest criterion is
+whether each proposed relationship names the specific shared feature that
+supports it, under a stated assumption. Practise writing that sentence now.
+
+For [The Chain](/assessments/the-chain/), note which of your measurements would
+still mean something to someone who had not watched you take it.
