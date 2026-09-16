@@ -509,6 +509,66 @@ on the page and in the archive record, and none of it was measured.
 
 **Commits:** `1e176ce` pack, `904e543` contract, `8259fa3` pages and archive.
 
+## 2026-09-16 — Week 3 built
+
+**Scope:** Re-encoding experiment pack, workshop, lecture, contract. Weeks 1–3
+are real; nine skeletons remain.
+
+### Decisions and reasons
+
+- **The pack contains a null, and the contract requires one.** The plan says a
+  null is acceptable. Building it made clear that a null is *necessary*: without
+  one, every sound comparison in the pack finds the effect the student expected,
+  and the week teaches that good experimental design confirms your hypothesis.
+  At 320 kbps, ten cycles give 0.4 dB against a 0.5 dB repeatability — not a
+  small effect but no effect this measure can see. A contract now asserts that
+  at least one sound comparison lands inside repeatability and at least one
+  lands above it, so the null is informative rather than a flat result.
+- **The confounded comparison had to overstate the effect by a wide margin.**
+  If the confounded difference matched the corrected one, spotting the confound
+  would be an academic exercise with no consequence. 9.5 dB against 3.2 dB makes
+  the repair change the answer, and a contract requires a factor of more than
+  two.
+- **Repeatability is stated as a number in the pack, not as a caveat.** 0.5 dB.
+  It is the value that converts 0.4 dB from a finding into measurement noise,
+  and it is the only way a student can tell the difference. A measure published
+  without its repeatability cannot support a null.
+- **Totals are withheld.** Computing them is the measurement — eight additions
+  per condition. A table that arrives totalled answers the arithmetic half of
+  the task, which is the same defect found in week 1's worksheet.
+
+### Differentiation from week 2
+
+Week 2 chose between explanations for an observed feature. Week 3 judges whether
+a comparison can support a claim at all, and designs one that can. Week 2 never
+holds a variable fixed; week 3 never asks which copy is related to which.
+
+### Verification and limits
+
+`pnpm check` green: 0 type errors, 44 pages axe-clean, no broken links, 61 tests
+in 9 files.
+
+Contract mutation-tested — a **deliberate exercise, not an accidental failure**:
+
+| Mutation | Result |
+|---|---|
+| Removed the null comparison | 1 of 11 failed |
+| Made the published comparison sound | 2 of 11 failed |
+| Gave the control an encoder pass | 1 of 11 failed |
+| Added a total column to the student CSV | 1 of 11 failed |
+
+All four reverted; 11 of 11 green afterwards.
+
+**Limits.** The values are hypothetical, labelled as such in every pack file and
+on the page. They are arithmetically consistent and demonstrate experimental
+reasoning; they are not measurements of a real encoder, and no claim about codec
+behaviour should be drawn from them. Not rehearsed by anyone who did not write
+it, so the 40-minute investigation remains an estimate. The Sterne reading is
+cited by chapter with its claim stated; the edition has not been checked against
+a physical copy.
+
+**Commits:** `db908c9` pack, `d5835ad` contract, `3937bf3` pages.
+
 ### Template for subsequent observed results
 
 - What was tested and with which materials/version:
