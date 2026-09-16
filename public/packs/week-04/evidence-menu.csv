@@ -1,6 +1,6 @@
-id,item,status
-E1,"Histogram of quantised DCT coefficients for the output",available
-E2,"Transformation log excerpt for the output",available
-E3,"Visual inspection of the output at 400 per cent",available
-E4,"EXIF metadata dump for the output",unavailable — No EXIF survives in the output, and the intermediate files were not retained.
-E5,"Upload log from the service the output was distributed through",unavailable — Not retained by the service, and the course has no account with it.
+id,item,status,open
+E1,"Retained intermediate-file record from the working directory",available,evidence/e1.txt
+E2,"Transformation log excerpt for the output",available,evidence/e2.txt
+E3,"Inspection report for the output at 400 per cent",available,evidence/e3.txt
+E4,"EXIF metadata dump for the output","unavailable — No EXIF survives in the output, and no intermediate metadata was retained.",
+E5,"Upload log from the service the output was distributed through","unavailable — Not retained by the service, and the course has no account with it.",

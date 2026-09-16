@@ -59,44 +59,57 @@ always, and the skill is saying so precisely rather than guessing.
 ## The specimen
 
 **Output 7.** Provenance unknown — that is the question. Everything currently
-known about it is six lines in `observations.csv`: dimensions, file size, a
-quality estimate, chroma subsampling, and the absence of EXIF.
+known about it is five lines in `observations.csv`: dimensions, file size,
+chroma subsampling, and the absence of EXIF.
 
 Two processing histories have been proposed. Route A resizes once and saves
-once. Route B saves, resizes, then saves again. Their predicted measurements are
-**not** supplied: deriving them and checking them against the observations is the
-task.
+once. Route B saves, resizes, then saves again. **What each one predicts is
+supplied**, beside what was observed — nothing in this pack would let you derive
+a file size from a set of steps, and pretending otherwise would make the exercise
+impossible rather than demanding. Your work is applying the tolerance.
 
-`tolerance.txt` is the part to read carefully. File size within 15 KB, quality
-estimate within 4 points, dimensions and subsampling matching exactly. Inside
-those bounds this evidence cannot tell two predictions apart.
+`tolerance.txt` is the part to read carefully. File size within 15 KB;
+dimensions, subsampling and EXIF presence matching exactly. Inside those bounds
+this evidence cannot tell two predictions apart.
+
+The 15 KB figure is a **scenario rule**. It is set for this exercise so you can
+apply a stated threshold consistently. It is not an empirically validated
+forensic tolerance, and you should not carry it anywhere else.
 
 **Indistinguishable is a claim about the evidence, not about the files.** Two
 images that this evidence cannot separate may differ in every byte. Saying
 "indistinguishable" without saying *under what* is the error this week exists
 to prevent.
 
-The scenario is authored. The observations and predictions are internally
-consistent and were not produced by running real image software.
+The scenario is authored throughout. The observations, the predictions and the
+evidence records were written for this exercise; none of them was produced by
+running image software, and nothing here supports a claim about how any real
+tool behaves.
 
 ## Investigate — 40 minutes
 
-**Construct two compatible histories (15 minutes).** Work out what each route
-would produce and compare it against the observations, using the tolerance. You
-should find that both fit. Write down *how closely* each one fits, per
-measurement — "compatible" is a conclusion, not an impression.
+**Test both histories against the observations (15 minutes).** For each route,
+take its predicted values from `observations.csv` and compare them with the
+observed values, applying the tolerance. Record the difference per measurement,
+not just a verdict — "compatible" is a conclusion you show your working for.
+
+Then do the part the pack cannot do for you: sketch a **third** history that
+would also fit. Only two were written on cards, and that is a fact about who was
+asked, not about what is possible.
 
 **Choose one further evidence item, and commit first (10 minutes).**
-`evidence-menu.csv` lists five things you could ask for. Two of them do not
-exist, and their absence is marked.
+`evidence-menu.csv` lists five things you could ask for. Two do not exist, and
+their absence is marked with a reason. The three that do exist each have a file
+in `evidence/`.
 
-Pick one available item. Then, **before you look at it**, write down what result
-would favour route A and what result would favour route B. If you cannot say
-that in advance, the item cannot discriminate for you, and you should pick
-another one — or record that you could not.
+Pick one. Then, **before you open its file**, write down what result would
+favour route A and what result would favour route B. If you cannot say that in
+advance, the item cannot discriminate for you — pick another, or record that you
+could not.
 
-**Inspect it and revise (15 minutes).** Look at what you asked for. Update your
-conclusion, and record what is still unresolved.
+**Open only that file, then revise (15 minutes).** Each file holds the result of
+one request and nothing else. Update your conclusion and record what is still
+unresolved.
 
 Not every available item separates the routes. If yours does not, you have not
 failed the exercise — say what you asked for, why it was a reasonable request,
@@ -111,9 +124,9 @@ with its justification. Then three paragraphs.
 1. **State the scope.** "These routes are indistinguishable" is incomplete.
    Finish the sentence: indistinguishable *on which measurements, at what
    tolerance*.
-2. **What would a third route do?** Only two were proposed. Sketch one more that
-   also fits the observations, and say what that does to any conclusion you
-   reached.
+2. **What does your third route do to your conclusion?** You sketched one in the
+   investigation. Say what its existence costs any claim you reached, and whether
+   your chosen evidence would have excluded it too.
 3. **What is the weakest claim you can defend?** If your evidence rules out one
    route, you have not established another. Write the claim your evidence
    actually supports, and notice that it is smaller than the one you wanted.
@@ -121,21 +134,27 @@ with its justification. Then three paragraphs.
 ## What you should find
 
 Both routes fit. Dimensions, subsampling and the missing EXIF are identical
-either way. Predicted file size is 6 KB off the observation for one route and
-7 KB for the other, both inside the 15 KB bound; the quality estimates are off
-by 0 and 2, inside the 4-point bound.
+either way, and the predicted file sizes are 6 KB and 7 KB from the observation,
+both inside the 15 KB rule.
 
 So the initial evidence does not determine the process, and no amount of
 staring at it will change that. The question is which further observation would.
 
-One item on the menu does separate them. Two available items do not — one
-because the retained log is silent on the exact operation that differs between
-the routes, the other because the two routes converge on a similar final
-quality. Both are reasonable requests. Neither settles it.
+One item on the menu does separate them: a retained working-directory listing
+showing a full-size JPEG that existed before the smaller output. Route A resizes
+before its only save, so route A cannot have produced that file.
 
-And even when you can rule out route A, notice what you are left with. Two
-routes were proposed; others fit the same observations. **Ruling out one route
-is not establishing another**, and the honest claim is the weaker one.
+Two available items do not separate them. The transformation log excerpt begins
+at the resize and is silent about whether anything was saved earlier — the one
+operation the routes disagree about. The inspection report records no
+distinguishable difference. Both are reasonable requests, and a report that says
+what it asked for and what it failed to learn is a correct answer here.
+
+And even having excluded route A, notice what you are left with. Any history
+that saved at full size before resizing would leave the same listing — a save at
+a different quality, or a route through a third size. **Ruling out one route is
+not establishing another**, and the claim you can defend is "not route A, and
+consistent with route B".
 
 ## Deposit
 

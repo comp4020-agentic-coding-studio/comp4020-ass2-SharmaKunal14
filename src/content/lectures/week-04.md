@@ -24,25 +24,29 @@ free at e-flux.com.*
 
 Two things follow, and only one of them is hers. The cultural claim — that
 circulation, not fidelity, determines which images matter — is an argument you
-can read and dispute. The technical claim that interests us is separate and
-needs separate evidence: **an image that has circulated has lost most of the
-record of where it came from.** No EXIF, no intermediate files, no log. Just the
-file.
+can read and dispute, and she makes it.
 
-That is the situation this week works in.
+The observation this week needs is narrower, and it is ours rather than hers:
+**a circulating image may arrive without the metadata, logs or intermediate
+files needed to reconstruct its history.** Sometimes it arrives with them.
+Steyerl is not claiming that provenance is always destroyed, and neither am I.
+
+That weaker situation — evidence thinner than the question — is what this week
+works in.
 
 ## Working backwards
 
-Here is Output 7. Six observations: 1200 by 800, 148 KB, quality estimate around
-72, 4:2:0 subsampling, no EXIF.
+Here is Output 7. Five observations: 1200 by 800, 148 KB, 4:2:0 subsampling, no
+EXIF.
 
 Someone proposes it was resized once and saved once. Someone else proposes it
-was saved, resized, and saved again.
+was saved, resized, and saved again. Wednesday's pack supplies what each route
+predicts — nothing in it would let you compute a file size from a list of steps,
+and asking you to would be asking for a guess.
 
-Derive what each would produce and you find both land inside the tolerance on
-every measurement. The evidence does not choose. It is not that the question is
-meaningless — the file has exactly one history — it is that **these six
-observations underdetermine it.**
+Apply the tolerance and both land inside it on every measurement. The evidence
+does not choose. It is not that the question is meaningless — the file has
+exactly one history — it is that **these five observations underdetermine it.**
 
 ## What indistinguishable means
 
@@ -58,9 +62,10 @@ and it may dissolve. Add a measurement and it may dissolve. Say which
 measurements and which tolerance, every time, or you are asserting something
 much stronger than you can support.
 
-You have the tolerance in the pack: 15 KB on size, 4 points on quality estimate,
-exact match on dimensions and subsampling. Those numbers are the boundary of
-what you are entitled to say.
+You have the tolerance in the pack: 15 KB on size, exact match on dimensions,
+subsampling and EXIF presence. That figure is a **scenario rule** — set so you
+can apply a threshold consistently, not measured from anything. It is the
+boundary of what you are entitled to say inside this exercise and nowhere else.
 
 ## Asking for evidence
 
@@ -73,10 +78,15 @@ down in advance what result favours A and what result favours B is the only
 thing that stops it.
 
 Wednesday's menu has five items. Two do not exist: the EXIF is gone and the
-upload log was never kept. Of the three you can get, **one separates the routes
-and two do not** — one because the log excerpt that survived is silent on exactly
-the operation the routes disagree about, the other because both routes end up at
-a similar final quality.
+upload log was never kept. The three that do exist each have a file you can
+open, and **one separates the routes while two do not** — the log excerpt that
+survived begins at the resize and is silent on exactly the operation the routes
+disagree about, and the inspection report records nothing distinguishable.
+
+The one that works is mundane. A retained working-directory listing shows a
+full-size JPEG existing before the smaller output. Route A resizes before its
+only save, so route A cannot have produced that file. No signal analysis, no
+clever detector — a directory listing somebody happened to keep.
 
 If you ask for a reasonable item and it turns out to be silent, that is a
 finding. Report what you asked for, why it was reasonable, and what it did not
@@ -91,9 +101,11 @@ Suppose the discriminating evidence rules out route A. You have not shown route 
 happened. You have shown that of the two histories somebody thought to propose,
 one is excluded.
 
-Others fit the same observations — a different resize algorithm, a route through
-a third intermediate size, a save at a different quality followed by a stronger
-resize. Nobody wrote those on a card, which is not an argument against them.
+Others fit the same observations, and the same directory listing: any history
+that saved at full size before resizing leaves that file behind. A save at
+quality 85 then a resize. A route through a third intermediate size. Nobody
+wrote those on a card, which is a fact about who was asked rather than an
+argument against them.
 
 So the claim your evidence supports is: *not route A, and consistent with route
 B.* That is weaker than "it was route B", and it is what you can defend. Week 6

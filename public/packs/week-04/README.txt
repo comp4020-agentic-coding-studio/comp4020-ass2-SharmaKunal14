@@ -1,19 +1,19 @@
 Two routes, one output — week 4 pack
-Authored teaching scenario. The observations and predictions below are constructed to be internally consistent. They were not produced by running real image software, and no claim about how any real tool behaves follows from them.
+Authored teaching scenario. Every observation, prediction and evidence record below was written for this exercise. None was produced by running image software, and nothing here supports a claim about how any real tool or forensic technique behaves.
 
-observations.csv is everything currently known about Output 7.
-tolerance.txt says how close two things have to be before this evidence
-stops being able to tell them apart.
+observations.csv lists what was observed about Output 7 and what
+each proposed route predicts. tolerance.txt gives the scenario rule for how
+close counts as indistinguishable.
 
-route-cards.txt gives two proposed processing histories. Predicted
-measurements are not supplied: working them out and checking them against
-the observations is the task.
+route-cards.txt gives the two proposed processing histories as written steps.
 
-evidence-menu.csv lists further evidence you could ask for. Two of the five
-items do not exist, and their absence is marked. Choose one available item
-and say, before you look at it, what result would separate the routes.
+evidence-menu.csv lists further evidence you could request. Two of the five
+items do not exist, and their absence is marked with a reason. The three that
+do exist are in evidence/, one file each. Choose one, write down what result
+would favour which route, and only then open that file.
 
-Not every available item will separate them. That is not a flaw in the pack.
+Not every available item separates the routes. That is not a flaw in the pack,
+and an unresolved report that says what it asked for and what it learned is a
+correct answer.
 
-reveal/ holds what actually happened. Open it after you have written your
-ambiguity report.
+reveal/ holds what actually happened. Open it after your report.

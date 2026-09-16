@@ -1,9 +1,10 @@
 Candidate routes
-Authored teaching scenario. The observations and predictions below are constructed to be internally consistent. They were not produced by running real image software, and no claim about how any real tool behaves follows from them.
+Authored teaching scenario. Every observation, prediction and evidence record below was written for this exercise. None was produced by running image software, and nothing here supports a claim about how any real tool or forensic technique behaves.
 
 Two processing histories someone has proposed for Output 7.
-Whether either fits the observations is for you to work out; the predicted
-measurements are not supplied, because deriving and checking them is the task.
+What each one predicts is in observations.csv, beside what was observed.
+Your job is to apply the tolerance and say whether the observations can
+tell the two routes apart.
 
 Route A — resize once, save once
   1. Open the 2400 x 1600 source
@@ -13,7 +14,7 @@ Route A — resize once, save once
 Route B — save, resize, save again
   1. Open the 2400 x 1600 source
   2. Save as JPEG at quality 90
-  3. Reopen and resize to 1200 x 800
+  3. Reopen that saved file and resize to 1200 x 800
   4. Save as JPEG at quality 78
 
 Source: image/source — an authored image, 2400 x 1600

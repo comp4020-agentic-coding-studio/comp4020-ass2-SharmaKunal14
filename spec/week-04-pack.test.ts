@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
-import { compatible, loadPack } from "../packs/week-04/build.ts";
+import { compatible, evidenceFile, loadPack } from "../packs/week-04/build.ts";
 
 // Week 4 asks students to show that a defined evidence set cannot separate two
 // histories, then to ask for evidence that could. The whole week is void unless
@@ -18,12 +18,14 @@ const OUT = resolve("public/packs/week-04");
 const published = (path: string) => readFileSync(`${OUT}/${path}`, "utf8");
 
 describe("week 4 pack is what it publishes", () => {
-  it("publishes every observation", () => {
+  it("publishes every observation beside both route predictions", () => {
     const csv = published("observations.csv");
-    expect(csv).toContain(`width_px,${pack.observed.width}`);
-    expect(csv).toContain(`file_size_kb,${pack.observed.fileSizeKb}`);
-    expect(csv).toContain(`quality_estimate,${pack.observed.qualityEstimate}`);
-    expect(csv).toContain(`chroma_subsampling,${pack.observed.chromaSubsampling}`);
+    expect(csv.split("\n")[0]).toBe("property,observed,route_a_predicts,route_b_predicts");
+    for (const field of ["width", "height", "fileSizeKb", "chromaSubsampling", "exif"] as const) {
+      expect(csv, `observation ${field}`).toContain(
+        [field, pack.observed[field], ...pack.routes.map((r) => r.predicted[field])].join(","),
+      );
+    }
   });
 
   it("publishes both route cards with their steps", () => {
@@ -34,16 +36,19 @@ describe("week 4 pack is what it publishes", () => {
     }
   });
 
-  it("withholds the route predictions, because checking them is the task", () => {
-    const studentFacing = ["route-cards.txt", "observations.csv", "tolerance.txt", "evidence-menu.csv", "README.txt"];
-    for (const file of studentFacing) {
-      const text = published(file);
-      for (const route of pack.routes) {
-        // The predicted size and quality are the numbers a student derives.
-        expect(text, `${file} leaks route ${route.id}'s predicted size`).not.toContain(
-          String(route.predicted.fileSizeKb),
-        );
-      }
+  it("publishes the predictions, because nothing here lets a student derive them", () => {
+    // An earlier version of this pack withheld them, and a test asserted the
+    // withholding. There is no formula, encoder or lookup table in the pack
+    // from which a file size could be calculated, so withholding made the
+    // activity impossible rather than demanding. Weeks 1 and 3 withhold
+    // results a student can compute from a stated rule and supplied inputs;
+    // that condition does not hold here. Publishing them gives nothing away:
+    // both routes fit, which is the finding.
+    const csv = published("observations.csv");
+    for (const route of pack.routes) {
+      expect(csv, `route ${route.id} prediction must be available to the student`).toContain(
+        String(route.predicted.fileSizeKb),
+      );
     }
   });
 
@@ -52,6 +57,48 @@ describe("week 4 pack is what it publishes", () => {
     for (const item of pack.evidenceMenu.filter((e) => !e.available)) {
       expect(item.unavailableBecause, `${item.id} has no reason`).toBeTruthy();
       expect(csv, `${item.id}`).toContain(`unavailable — ${item.unavailableBecause}`);
+    }
+  });
+});
+
+describe("every obtainable request has something to open", () => {
+  it("ships a file for each available item, carrying a result", () => {
+    // Without these the four-step investigation — choose, predict, inspect,
+    // revise — cannot be performed at all: a student could only open the full
+    // answer and see everything at once.
+    const available = pack.evidenceMenu.filter((e) => e.available);
+    expect(available.length).toBeGreaterThan(0);
+    for (const item of available) {
+      expect(item.result, `${item.id} declares no result`).toBeTruthy();
+      const file = published(evidenceFile(item));
+      expect(file, `${evidenceFile(item)} is missing its result`).toContain(item.result!.split("\n")[0]);
+    }
+  });
+
+  it("points the menu at the file for every available item", () => {
+    const csv = published("evidence-menu.csv");
+    for (const item of pack.evidenceMenu.filter((e) => e.available)) {
+      expect(csv, `${item.id} has no file to open`).toContain(evidenceFile(item));
+    }
+  });
+
+  it("keeps each evidence file to its own request", () => {
+    // Opening one request must not hand over the others, or the choice is
+    // meaningless.
+    for (const item of pack.evidenceMenu.filter((e) => e.available)) {
+      const file = published(evidenceFile(item));
+      for (const other of pack.evidenceMenu.filter((e) => e.available && e.id !== item.id)) {
+        expect(file, `${item.id} contains ${other.id}'s result`).not.toContain(
+          other.result!.split("\n")[0],
+        );
+      }
+      expect(file, `${item.id} states its own verdict`).not.toContain(item.why);
+    }
+  });
+
+  it("ships no file for an item that does not exist", () => {
+    for (const item of pack.evidenceMenu.filter((e) => !e.available)) {
+      expect(() => published(evidenceFile(item)), `${item.id} should have no file`).toThrow();
     }
   });
 });
@@ -121,6 +168,11 @@ describe("the answer stays out of the evidence", () => {
         expect(text, `${file} leaks the reasoning for ${item.id}`).not.toContain(item.why);
       }
     }
+  });
+
+  it("labels the tolerance as a scenario rule rather than a validated figure", () => {
+    expect(pack.tolerance.note).toMatch(/scenario rule/i);
+    expect(published("tolerance.txt")).toMatch(/scenario rule/i);
   });
 
   it("keeps the artefact's provenance stated as unknown", () => {

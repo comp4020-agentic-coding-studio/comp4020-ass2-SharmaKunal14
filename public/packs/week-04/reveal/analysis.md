@@ -1,33 +1,33 @@
 # Analysis — week 4
 
-Authored teaching scenario. The observations and predictions below are constructed to be internally consistent. They were not produced by running real image software, and no claim about how any real tool behaves follows from them.
+Authored teaching scenario. Every observation, prediction and evidence record below was written for this exercise. None was produced by running image software, and nothing here supports a claim about how any real tool or forensic technique behaves.
 
 ## Why both routes fit
 
-| Route | Predicted size (KB) | Off by | Predicted quality | Off by | Compatible |
-|---|---:|---:|---:|---:|---|
-| Route A — resize once, save once | 142 | 6 | 72 | 0 | yes |
-| Route B — save, resize, save again | 155 | 7 | 74 | 2 | yes |
+| Route | Predicted size (KB) | Off by | Exact fields match | Compatible |
+|---|---:|---:|---|---|
+| Route A — resize once, save once | 142 | 6 | yes | yes |
+| Route B — save, resize, save again | 155 | 7 | yes | yes |
 
-At the declared tolerance every initial observation is compatible with both routes. Dimensions, chroma subsampling and the absence of EXIF are identical. Predicted file size differs from the observation by 6 KB for route A and 7 KB for route B, both inside the 15 KB bound. Predicted quality estimate differs by 0 and 2, both inside the 4-point bound.
+Every field required to match exactly does match: dimensions, chroma subsampling and the absence of EXIF are identical under both routes. On file size, route A's prediction is 6 KB from the observation and route B's is 7 KB, both inside the 15 KB scenario rule. So the initial observations do not separate the routes.
 
 ## The evidence menu
 
 | Item | Status | Separates the routes |
 |---|---|---|
-| E1 — Histogram of quantised DCT coefficients for the output | available | yes |
+| E1 — Retained intermediate-file record from the working directory | available | yes |
 | E2 — Transformation log excerpt for the output | available | no |
-| E3 — Visual inspection of the output at 400 per cent | available | no |
+| E3 — Inspection report for the output at 400 per cent | available | no |
 | E4 — EXIF metadata dump for the output | unavailable | no |
 | E5 — Upload log from the service the output was distributed through | unavailable | no |
 
-**E1.** A file compressed twice carries periodicity in its coefficient histogram that a file compressed once does not. This separates a single-save route from a save-resize-save route.
+**E1.** The listing records a JPEG at the full source dimensions, created before the 1200 x 800 output. Route A never saves a JPEG before resizing, so route A cannot produce this listing. It is excluded. This does not establish route B: any history that saved at full size before resizing would leave the same listing.
 
-**E2.** The retained excerpt records one resize operation and its timestamp. It does not record whether a save happened before that resize, which is exactly the difference between the two routes. Requesting it is reasonable and it does not settle the question.
+**E2.** The excerpt records the resize and the encode that followed it. It says nothing about whether anything was saved before the resize, which is the only operation the two routes disagree about. Asking for it is reasonable; it does not separate them.
 
-**E3.** Both routes end at a comparable final quality, so both show blocking of a similar character at this magnification. Nothing visible at 400 per cent distinguishes one save from two.
+**E3.** The supplied report records no distinguishable difference. Note what that is and is not: it is one examiner's recorded finding in this scenario, not a demonstration that single and double saves are visually identical in general.
 
-**E4.** Listed because it is the first thing most people ask for. It is not available here, which is itself worth recording.
+**E4.** Listed because it is the first thing most people ask for. It is not available here, which is itself worth recording in your report.
 
 **E5.** Would have been informative. It does not exist.
 
@@ -35,8 +35,8 @@ At the declared tolerance every initial observation is compatible with both rout
 
 Output 7 was produced by route B.
 
-**What resolves it.** E1. The coefficient histogram shows the periodicity that a second quantisation leaves behind, which route A cannot produce.
+**What resolves it.** E1. The retained working-directory listing shows a full-size JPEG existing before the 1200 x 800 output. Route A resizes before its only save, so route A cannot produce that file, and route A is excluded.
 
-**What does not.** E2 and E3 are both reasonable requests that fail to separate the routes — E2 because the retained excerpt is silent on the one operation that differs, E3 because the routes converge on a similar final quality. A student who chose either and reported the question as still open has done the week correctly.
+**What does not.** E2 and E3 are both reasonable requests that fail to separate the routes. E2's excerpt begins at the resize and is silent on whether anything was saved earlier — the one operation the routes disagree about. E3 records no distinguishable difference. A student who chose either and reported the question as still open has done the week correctly.
 
-**Limits.** Two routes were constructed. Others fit the same observations: a different resize algorithm, a route through a third intermediate size, or a save at quality 80 followed by a stronger resize. Ruling out route A is not the same as establishing route B, and the evidence here supports the weaker claim.
+**Limits.** Excluding route A is not establishing route B. Any history that saved at full size before resizing would leave the same directory listing — a save at quality 85 then a resize, or a route through a third intermediate size. Two routes were proposed; the evidence supports the weaker claim, which is 'not route A, and consistent with route B'. Every record in this pack is authored, and none of it demonstrates the behaviour of real software.
