@@ -133,6 +133,16 @@ had genuine internal variation, one matched the retained source and three did
 not — a result reported as-computed, not smoothed into a single verdict. See
 `/packs/week-10/pixels.csv` and `/packs/week-10/feature-table.csv`.
 
+Week 11's provenance audit compares two metadata manifests for
+`image/output-7` — the record made at deposit and the record on its public
+archive copy — against the publishing pipeline's own log of what it changed
+between them. The log's two listed operations both check out, but the actual
+diff has two further changes the log never mentions, found only by comparing
+the manifests directly. Two fields absent from both manifests are recorded as
+never captured, not as evidence of stripping, since Output 7 never retained
+that data at any stage. See `/packs/week-11/audit-worksheet.csv` and
+`/packs/week-11/reveal/analysis.md`.
+
 ## Model studies
 
 These three are **simplified models**, not specimens. Each exists to test one
