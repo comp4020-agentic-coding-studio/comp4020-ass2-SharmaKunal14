@@ -1,0 +1,16 @@
+{
+  "item": "image/output-7 (from week 4), deposit copy versus its public archive copy",
+  "stage": "deposit copy",
+  "fields": {
+    "fileName": "output-7-1200x800.jpg",
+    "width": 1200,
+    "height": 800,
+    "colorProfile": "sRGB IEC61966-2.1",
+    "software": "SlopEdit 3.2",
+    "contributorId": "instructor-wh-01",
+    "depositTimestamp": "2027-03-10T09:14:00+11:00",
+    "gpsCoordinates": null,
+    "cameraModel": null,
+    "metadataChecksum": "4d659c686ee908e6"
+  }
+}

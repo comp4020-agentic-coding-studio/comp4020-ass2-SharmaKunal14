@@ -1,0 +1,12 @@
+field,in_before,in_after,logged_as_changed,judgement
+fileName,true,true,false,retained
+width,true,true,false,retained
+height,true,true,false,retained
+colorProfile,true,true,false,retained
+software,true,false,false,undocumented-change
+contributorId,true,false,true,documented-removal
+depositTimestamp,true,false,true,documented-removal
+gpsCoordinates,true,true,false,never-captured
+cameraModel,true,true,false,never-captured
+metadataChecksum,true,true,false,undocumented-change
+creationTool,false,true,false,undocumented-change
