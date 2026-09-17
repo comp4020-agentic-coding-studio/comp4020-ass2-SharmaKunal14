@@ -3,7 +3,6 @@ title: "Reading the damage backwards"
 description: "Which family tree does the evidence support, and what remains unknown?"
 week: 6
 date: 2027-03-31
-draft: true
 teachers:
   - wren-halloway
   - tobias-renn
@@ -35,15 +34,107 @@ spec:
 
 **Learning target.** Justify proposed edges and compare at least one competing history.
 
-## Investigate (40 minutes)
+## Before the workshop
 
-Skeleton. The supplied evidence, step-by-step instructions and indicative answer
-for this workshop are written in phase 6; see `docs/weeks/week-06.md`.
+Bring the anonymised witnesses and error table another group handed you at the
+end of week 5 — or, if your own exchange did not happen, use the instructor
+[fallback pack](/packs/week-06/): five witnesses of the *Ordinance of the
+Copy-House*, `witness-a.txt` through `-e.txt`, with `collation.csv` listing
+every point where they disagree. Do **not** open `reveal/` yet.
 
-## Deposit
+## Check — 5 minutes
 
-Proposed tree, competing explanation and a post-reveal correction note.
+Two candidate trees are shown below, built from the same four-line error
+table.
+
+| Point | Type | Carriers |
+|---|---|---|
+| 1 | substitution | A |
+| 2 | haplography | B, C |
+| 3 | substitution | A, C |
+
+**Tree 1:** `{A, C}` share an ancestor because they share point 3.
+**Tree 2:** `{B, C}` share an ancestor (point 2), and A's point 3 is
+independent.
+
+Which tree does the table support, and which single point is doing the
+misleading work? *(Answer at the end of Evaluate, below — do not scroll ahead.)*
+
+## Receive — 15 minutes
+
+Confirm every disagreement point in your table is classified by type (from
+week 5) before you start building anything. A tree built on an unclassified
+error table is guessing at which agreements are worth trusting.
+
+## Investigate — 40 minutes
+
+**Construct a candidate graph (20 minutes).** For each shared error, ask: is
+this the kind of mistake two copyists could plausibly make independently, or
+does it need a common immediate source? Group witnesses that share an
+implausible-to-repeat error under one hypothesised ancestor. Draw the
+nesting — which groups sit inside which — as a tree, or as an edge list if
+drawing is not available to you.
+
+**Justify and challenge selected edges (10 minutes).** For every edge you
+drew, write the one shared feature it rests on. Then pick your least certain
+edge and argue against it: what would have to be true for two witnesses to
+share that feature *without* the ancestor you proposed?
+
+**State the strongest alternative and one unresolved relationship (10
+minutes).** Name one pair or group your evidence cannot order — say what
+would resolve it, not just that it is unresolved. Then state the strongest
+competing tree the same table would also support.
+
+## Evaluate — 30 minutes
+
+Write your proposed tree, its evidence table, your named alternative and your
+unresolved relationship — before opening `reveal/`.
+
+*Check answer.* Tree 2. Point 3 groups A and C, but it is a normalisation —
+exactly the class of substitution week 5 flagged as something two copyists
+make independently. Point 2 is a haplography, which has no ordinary mechanism
+for happening twice by chance, so it is the point that actually locates a
+shared ancestor. A table with one strong point and one misleading point
+supports the tree built on the strong one.
+
+## Deposit — 30 minutes
+
+Open [`reveal/production-log.md`](/packs/week-06/reveal/production-log.md) and
+compare it against your proposed tree. Write a short correction note: which
+edges matched, which did not, and — if your tree differs from the log — whether
+your reasoning was still defensible given only the evidence you had. Deposit
+your tree, your evidence table, your alternative and this correction note into
+the [print collection](/archive/#print).
+
+## What you should find
+
+The pack supports one tree with one deliberately unresolved edge, not a fully
+resolved one. `A` lacks the shared haplography and sits outside it entirely.
+`B` shares the haplography but not the following homoeoteleuton, placing it
+above the split that produced `C` from one side and the identical pair `D`
+and `E` from the other. `D` and `E` agree at every disagreement point in the
+table, so the evidence cannot choose between "D copied from E", "E copied
+from D", and "both copied from a lost sibling" — that is the unresolved edge,
+and naming it as unresolved is the correct answer, not a shortfall.
+
+The trap is point 4 in the full table (the log's numbering, not this page's
+check): `A` and `C` share a normalisation that suggests a direct kinship the
+rest of the evidence rules out. A tree that trusted every shared reading
+equally would draw an edge between `A` and `C` that the haplography and
+homoeoteleuton evidence directly contradicts.
 
 ## Accessible route
 
-Textual edge list and evidence table alongside every diagram.
+Textual edge list and evidence table alongside every diagram; no drawing tool
+is required, and the deck and this page both give the tree as a table of
+parent/child rows with the evidence for each row.
+
+## Assessment
+
+**The Stemma's curated pack releases now, at the end of this workshop.** Open
+the [assessment brief](/assessments/the-stemma/) for the submission format and
+deadline. The method is what you practised today — evidence table, candidate
+tree, one named alternative, one honestly unresolved edge — applied to a
+separate, larger set of witnesses with no reveal until after the assessment
+closes. Marks reward that method, not agreement with a hidden answer: "the
+evidence does not resolve this edge" earns full credit where it is argued.

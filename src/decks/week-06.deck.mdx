@@ -1,0 +1,198 @@
+---
+title: Reading the damage backwards
+description: Building a family tree from shared copying error, and where the method breaks.
+---
+
+# Reading the damage backwards
+
+Five witnesses. No original. Which tree does the evidence support — and what
+does it leave unresolved?
+
+---
+
+## Three short witnesses
+
+> ...he shall set a point **above** it and pass on. (A)
+
+> ...he shall rest again at the twelfth. (B)
+
+> ...he shall rest again at the twelfth. (C)
+
+Witness A disagrees with B and C at one line. B and C agree with each other
+at a different line, against the reading every other witness carries.
+
+Text: A. Halloway, *Ordinance of the Copy-House* (authored teaching scenario).
+
+---
+
+{/* _class: centered */}
+
+## The observed differences
+
+| Point | Line | Type | Carriers |
+|---|---|---|---|
+| 1 | 4 | substitution | A |
+| 2 | 7 | haplography | B, C, D, E |
+| 3 | 12 | homoeoteleuton | C, D, E |
+| 4 | 6 | normalisation | A, C |
+| 5 | 2 | dittography | B |
+| 6 | 5 | omission | C |
+| 7 | 8 | substitution | D, E |
+
+Full table: [collation.csv](/packs/week-06/collation.csv).
+
+---
+
+## The hypothesis
+
+**A shared error may be evidence of a shared ancestor.**
+
+Not: a shared reading proves one. Not: any two witnesses that agree are
+related.
+
+The question every point above has to answer: could two copyists have made
+this same change independently?
+
+---
+
+## The assumption it needs
+
+A shared error supports shared ancestry **only if there is no ordinary way
+for it to happen twice, independently.**
+
+- a haplography (eye skips a repeated word) — no
+- an omission that breaks the sense of its own line — no
+- a spelling normalisation — **yes, easily**
+
+Get this wrong and the tree is built on agreements that mean nothing.
+
+---
+
+{/* _class: impact */}
+
+## Build: start with the strongest point
+
+Point 2 — a haplography shared by **B, C, D, E**, absent from **A**.
+
+No mechanism makes four copyists skip the same repeated phrase by chance.
+
+**Edge:** A sits outside a group the other four share an ancestor within.
+
+---
+
+## Build: split the group
+
+Within the group B, C, D, E, point 3 — a homoeoteleuton shared by **C, D, E**, absent
+from **B**.
+
+Same logic: an eye-skip between two occurrences of "shall keep" is not a
+coincidence four times over, and B does not have it.
+
+**Edge:** B branches off; C, D, E share a further common ancestor.
+
+---
+
+## Build: the innermost pair
+
+Points from lines 6 and 8 leave **D and E** agreeing with each other at
+**every single point** where the table has any variation at all.
+
+**Edge:** C branches off from D and E. D and E share the closest ancestor the
+evidence can locate — but see the next slide before you call that settled.
+
+---
+
+{/* _class: quote */}
+
+## An unresolved edge
+
+D and E's text is identical at every variant point in this table.
+
+That evidence supports **D copied from E**, **E copied from D**, and **both
+copied from a lost intermediate** equally well. Nothing here chooses between
+them.
+
+**Marking the edge "unresolved" is not a gap in the analysis. It is the
+analysis.**
+
+---
+
+## A competing tree
+
+Point 4 (line 6): a normalisation, shared by **A and C only**.
+
+Taken at face value, that reading groups A with C — directly against the tree
+just built, which puts A outside the whole B, C, D, E group.
+
+Which tree does the full table support?
+
+---
+
+{/* _class: centered */}
+
+## The trap, and why it is a trap
+
+A normalisation is exactly the kind of change point 2's rule says *not* to
+trust: two copyists can tidy the same archaic phrasing independently, with no
+shared ancestor at all.
+
+Point 2's haplography has no such independent mechanism. When the two points
+disagree, the table backs the one with no ordinary way to repeat by chance.
+
+---
+
+## Contamination and multiple sources
+
+The same caution applies to a witness copied from more than one source at
+once — a copyist checking two exemplars and blending their readings.
+
+A tree assumes one parent per witness. Where the evidence instead shows a
+witness agreeing with one group on some points and a different group on
+others, for reasons *other* than independent error, that assumption itself
+needs stating and testing, not assuming.
+
+---
+
+## The reveal
+
+[`reveal/production-log.md`](/packs/week-06/reveal/production-log.md) names
+the true archetype and every variant's real point of entry.
+
+Compare it against the tree just built. Where they agree, say why the
+evidence supported it. Where they don't, ask whether the tree was still the
+best call available from what was given — not whether it was "right".
+
+---
+
+## Same method, one family over
+
+Weeks 2 and 3's audio dubs — copies W, X, Y, Z — fit the same reasoning: a
+shared feature with no independent mechanism supports shared ancestry; a
+shared feature two dubbing decks could produce separately does not.
+
+Copying mechanisms differ across collections. The **logic** transfers; the
+specific list of error types does not.
+
+---
+
+{/* _class: banner */}
+
+## Practice now, then The Stemma
+
+Workshop: [Reading the damage backwards](/sessions/06-stemma/) — build this
+tree yourself from your own week 5 witnesses.
+
+Assessment: [The Stemma](/assessments/the-stemma/) — pack releases when the
+workshop ends. Same method, a separate set of witnesses, no reveal until
+after submission.
+
+## Text walkthrough
+
+For a reader who cannot use the deck view: five witnesses disagree at seven
+points (`collation.csv`). Two points (a haplography, then a homoeoteleuton
+inside it) build a nested grouping of B, C, D, E inside all five, then
+C, D, E inside that. Two more points show D and E agreeing at everything,
+leaving their order unresolved. One point (a normalisation shared by A and
+C) looks like a fourth edge and is not, because normalisation has no
+independent-repeat protection the way an eye-skip does. The reveal names the
+true archetype and each variant's real origin.
