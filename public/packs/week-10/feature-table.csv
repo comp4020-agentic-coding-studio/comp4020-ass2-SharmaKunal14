@@ -1,0 +1,7 @@
+id,label,row,col,note,source,degraded,restored
+f1,"Top-left interior",0,0,"inside a block whose four source cells are all equal",1,1,1
+f2,"Top-right interior",1,6,"inside a block whose four source cells are all equal",3,3,3
+f3,"Fine anomaly cell",2,2,"the one cell in its block that differs from its three neighbours",4,2,1
+f4,"Anomaly block, adjacent cell",2,3,"shares a block with f3 but was not itself the odd one out",1,2,1
+f5,"Diagonal detail, first cell",4,4,"one of four cells forming a one-cell-wide diagonal line",0,2,2
+f6,"Diagonal detail, last cell",7,7,"the diagonal line's other end, a different block from f5",0,2,2
