@@ -917,6 +917,59 @@ fresh-reader trial, and that trial has not been run.
 
 **Commit:** `11fa9c5`.
 
+## 2026-09-17 — Week 5 built
+
+**Scope:** The week 5 workshop page and lecture page. No new pack, since the
+plan already called for reusing one controlled dataset across weeks 5 and 6.
+
+### Decisions and reasons
+
+- **Reuse the week-06 pack as week 5's own deliverable, rather than building a
+  second dataset.** The 2026-09-16 entry already split the print collection so
+  the Ordinance stays withheld until week 6, and the week-06 practice pack
+  (`packs/week-06`) is that withheld text branched into five anonymised
+  witnesses with a collation table — exactly what week 5's plan asks the
+  workshop to produce and deposit. Building a second, unrelated branching pack
+  would either duplicate this one or give week 6 two candidate texts to
+  reconstruct, which the plan does not ask for. Week 5's page now treats the
+  published witness files and `collation.csv` as its own output, and points at
+  `reveal/` as what stays closed until next week.
+- **Correct the witness count from the plan's "six" to the pack's five.** The
+  original week-5 plan section 4 says "six editable witnesses"; the built pack
+  (decided and mutation-tested on 2026-09-16) has five, `A`–`E`, with one
+  deliberately unresolved pair. Five witnesses already support one shared
+  omission, one shared homoeoteleuton, one polygenetic normalisation and two
+  singleton errors — enough to teach every error class the week names. Adding
+  a sixth witness for its own sake was not worth re-opening a dataset that was
+  already mutation-tested against ten deliberate breakages. `docs/weeks/week-05.md`
+  is not updated to match, to avoid rewriting planning prose after the fact;
+  this entry is the record of the actual count.
+- **Use the normalisation variant (point 4: "at the least" → "at least",
+  entered independently in witnesses A and C) as the week's worked answer to
+  its own check question** — "why might a shared spelling correction be weak
+  evidence for ancestry?" It is the one variant in the pack already marked
+  `polygenetic: true`, so the lecture's worked example and the pack's own
+  reveal cannot disagree with each other.
+
+### Verification
+
+Ran `pnpm check` after writing both pages: typecheck clean, 45 pages built (40
+regenerated, 5 reused from cache), axe-clean, no broken links, course API
+32 nodes / 48 edges, 85 of 85 existing tests still green. No new contract test
+was added for week 5 specifically — `weekly-contract.test.ts` already asserts
+an accessible route, a named deposit, a declared collection and a learning
+target on every published workshop, and `pack-links.test.ts` already checks
+every `/packs/` link on the built site resolves to a real file, so both already
+cover week 5 once `draft: true` was removed.
+
+**Still not established.** No one has actually run the branching-copy
+instructions by hand — the page describes an exercise for a real workshop room,
+and only the fallback pack's data has been checked for consistency. This is an
+author consistency check on the *pack*, not a trial of the *hand-copying
+activity itself*.
+
+**Commits:** to be recorded once made.
+
 ### Template for subsequent observed results
 
 - What was tested and with which materials/version:
