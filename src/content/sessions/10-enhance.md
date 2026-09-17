@@ -3,7 +3,6 @@ title: "Enhance"
 description: "Does a convincing restoration match the original?"
 week: 10
 date: 2027-05-05
-draft: true
 teachers:
   - wren-halloway
   - tobias-renn
@@ -24,7 +23,8 @@ investigation:
   - 10
 related:
   - lectures/week-10
-  - sessions/09-recursion
+  - sessions/04-poor-image
+  - assessments/the-lossless-argument
 spec:
   - you can state the week's question in your own words before you start
   - your evidence table separates what you observed from what you inferred
@@ -35,15 +35,103 @@ spec:
 
 **Learning target.** Distinguish plausible detail, verified agreement and remaining ambiguity.
 
-## Investigate (40 minutes)
+## Before the workshop
 
-Skeleton. The supplied evidence, step-by-step instructions and indicative answer
-for this workshop are written in phase 10; see `docs/weeks/week-10.md`.
+Download the [week 10 pack](/packs/week-10/): three images —
+`source.svg`, `degraded.svg`, `restored.svg` — built from a single 8x8
+synthetic tone chart, not a photograph. `degraded.svg` replaces every 2x2
+block of the source with its average tone; `restored.svg` upsamples that
+degraded grid with bilinear interpolation, a standard, named algorithm, not a
+mystery process. `pixels.csv` has every one of the 64 cells for all three
+images. Do not open `reveal/` yet.
 
-## Deposit
+**Readings.**
 
-Supported, unsupported and uncertain feature table for one restoration claim.
+1. Menon, Damian, Hu, Ravi & Rudin, "PULSE: Self-Supervised Photo Upsampling
+   via Latent Space Exploration of Generative Models," CVPR 2020, freely
+   available at [arxiv.org/abs/2003.03808](https://arxiv.org/abs/2003.03808).
+   Read §1–3 for what the method actually does: it searches a generative
+   model's own space of plausible faces for one that, when downsampled,
+   matches the low-resolution input — it does not reconstruct the original
+   high-resolution pixels.
+2. Quach, K. (2020, June 24). "Once again, racial biases show up in AI image
+   databases, this time turning Barack Obama white." *The Register.*
+   [theregister.com/2020/06/24/ai_image_tool](https://www.theregister.com/2020/06/24/ai_image_tool/).
+   A documented case: PULSE, given a pixelated photo of Barack Obama, produced
+   a fabricated face with white skin and blue eyes — verifiably wrong,
+   because a real photo of Obama exists to check against. Read for the
+   article's own caveat: PULSE was never designed to recover an input
+   person's true appearance, only to find a plausible generated face
+   consistent with the blur, so the correct description of its failure here
+   is narrower than "the AI invented a person."
+
+## Check — 5 minutes
+
+Feature f4 in this week's pack sits inside a block whose four source cells are
+not all equal — real information was lost when that block was averaged — yet
+the restored value at f4 exactly matches the retained source. Does that match
+show bilinear interpolation recovered real detail at f4? State your answer
+and why in one sentence.
+
+*Indicative answer.* No — the interpolation produced the same smoothly
+blended value it would have produced regardless of which true sub-cell value
+was asked about; that it happened to round to the correct tone for f4 is
+verified only because the retained source exists to check it against, and the
+same algorithm was wrong at three other checked features in blocks with the
+same kind of internal variation.
+
+## Receive — 15 minutes
+
+Confirm you can state, in your own words, the difference between a value that
+is *plausible* (it looks like it could belong in the image), a value that is
+*verified* (it has been checked against retained source evidence and
+matches), and a value that is *uncertain* (the check available cannot tell
+you anything, because nothing was actually at risk of being lost there).
+
+## Investigate — 40 minutes
+
+**Examine the three images (10 minutes).** Compare `source.svg`,
+`degraded.svg` and `restored.svg` (or their text equivalents in
+`labelled-features.txt`). Note that `restored.svg` looks smoother than
+`degraded.svg` — visual plausibility is not yet a claim about correctness.
+
+**Complete the feature table (20 minutes).** For each of the six named
+features in `feature-table.csv`, record: is the source cell inside a block
+that had internal variation (i.e., could restoration have lost real
+information there), and does the restored value match the source value?
+Classify each feature as **supported** (matches, and the block had internal
+variation to recover from), **unsupported** (does not match), or
+**uncertain** (the block was already uniform, so a match proves nothing about
+restoration — there was nothing to recover).
+
+**Test a claimed recovery and state a limitation (10 minutes).** Pick the one
+feature your table calls supported. State exactly what would have to be true
+for that same algorithm to be trusted on a *different* specimen without a
+retained source to check against — and note that this pack cannot supply
+that answer, because it has only ever been tested on this one specimen.
+
+## Evaluate — 30 minutes
+
+Write your feature table (id, location, judgement, one line of reasoning per
+row) before opening `reveal/`. Then answer: if you had access to
+`degraded.svg` and `restored.svg` only — no retained source — which of your
+six judgements could you actually have made?
+
+## Deposit — 30 minutes
+
+Open [`reveal/analysis.md`](/packs/week-10/reveal/analysis.md) and compare it
+against your own table. Deposit your feature table, labelled
+supported/unsupported/uncertain, into the [Image
+collection](/archive/#image).
 
 ## Accessible route
 
-Enlarged labelled details with equivalent written feature descriptions.
+`labelled-features.txt` gives the same six features as plain text — location,
+source tone, degraded tone, restored tone — with no image required.
+
+## Assessment
+
+The Lossless Argument requires evaluating a preservation or restoration claim
+using retained evidence, weighted for how well you separate verified
+agreement from plausible appearance. See the [assessment
+brief](/assessments/the-lossless-argument/).
