@@ -1158,6 +1158,73 @@ actual phone-width viewport in a browser.
 
 **Commits:** `7b05f6d` error-correction lecture and workshop.
 
+## 2026-09-17 — Week 9 built: a categorical resampling pack
+
+**Scope:** `packs/week-09` (generator, model, spec test), the week 9 workshop
+and lecture pages, and the Distribution model archive section.
+
+### Decisions and reasons
+
+- **Modelled the mechanism, not a language model.** Six labelled categories
+  (A–F), true probabilities 0.40/0.25/0.15/0.10/0.07/0.03, no architecture,
+  optimisation or token vocabulary — per the plan's explicit instruction not
+  to equate a categorical toy model with language-model training. The rare
+  category (F, 3%) is what the whole pack is built to track.
+- **Three conditions chosen to isolate the retention mechanism.** `baseline`
+  never re-estimates from a sample (control); `full-recursive` estimates
+  every later round purely from the previous round's own sample (the failure
+  mode); `retain-original` mixes in a fresh true-distribution sample each
+  round (the paper's stated mitigation). All three share round 0 and the same
+  seeds, so any difference in outcome is attributable to the re-estimation
+  rule alone.
+- **Checked the reveal against the pack's own real output, not against
+  intuition.** The `full-recursive` condition reached a genuine absorbing
+  zero state for category F under seed 47 (from round 3 onward, verified by
+  inspecting `counts.csv` directly); seeds 11 and 23 under the same condition
+  did not lose it by round 5; neither `baseline` nor `retain-original` lost
+  it in any of the three seeds in this run. `reveal.summary` was written to
+  match this — not the other way around.
+- **Caught and fixed a floating-point display bug before publishing.** The
+  first build computed a rounded retention *fraction* and multiplied it back
+  up for display, producing artifacts like `2.0010000000000003/3 seeds` in
+  `trend.txt`. Replaced with a helper that counts, as an integer, how many of
+  the three seeds have a nonzero rare-category count that round, and updated
+  the trend text to use that integer directly. This is the kind of self-caught
+  error the log is meant to record honestly rather than silently patch.
+- **Cited the Shumailov et al. (2024) reading as a locator plus an original
+  teaching summary, not a link.** A `WebFetch` to the article's Nature URL
+  returned a 303 redirect to Nature's IDP login page, indicating the article
+  is paywalled. Per `CLAUDE.md`'s reading rule, the workshop and lecture pages
+  give the full locator (*Nature* 631, 755–759, 2024) and state the specific
+  claim being used (early vs. late collapse; tail-event loss; fresh-data
+  injection as mitigation) as an original summary, rather than linking a copy
+  a student cannot reach.
+- **Left `docs/weeks/week-09.md` unedited.** As with every prior week, the
+  plan document stays as the authoring target; real outcomes (including the
+  absorbing-state result and the reading's access status) are recorded here
+  instead.
+
+### Verification
+
+`mise exec -- pnpm check`: typecheck clean, 48 pages built, axe-clean, no
+broken links, course API 32 nodes / 48 edges, both decks still pass
+astromotion's structural check, 103 of 103 tests green (94 existing + 9 new
+in `spec/week-09-pack.test.ts`, including a determinism check, a cross-seed
+divergence check, a baseline-stays-near-expectation check, and a check that
+the fully recursive condition can reach and stay at an absorbing zero state).
+
+**Still not established.** No fresh reader has worked through the pack or the
+workshop page — only an author check that the pack's own reveal text matches
+its own generated output. The Shumailov et al. reading's specific claim has
+been verified against real search results describing the paper's actual
+findings, but the paper's full text has not been read end-to-end by this
+process (only its abstract-level claims, which the summary above is scoped
+to). Neither page has been checked on an actual phone-width viewport in a
+browser.
+
+**Commits:** `4a6d9fa` categorical resampling pack, `d166b25` workshop,
+lecture and archive pages.
+
 ### Template for subsequent observed results
 
 - What was tested and with which materials/version:
