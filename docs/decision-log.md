@@ -1098,6 +1098,66 @@ filled with an unverified citation.
 **Commits:** `7d9a1be` sequence-replication pack, `e2666d8` workshop, lecture
 and archive pages.
 
+## 2026-09-17 — Week 8 built, on-page only (no pack)
+
+**Scope:** The week 8 workshop and lecture pages, and the Bits archive
+section. No `packs/week-08` was created.
+
+### Decisions and reasons
+
+- **No pack this week, by design, not by omission.** The plan's required
+  deliverable is explicitly "on-page bitstrings, worked decoding...", and the
+  accessible route is "labelled text blocks worked by hand; no implementation
+  required." Every other week so far has shipped a generated pack because the
+  plan called for downloadable evidence; week 8's own spec calls for the
+  opposite — arithmetic small enough to sit directly on the page. Building a
+  pack anyway would have added a download step the plan does not ask for and
+  the human acceptance gate ("no programming or specialist mathematics")
+  argues against.
+- **Hand-checked every number before publishing it.** The worked message
+  (payload `1011`, codeword `111 000 111 111`), the check's received block
+  (`101 000 111 111`, one flip, decodes correctly to `1011`), the Investigate
+  "protected example" (`111 001 111 110`, two triplets carrying one flip
+  each, the other two carrying none, all four still decoding to `1011`), and
+  the three-case comparison table (unprotected / correctable / failure) were
+  each decoded by hand before being written into the page, per the human
+  acceptance gate "hand-check the example decoding and overhead calculations,
+  including one failure outside the promised error bound."
+- **Built the failure case from the same fault, not a separate scary one.**
+  The three-row comparison applies one flipped bit to the same payload bit
+  three ways (unprotected; one flip in a triplet; two flips in a triplet),
+  so the failure row is a direct escalation of the correctable row rather
+  than an unrelated worst case — the point being that the *number* of
+  simultaneous faults is what crosses the guarantee's stated boundary, not a
+  different kind of fault.
+- **Labelled the sample costing explicitly fictional.** The deposit task
+  prices a fictional 100 GB collection at a stated fictional rate
+  ($0.02/GB/month), matching `CLAUDE.md`'s instruction to label hypothetical
+  data. This feeds The Lossless Argument's costing criterion without
+  implying any real vendor's pricing.
+- **Left the A3 rubric (`the-lossless-argument.md`) unedited.** Its
+  20/25/25/20/10 weighted criteria already exist from an earlier phase and
+  already match the plan's stated weights, satisfying the gate "confirm the
+  A3 rubric is weighted and matches the master plan" without needing a
+  change.
+
+### Verification
+
+`pnpm check`: typecheck clean, 47 pages built, axe-clean, no broken links,
+course API 32 nodes / 48 edges, both decks still pass astromotion's
+structural check, 94 of 94 existing tests green (`weekly-contract.test.ts`
+already covers the new session once `draft: true` is removed; no new spec
+file was needed since there is no pack to test against).
+
+**Still not established.** No fresh reader has decoded these blocks from the
+page alone — only an author hand-check that majority vote on each stated
+triplet returns the value claimed. The candidate Shannon/Hamming readings
+(§2 of `docs/weeks/week-08.md`) have not been selected or verified, so no
+reading is cited on the lecture page. Neither page has been checked on an
+actual phone-width viewport in a browser.
+
+**Commits:** `7b05f6d` error-correction lecture and workshop.
+
 ### Template for subsequent observed results
 
 - What was tested and with which materials/version:
