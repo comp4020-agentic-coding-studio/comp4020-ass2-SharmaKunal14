@@ -1,0 +1,44 @@
+{
+  "categories": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F"
+  ],
+  "trueProbabilities": [
+    0.4,
+    0.25,
+    0.15,
+    0.1,
+    0.07,
+    0.03
+  ],
+  "rareCategory": "F",
+  "roundSize": 200,
+  "rounds": 5,
+  "seeds": [
+    11,
+    23,
+    47
+  ],
+  "conditions": [
+    {
+      "id": "baseline",
+      "label": "original-data baseline",
+      "description": "Every round draws fresh samples from the fixed true distribution. No recursion at all — this is the control."
+    },
+    {
+      "id": "full-recursive",
+      "label": "fully recursive (replace)",
+      "description": "Round 1 draws from the true distribution. Every later round draws from the empirical distribution estimated from the previous round's own samples, with nothing else mixed in."
+    },
+    {
+      "id": "retain-original",
+      "label": "recursive with retained original data",
+      "description": "Round 1 draws from the true distribution. Every later round estimates its sampling distribution from a 50/50 mix of the previous round's generated samples and a fresh sample from the true distribution."
+    }
+  ],
+  "method": "mulberry32(seed); round 0 draws roundSize samples from trueProbabilities; each condition then defines how later rounds' sampling distribution is estimated from prior samples (see each condition's description)."
+}
