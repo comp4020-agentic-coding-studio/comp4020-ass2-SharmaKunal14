@@ -2,6 +2,8 @@
 title: "The office that ate itself"
 description: "What changes when something is copied, the eight-operation control that shows change is not guaranteed, and why a deterministic rule still leaves readers disagreeing."
 week: 1
+heroImage: /src/assets/images/hero-week-01.avif
+heroImageAlt: "Week 01 banner: The office that ate itself"
 date: 2027-02-22
 teachers:
   - wren-halloway

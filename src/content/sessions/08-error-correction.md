@@ -2,6 +2,8 @@
 title: "Copying without loss"
 description: "What resources can protect a message from a specified error pattern?"
 week: 8
+heroImage: /src/assets/images/hero-week-08.avif
+heroImageAlt: "Week 08 banner: Copying without loss"
 date: 2027-04-21
 teachers:
   - wren-halloway

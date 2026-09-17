@@ -2,6 +2,8 @@
 title: "When ancestry becomes hard to read"
 description: "What happens to ancestry inference as copying errors increase?"
 week: 7
+heroImage: /src/assets/images/hero-week-07.avif
+heroImageAlt: "Week 07 banner: When ancestry becomes hard to read"
 date: 2027-04-14
 teachers:
   - wren-halloway

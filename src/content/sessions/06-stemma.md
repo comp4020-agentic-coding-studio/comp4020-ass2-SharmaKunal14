@@ -2,6 +2,8 @@
 title: "Reading the damage backwards"
 description: "Which family tree does the evidence support, and what remains unknown?"
 week: 6
+heroImage: /src/assets/images/hero-week-06.avif
+heroImageAlt: "Week 06 banner: Reading the damage backwards"
 date: 2027-03-31
 teachers:
   - wren-halloway

@@ -2,6 +2,8 @@
 title: "The scriptorium"
 description: "Which copying mistakes can become useful evidence?"
 week: 5
+heroImage: /src/assets/images/hero-week-05.avif
+heroImageAlt: "Week 05 banner: The scriptorium"
 date: 2027-03-24
 teachers:
   - wren-halloway

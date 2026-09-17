@@ -2,6 +2,8 @@
 title: "Chain of custody"
 description: "What does a provenance record establish, and what can it omit?"
 week: 11
+heroImage: /src/assets/images/hero-week-11.avif
+heroImageAlt: "Week 11 banner: Chain of custody"
 date: 2027-05-12
 teachers:
   - wren-halloway

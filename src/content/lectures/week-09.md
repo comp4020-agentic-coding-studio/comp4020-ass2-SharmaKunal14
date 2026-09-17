@@ -2,6 +2,8 @@
 title: "The curse of recursion"
 description: "Resampling from your own output, and why the rare cases go first."
 week: 9
+heroImage: /src/assets/images/hero-week-09.avif
+heroImageAlt: "Week 09 banner: The curse of recursion"
 date: 2027-04-26
 teachers:
   - wren-halloway

@@ -2,6 +2,8 @@
 title: "Enhance"
 description: "Does a convincing restoration match the original?"
 week: 10
+heroImage: /src/assets/images/hero-week-10.avif
+heroImageAlt: "Week 10 banner: Enhance"
 date: 2027-05-05
 teachers:
   - wren-halloway

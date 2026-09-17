@@ -2,6 +2,8 @@
 title: "Hiss as a signature"
 description: "Which shared features are useful evidence of a common intermediate copy?"
 week: 2
+heroImage: /src/assets/images/hero-week-02.avif
+heroImageAlt: "Week 02 banner: Hiss as a signature"
 date: 2027-03-03
 teachers:
   - wren-halloway

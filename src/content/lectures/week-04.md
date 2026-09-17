@@ -2,6 +2,8 @@
 title: "The poor image"
 description: "Working backwards from a limited observation, why indistinguishable is a claim about evidence rather than about files, and why ruling out one history does not establish another."
 week: 4
+heroImage: /src/assets/images/hero-week-04.avif
+heroImageAlt: "Week 04 banner: The poor image"
 date: 2027-03-15
 teachers:
   - wren-halloway

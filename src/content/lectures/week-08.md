@@ -2,6 +2,8 @@
 title: "Copying without loss"
 description: "Redundancy as a purchase: what it buys, what it costs, and where the guarantee stops."
 week: 8
+heroImage: /src/assets/images/hero-week-08.avif
+heroImageAlt: "Week 08 banner: Copying without loss"
 date: 2027-04-19
 teachers:
   - wren-halloway

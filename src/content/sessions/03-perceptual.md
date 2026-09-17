@@ -2,6 +2,8 @@
 title: "What the ear cannot hear"
 description: "How would we test whether repeated re-encoding caused a measured change?"
 week: 3
+heroImage: /src/assets/images/hero-week-03.avif
+heroImageAlt: "Week 03 banner: What the ear cannot hear"
 date: 2027-03-10
 teachers:
   - wren-halloway

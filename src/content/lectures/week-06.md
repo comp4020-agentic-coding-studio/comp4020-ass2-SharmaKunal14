@@ -2,6 +2,8 @@
 title: "Reading the damage backwards"
 description: "Building a tree from shared error, the assumptions it needs, and where contamination breaks it."
 week: 6
+heroImage: /src/assets/images/hero-week-06.avif
+heroImageAlt: "Week 06 banner: Reading the damage backwards"
 date: 2027-03-29
 teachers:
   - wren-halloway

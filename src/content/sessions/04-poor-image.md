@@ -2,6 +2,8 @@
 title: "The poor image"
 description: "Can different histories fit the same available image evidence?"
 week: 4
+heroImage: /src/assets/images/hero-week-04.avif
+heroImageAlt: "Week 04 banner: The poor image"
 date: 2027-03-17
 teachers:
   - wren-halloway

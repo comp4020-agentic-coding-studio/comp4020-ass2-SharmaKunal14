@@ -2,6 +2,8 @@
 title: "Chain of custody"
 description: "Carrying provenance with an object, and what a missing record does and does not prove."
 week: 11
+heroImage: /src/assets/images/hero-week-11.avif
+heroImageAlt: "Week 11 banner: Chain of custody"
 date: 2027-05-10
 teachers:
   - wren-halloway

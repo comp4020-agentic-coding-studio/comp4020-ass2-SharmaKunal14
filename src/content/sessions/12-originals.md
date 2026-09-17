@@ -2,6 +2,8 @@
 title: "The original that never was"
 description: "What should this archive preserve, given a limited budget?"
 week: 12
+heroImage: /src/assets/images/hero-week-12.avif
+heroImageAlt: "Week 12 banner: The original that never was"
 date: 2027-05-19
 teachers:
   - wren-halloway

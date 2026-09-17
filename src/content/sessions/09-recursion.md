@@ -2,6 +2,8 @@
 title: "The curse of recursion"
 description: "Under what conditions can recursive sampling lose rare cases?"
 week: 9
+heroImage: /src/assets/images/hero-week-09.avif
+heroImageAlt: "Week 09 banner: The curse of recursion"
 date: 2027-04-28
 teachers:
   - wren-halloway

@@ -2,6 +2,8 @@
 title: "What the ear cannot hear"
 description: "Why a suggested cause needs a control, a stated outcome measure and everything else held fixed — and what a non-detection does and does not license."
 week: 3
+heroImage: /src/assets/images/hero-week-03.avif
+heroImageAlt: "Week 03 banner: What the ear cannot hear"
 date: 2027-03-08
 teachers:
   - wren-halloway

@@ -2,6 +2,8 @@
 title: "The office that ate itself"
 description: "How can we measure a copy becoming harder to read?"
 week: 1
+heroImage: /src/assets/images/hero-week-01.avif
+heroImageAlt: "Week 01 banner: The office that ate itself"
 date: 2027-02-24
 teachers:
   - wren-halloway
