@@ -150,8 +150,17 @@ limit, not an edge case outside it.
 
 ### Distribution model
 
-A small categorical distribution resampled from its own output, used in week 9.
-It is categorical resampling, not a trained language model, and the page says so.
+A small categorical distribution resampled from its own output, used in week 9
+to watch a rare case disappear under recursive re-estimation. Six categories
+(A–F) with true probabilities 0.40/0.25/0.15/0.10/0.07/0.03, category F the
+rare case at 3%, 200 draws per round, 5 recursive rounds after a shared
+round-0 draw, three fixed seeds per condition. Three conditions: a baseline
+that always resamples from the true distribution, a fully recursive condition
+that re-estimates each round purely from the previous round's own sample, and
+a retain-original condition that mixes in a fresh true-distribution sample
+each round. Settings and seeds are published in
+`/packs/week-09/settings.json`. It is categorical resampling, not a trained
+language model, and the page says so.
 
 ## What a record holds
 

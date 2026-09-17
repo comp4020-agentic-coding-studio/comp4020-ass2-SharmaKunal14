@@ -3,7 +3,6 @@ title: "The curse of recursion"
 description: "Under what conditions can recursive sampling lose rare cases?"
 week: 9
 date: 2027-04-28
-draft: true
 teachers:
   - wren-halloway
   - tobias-renn
@@ -35,15 +34,90 @@ spec:
 
 **Learning target.** Compare stated conditions rather than infer training history from style.
 
-## Investigate (40 minutes)
+## Before the workshop
 
-Skeleton. The supplied evidence, step-by-step instructions and indicative answer
-for this workshop are written in phase 9; see `docs/weeks/week-09.md`.
+Download the [week 9 pack](/packs/week-09/): a fixed six-category
+distribution (categories A–F, category F fixed at 3% true probability), 200
+draws per round, 5 rounds after the shared round-0 draw, three seeds per
+condition. `settings.json` names every category's true probability, the round
+size, the seeds, and exactly how each condition estimates its next round's
+sampling distribution — everything needed to reproduce every count in this
+pack. Do not open `reveal/` yet.
 
-## Deposit
+**Reading.** Shumailov, Shumaylov, Zhao, Papernot, Anderson and Gal, "AI
+models collapse when trained on recursively generated data," *Nature* 631,
+755–759 (2024). Access note: this article sits behind Nature's login wall, so
+this course does not link a copy; the lecture states the specific claim being
+used — that repeatedly training on a model's own generated output causes
+early error accumulation and, later, the permanent loss of low-frequency
+("tail") cases — and this workshop tests a small, fully stated instance of
+that mechanism rather than asking you to read the paper's own experiments.
 
-Rare-category retention comparison across three sampling conditions, labelled a simplified model.
+## Check — 5 minutes
+
+The rare category F's count across three seeds of the "fully recursive"
+condition, at rounds 3, 4 and 5: seed 11 — 5, 9, 11; seed 23 — 9, 9, 12;
+seed 47 — 0, 0, 0. Does this table support the claim "recursive resampling
+always loses rare categories by round 5"? State your answer and why in one
+sentence.
+
+*Indicative answer.* No — two of the three seeds show category F's count
+recovering, not shrinking, by round 5. Only one seed (47) lost it, and once
+it reached zero it stayed at zero. The supported claim is narrower: recursive
+resampling **can** permanently lose a rare category, not that it reliably
+does on every run.
+
+## Receive — 15 minutes
+
+Confirm you can state, in your own words, what distinguishes the three
+conditions: the baseline never re-estimates its sampling distribution from a
+generated sample; the fully recursive condition estimates every later round
+entirely from the previous round's own sample; the retained-data condition
+mixes the previous round's sample with a fresh draw from the true
+distribution before estimating.
+
+## Investigate — 40 minutes
+
+**Inspect condition definitions and sample counts (10 minutes).** Read
+`settings.json` and `counts.csv`. Confirm round 0 is identical in method
+across all three conditions (a draw from the true distribution) and that the
+three conditions only diverge from round 1 onward.
+
+**Compare five rounds across the three conditions and three seeds (20
+minutes).** Using `rare-category-retention.csv`, `plot.svg` or `trend.txt`
+(accessible route), track category F's count per condition per seed across
+rounds 0–5. Note which seeds, in which condition, ever reach a count of zero
+— and whether any run that reaches zero ever recovers.
+
+**Write a conditional conclusion and one limitation (10 minutes).** State a
+conclusion of the form "under condition X, with these settings, category F
+was lost in N of 3 seeds by round 5" — not a general claim about recursive
+training. Then name one limitation: what property of a real trained language
+model (architecture, optimisation, token vocabulary, training data scale)
+this six-category toy has no analogue for.
+
+## Evaluate — 30 minutes
+
+Write your rare-category retention table (one row per condition, one column
+per seed, values are round-5 counts and whether zero was ever reached) and
+your conditional conclusion with its named limitation — before opening
+`reveal/`.
+
+## Deposit — 30 minutes
+
+Open [`reveal/analysis.md`](/packs/week-09/reveal/analysis.md) and compare it
+against your own conclusion. Deposit your retention table, your conditional
+conclusion and your limitation note into the [Distribution model
+study](/archive/#distribution-model), labelled a simplified model throughout.
 
 ## Accessible route
 
-Count tables and an annotated chart description.
+Count tables and an annotated chart description: `rare-category-retention.csv`
+and `trend.txt` give the same per-round, per-seed counts as `plot.svg`
+without requiring the image.
+
+## Assessment
+
+**The Stemma is due this Friday, 2027-04-30, 12:00 Canberra time.** See the
+[assessment brief](/assessments/the-stemma/) for the submission format if you
+have not already submitted.
