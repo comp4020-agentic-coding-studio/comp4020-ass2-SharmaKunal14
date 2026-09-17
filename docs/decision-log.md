@@ -1367,6 +1367,103 @@ at the task.
 **Commits:** `8c957a4` chain-of-custody manifest audit pack, `ace30cb`
 workshop, lecture and archive pages.
 
+## 2026-09-18 — Week 12 built: a preservation budget across three families
+
+### Decisions and reasons
+
+- **Used the archive's real published item counts and, where already
+  measured, real sizes.** `packs/week-12/model.json` sets `itemCount` to the
+  archive's actual published record counts (11 print, 5 audio, 2 image), and
+  the image family's `sourceSizeGb` from week 4's own retained
+  working-directory listing. Only the audio family's source-tier size is an
+  estimate, since no audio bytes are published for that collection; the
+  model's `note` field and `families[].note` both say so explicitly, per the
+  gate against inventing measurements the archive does not have.
+- **Made the "after" cost a computation, not a typed-in total.**
+  `resolveProposal()` in `packs/week-12/build.ts` derives every proposal's
+  cost from `pack.rates` and each family's real item count, rather than a
+  hand-entered figure. This is the same discipline as week 11's computed
+  after-manifest: the sensitivity test only means something if the revised
+  rate genuinely changes the output of the same code, not a second,
+  independently-authored number.
+- **Fixed a real budget-accounting bug found by inspecting actual output,
+  not assumed correct.** The first version of `partialSourceUpgrade()`
+  computed the budget available for upgrading the audio family to source
+  tier without first subtracting that family's own fallback-tier baseline
+  cost, which let the "start-audio" proposal upgrade all 5 items and come
+  out at $125.013 — over the stated $120 budget. That defeated the point of
+  supplying two proposals that are both legitimately affordable at baseline.
+  Fixed by computing `ownBaseline` and subtracting it before calling
+  `partialSourceUpgrade()`; the corrected run upgrades exactly 4 of 5 audio
+  items, for a real total of $118.010, under budget. Caught by running the
+  build and reading `proposal-totals.csv`, not by reasoning about the code.
+- **Fixed a CSV-escaping bug in the same build.** The partial allocation's
+  `tier` field renders as a human-readable string containing a literal
+  comma (`"4/5 source, rest examples"`), which written unquoted into
+  `proposals.csv` silently split into an extra column. Fixed by quoting the
+  `tier` field in the CSV writer; verified by reading the published file
+  directly.
+- **Engineered the sensitivity scenario so it flips one proposal, not
+  neither or both.** Raising `sourceLaborPerItem` from $12 to $20 pushes
+  "deep-image" from $104.005 to $120.005 (over budget) because it spends its
+  source-tier dollars on the family that rate applies to in full, while
+  "start-audio" actually *falls* from $118.010 to $105.003 because its
+  partial-upgrade item count recomputes downward under the higher rate. This
+  was verified by running the real computation under both rate sets and
+  reading `sensitivity.csv`, satisfying the plan's gate that the stated
+  constraint must force a meaningful choice rather than merely being
+  asserted to.
+- **Left the objection unresolved in the reveal, deliberately.** The pack's
+  `objection`/`response` pair, and `reveal/analysis.md`'s prose, both stop
+  short of naming a winning proposal; the response explains what the naive
+  value score cannot adjudicate rather than adjudicating it. The pack's test
+  suite checks this directly (`reveal/analysis.md` must not match
+  `/\bwinner\b|\bbest proposal\b/i`), satisfying the plan's gate that
+  different, defensible proposals should be able to earn full marks under
+  the same rubric.
+- **Verified both readings before citing them.** Fetched
+  `marxists.org/reference/subject/philosophy/works/ge/benjamin.htm` and
+  confirmed it is freely accessible with the relevant "aura" passage in
+  §II–III, cited by section rather than a bare link. Fetched
+  `premiumbeat.com/blog/how-pixar-saved-toy-story-2` and confirmed it is
+  freely accessible, dated (2018-12-06) and authored (Caleb Stephens),
+  covering the accidental deletion, the corrupt tape-backup restore, and
+  Galyn Susman's home-copy recovery — a real, verifiable, on-theme
+  preservation case rather than an invented one.
+- **Added a cross-family archive note without merging ancestry.** The new
+  "Cross-family: a preservation budget" section in `src/pages/archive/index.mdx`
+  describes the budget comparison across print, audio and image, explicitly
+  stating it is a resourcing comparison, not an ancestry claim, per the
+  archive's own stated rule that parent-child edges stay within a family.
+
+### Verification
+
+`mise exec -- pnpm check`: typecheck clean (0 errors, the same one
+pre-existing unrelated hint in `packs/week-06/build.ts`), 51 pages built,
+axe-clean, no broken links, course API 32 nodes / 57 edges, both decks still
+pass astromotion's structural check, 129 of 129 tests green (120 existing +
+9 new in `spec/week-12-pack.test.ts`, including a check that preserving
+every family fully at source tier exceeds the stated budget, a check that
+both baseline proposals fit within budget, a check that the revised rate
+flips at least one proposal out of budget, a check that the partial-upgrade
+proposal upgrades a positive but incomplete share of its family's items, and
+checks that the published CSVs and reveal text match the computed values).
+
+**Still not established.** No fresh reader has worked the budget from the
+pack alone — only an author check that the published CSVs match
+`resolveProposal()`'s computed values. Neither page has been checked on an
+actual phone-width viewport in a browser. Whether different students'
+memos, choosing opposite proposals, would in fact both earn strong marks
+under a real marker rather than this pack's own test suite is untested with
+only one author's own attempt at the task. This was the last of the twelve
+planned weeks; the separate curated A2 "Stemma" assessment pack,
+`PROCESS.md`, starter-image replacement, fresh-reader trials, real
+browser/viewport checks and shipping remain outstanding, as previously
+flagged.
+
+**Commits:** `4be9951` preservation budget pack, `6031380` workshop, lecture
+and archive pages.
+
 ### Template for subsequent observed results
 
 - What was tested and with which materials/version:
