@@ -1021,6 +1021,83 @@ witness set — has not been built.
 
 **Commits:** `31bb137` week 1 deck link fix, `8843b94` week 6 pages and deck.
 
+## 2026-09-17 — Week 7 built: a new synthetic replication pack
+
+**Scope:** A new `packs/week-07` pack (no prior artefact to reuse, unlike
+weeks 5/6), the workshop and lecture pages, and the Sequence model archive
+section.
+
+### Decisions and reasons
+
+- **Built a real, reproducible simulation rather than pre-baked numbers.**
+  `packs/week-07/build.ts` implements a seeded PRNG (mulberry32) and copies a
+  fixed 24-symbol, four-letter-alphabet ancestor forward 40 generations under
+  an independent per-position substitution rate, at three fixed rates (0.02,
+  0.08, 0.2) and three fixed seeds (11, 23, 47) each. `settings.json` publishes
+  the ancestor, alphabet, rates, seeds and the exact method in prose, so the
+  human acceptance gate ("reproduce prepared results using recorded settings
+  and seeds") can actually be met — a spec test (`week-07-pack.test.ts`)
+  asserts the same seed always reproduces the same run and different seeds
+  diverge.
+- **Chose an abstract four-symbol alphabet (P, Q, R, S), not nucleotide
+  letters.** The plan and `CLAUDE.md` require labelling this a simplified
+  model with no biological claim; using letters that read as DNA would invite
+  exactly the conflation the workshop's "unjustifiable conclusion" task asks
+  students to reject.
+- **Measured agreement against the generation-0 ancestor, not the immediate
+  parent.** This is what "ancestor agreement...over generations" in the plan
+  means, and it is the quantity that actually degrades — parent-to-child
+  agreement would stay roughly constant by construction and would not show
+  the effect the week is about.
+- **Published all nine runs, not a mean-only summary.** One of the plan's
+  human acceptance gates is "show variation across repeated runs rather than
+  selecting a single dramatic run." `plot.svg` draws all three seeds per rate
+  as separate lines with markers at the reported generations, and `trend.txt`
+  reports the seed-to-seed spread at each generation alongside the mean, so
+  the accessible route carries the same variation the image does.
+- **Corrected an overclaim caught before publishing, not after.** A first
+  draft of `trend.txt` asserted all nine runs "decline monotonically." Checking
+  the actual `results.csv` output found two runs (medium/seed 11 and
+  high/seed 47) tick upward between generation 20 and 40, because a
+  substitution can by chance restore a match as easily as break one at this
+  sequence length. Rewrote the claim to describe the true shape: the *mean*
+  falls at every rate, no individual run is smooth, and every mean settles
+  toward roughly 0.25 (the chance-agreement floor for a four-symbol alphabet),
+  not toward zero. This chance floor is stated in the lecture and workshop
+  pages as a real, checkable property of this model, not asserted loosely.
+  This is the kind of self-caught error the log is meant to record honestly
+  rather than silently patch.
+- **Kept the unjustifiable-conclusion answer in `reveal/`, not in the public
+  pack files.** `README.txt` describes the folder without naming what the
+  check is testing for; `reveal/analysis.md` states the omitted selection and
+  population structure, and names the specific overclaim (a universal
+  biological error threshold) the check asks students to reject themselves
+  first.
+
+### Verification
+
+`pnpm check`: typecheck clean, 47 pages built, axe-clean, no broken links,
+course API 32 nodes / 48 edges, both existing decks still pass astromotion's
+structural check, 94 of 94 tests green (9 new in `week-07-pack.test.ts`,
+covering determinism, seed divergence, the rate-ordering of mean agreement at
+generation 40, and that the public files do not leak the reveal's named
+conclusion). Ran `packs/week-07/build.ts` directly and read `results.csv` and
+`trend.txt` by eye before writing the workshop and lecture text, so every
+number quoted on those pages (the three rates, the chance floor, the
+direction of the trend) matches the pack's actual output.
+
+**Still not established.** No fresh reader has worked the check or the
+Investigate stage from the pack alone — only an author consistency check that
+the published files and page text match the simulation's real output. Neither
+new page nor the pack's plot has been inspected on an actual phone-width
+viewport in a browser. The candidate reading on replication/error models
+(§2 of `docs/weeks/week-07.md`) has not been selected or verified, so no
+reading is cited on the lecture page — a real gap, left open rather than
+filled with an unverified citation.
+
+**Commits:** `7d9a1be` sequence-replication pack, `e2666d8` workshop, lecture
+and archive pages.
+
 ### Template for subsequent observed results
 
 - What was tested and with which materials/version:
