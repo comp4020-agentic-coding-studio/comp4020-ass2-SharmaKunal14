@@ -970,6 +970,57 @@ activity itself*.
 
 **Commits:** `4066bbe` lecture and workshop pages.
 
+## 2026-09-17 — Week 6 built, and the week 1 deck link gap fixed
+
+**Scope:** The week 6 workshop and lecture pages, the required `week-06.deck.mdx`,
+and a fix to a real gap found while wiring the new deck's link: week 1's
+lecture never linked its deck.
+
+### Decisions and reasons
+
+- **Found and fixed: week 1's deck was never linked from its lecture page.**
+  The brief's spec requires "at least one lecture carries a real deck, linked
+  from its page" (`docs/assignment-brief.md`). `src/decks/week-01.deck.mdx`
+  exists and compiles, but `src/content/lectures/week-01.md` never set the
+  `slides` frontmatter field the lecture schema and page template already
+  support (`src/content.config.ts`, `src/pages/lectures/[slug].astro`), and
+  nothing else in the site linked to `/decks/week-01/`. The build's link
+  checker did not catch this because an unlinked page is not a broken link.
+  Added `slides: /decks/week-01/` to close the gap, and set the same field on
+  week 6's lecture from the start so this does not recur there.
+- **Build one worked example in the deck, and keep the graded A2 pack
+  separate.** The deck walks the week-06 practice pack (the same pack week 5
+  produces witnesses into) end to end — evidence table, candidate tree,
+  competing tree, the deliberately unresolved D/E edge, the normalisation
+  trap, then the reveal. It does not touch The Stemma's own 5–9 witness pack,
+  which `packs/week-06/build.ts` already notes is a separate artefact not
+  stored in this repository. That pack, with its own ambiguity notes, is
+  still outstanding.
+- **Escaped MDX's curly-brace set notation.** A first draft wrote witness
+  groups as `{B, C, D, E}` in the deck's prose; MDX parses `{...}` as a JS
+  expression, so the build failed at prerender with `ReferenceError: B is not
+  defined`. Rewrote every instance as plain prose ("the group B, C, D, E")
+  rather than escaping the braces, since the escaped form reads worse and the
+  set notation was not carrying any meaning prose could not.
+
+### Verification
+
+`pnpm check`: typecheck clean, 46 pages built, axe-clean, no broken links,
+course API 32 nodes / 48 edges, both decks (week 1 and week 6) pass
+astromotion's structural check, 85 of 85 existing tests still green. Inspected
+`/decks/week-06/` and `/decks/week-01/` after the build to confirm both render
+and that the new `slides` link on each lecture page resolves.
+
+**Still not established.** No fresh reader has worked the week 6 tree from the
+table alone — only an author consistency check that the table's evidence
+matches `reveal/production-log.md`, already recorded in the 2026-09-16 entry.
+Neither deck has been inspected on an actual phone-width viewport in a
+browser, only built; that check is still owed before submission, for every
+deck and every page. The Stemma's own curated pack — a separate, larger
+witness set — has not been built.
+
+**Commits:** `31bb137` week 1 deck link fix, `8843b94` week 6 pages and deck.
+
 ### Template for subsequent observed results
 
 - What was tested and with which materials/version:
