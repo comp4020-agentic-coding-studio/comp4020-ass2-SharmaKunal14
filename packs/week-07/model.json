@@ -1,0 +1,19 @@
+{
+  "pack": "week-07",
+  "note": "A simplified synthetic replication model. It has no selection, no population structure, and no biological claim attached to its symbols — it exists to show how ancestor-agreement decays as a copying error rate rises, and where that decay stops being a reliable signal.",
+  "alphabet": ["P", "Q", "R", "S"],
+  "ancestorLength": 24,
+  "generations": 40,
+  "selectedGenerations": [1, 5, 10, 20, 40],
+  "errorRates": [
+    { "id": "low", "label": "low", "rate": 0.02 },
+    { "id": "medium", "label": "medium", "rate": 0.08 },
+    { "id": "high", "label": "high", "rate": 0.2 }
+  ],
+  "seeds": [11, 23, 47],
+  "reveal": {
+    "summary": "Ancestor agreement falls fastest at the high rate and slowest at the low rate, as expected from a per-position independent substitution model — but the point of this pack is not that ranking, it is what the three runs at each rate do and do not show.",
+    "limitations": "This model has no selection: every substitution is equally likely to survive, so nothing here favours a functional sequence over a broken one. It has no population structure: one lineage is copied forward, with no branching, no drift between subpopulations and no bottlenecks. Three seeds per rate show that runs vary, not what the true variance is — a nine-run sample cannot establish a threshold, an error rate at which reconstruction reliably fails, that would hold for a real population or for any other week's copying medium. Treat every number here as a property of this specific simplified model, not as a biological measurement.",
+    "unjustifiableConclusion": "That there exists a single copying-error rate above which ancestry becomes 'unreadable' in general. The three rates here were chosen to illustrate a trend, not to bracket a threshold, and no biological selection or population process is represented, so no claim about a real lineage's error tolerance follows from this pack."
+  }
+}

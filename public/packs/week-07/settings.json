@@ -1,0 +1,41 @@
+{
+  "alphabet": [
+    "P",
+    "Q",
+    "R",
+    "S"
+  ],
+  "ancestor": "PQRSPQRSPQRSPQRSPQRSPQRS",
+  "ancestorLength": 24,
+  "errorRates": [
+    {
+      "id": "low",
+      "label": "low",
+      "rate": 0.02
+    },
+    {
+      "id": "medium",
+      "label": "medium",
+      "rate": 0.08
+    },
+    {
+      "id": "high",
+      "label": "high",
+      "rate": 0.2
+    }
+  ],
+  "seeds": [
+    11,
+    23,
+    47
+  ],
+  "generations": 40,
+  "selectedGenerations": [
+    1,
+    5,
+    10,
+    20,
+    40
+  ],
+  "method": "mulberry32(seed); per position, with probability = rate, substitute a different symbol chosen uniformly from the other three; agreement = fraction of positions matching the generation-0 ancestor."
+}

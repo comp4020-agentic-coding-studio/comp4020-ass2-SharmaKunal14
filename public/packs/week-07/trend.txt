@@ -1,0 +1,21 @@
+Ancestor agreement over generations — text description (accessible route)
+
+Three error rates, three fixed seeds each, agreement measured against the
+generation-0 ancestor at generations 1, 5, 10, 20, 40.
+
+low rate (0.02 per position): generation 1: mean 0.986; generation 5: mean 0.875; generation 10: mean 0.764; generation 20: mean 0.528; generation 40: mean 0.43. Spread across the three seeds at each reported generation: 0.042, 0.125, 0.166, 0.25, 0.292.
+
+medium rate (0.08 per position): generation 1: mean 0.931; generation 5: mean 0.597; generation 10: mean 0.5; generation 20: mean 0.292; generation 40: mean 0.319. Spread across the three seeds at each reported generation: 0.125, 0.208, 0.292, 0.083, 0.25.
+
+high rate (0.2 per position): generation 1: mean 0.806; generation 5: mean 0.444; generation 10: mean 0.347; generation 20: mean 0.292; generation 40: mean 0.194. Spread across the three seeds at each reported generation: 0.125, 0.209, 0.125, 0.083, 0.208.
+
+The mean at every rate falls from generation 1 to generation 40, and falls
+faster at higher rates — but no individual run is a smooth line. Random
+substitutions can happen to restore agreement as well as damage it, so a
+single seed can tick up between two reported generations even while the
+mean across seeds keeps falling. With four possible symbols per position,
+a sequence with no relation at all to the ancestor would still match it at
+about a quarter of positions by chance — every mean here is settling toward
+that floor, not toward zero. The three seeds at the same rate do not track
+identically — the spread figures above are the size of that disagreement at
+each generation. Full per-run numbers are in results.csv.
