@@ -968,7 +968,7 @@ and only the fallback pack's data has been checked for consistency. This is an
 author consistency check on the *pack*, not a trial of the *hand-copying
 activity itself*.
 
-**Commits:** to be recorded once made.
+**Commits:** `4066bbe` lecture and workshop pages.
 
 ### Template for subsequent observed results
 
