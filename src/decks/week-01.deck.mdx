@@ -1,48 +1,161 @@
 ---
-title: Opening lecture
-description: The placeholder deck — replace it with a real deck for your course
+title: The office that ate itself
+description: What changes when something is copied, and why a deterministic counting rule still leaves two readers disagreeing.
 ---
 
-# Opening lecture
+# The office that ate itself
 
-{/* STARTER_CONTENT: replace this deck, then remove this comment. */}
-
-Replace this deck. It is here to show that slides are part of the site, built
-from the same markdown as everything else.
+Sixty minutes on what a copy is, before we spend twelve weeks arguing about
+what happened to one.
 
 ---
 
-## Slides are markdown
+## Chester Carlson's problem
 
-A `---` starts a new slide. Everything else is ordinary markdown: headings,
-lists, links, tables, images, fenced code.
+Carlson demonstrated electrophotography in 1938. More than twenty companies
+declined to license it over the next decade.
 
-- one idea per slide
-- the fewest words that carry it
-- the deck is a performance artefact, so it can say things a page wouldn't
+The recorded objection was not that it failed. It was that carbon paper
+already existed, and nobody was asking for anything else.
+
+*From David Owen,* Copies in Seconds *(2004), chapter 1.*
+
+---
+
+{/* _class: centered */}
+
+## Copy room test card 0S1I-B85l
+
+Four lines, built from characters that look like one another:
+
+`0`/`O` · `1`/`l`/`I` · `5`/`S` · `8`/`B` · `2`/`Z` · `6`/`G` · `9`/`g`
+
+A legibility card concentrates the failure so it can be counted.
+
+---
+
+## One measurement, position by position
+
+```
+card   The clerk in Room 108 filed 1,051 slips before noon.
+copy   The clerk in Room 1O8 filed 1,05l slips before noon.
+```
+
+Two positions differ: a `0` read as `O`, a `1` read as `l`.
+
+Every transcription is the same length as the card — no alignment judgement,
+just a count.
+
+---
+
+## The rule matters more than the number
+
+A rule you can hand to someone else, who then gets **your** number, is a
+measurement.
+
+A number you produced by looking carefully is an impression.
+
+Wednesday's counting rule is the first thing this course asks you to trust
+someone else to reproduce.
 
 ---
 
 {/* _class: impact */}
 
-# A slide class
+## Four copies, one control
 
-`{/* _class: impact */}` fills the slide with the brand colour. `quote`,
-`banner` and `centered` are the others the theme styles.
+| Copy | Channel | Operations |
+|---|---|---:|
+| Digital control | digital | 8 |
+| Photocopy | photocopy | 1 |
+| Photocopy | photocopy | 4 |
+| Photocopy | photocopy | 8 |
+
+The control runs the **same eight operations** as the longest photocopy
+chain. Not once — eight, checksummed at every step.
 
 ---
 
-## What else is here
+## What the control buys
 
-```sh
-pnpm dev
-pnpm check
-```
+**Eight photocopy operations are worse than one. Eight digital operations are
+not worse at all.**
 
-The second command proves the deck compiles with the rest of the site. Use the
-first to inspect every slide at the desktop and phone marking viewports; slide
-fit and legibility are visual judgements.
+A digital copy made *once*, set beside a photocopy chain of eight, would
+prove nothing — the obvious objection is that it was never tested.
 
-The [astromotion](https://github.com/ANUcybernetics/astromotion) README has the
-rest of the syntax: speaker notes, backgrounds, QR codes, fragments, and
-components hydrated per slide.
+Matching the operation count is what makes this a control instead of a
+gesture.
+
+---
+
+## The finding, stated precisely
+
+This copying **process** damages what it copies.
+
+Copying **as such** does not.
+
+That distinction is the whole reason week 1 opens with a control rather than
+a dramatic chain of ruined pages.
+
+---
+
+{/* _class: quote */}
+
+## Two readers, one copy, one disagreement
+
+After a single photocopy operation, reader R1 records an error at "Room 108".
+Reader R2 records none.
+
+Both followed the same transcription procedure.
+
+---
+
+## Three claims that are not the same claim
+
+- The **counting algorithm is deterministic** — same transcription, same
+  card, same number, every time.
+- **Your own repeatability** is a separate check: count one transcription
+  twice.
+- **Readers still differ**, because resolving a damaged mark is an
+  interpretation, not a lookup.
+
+---
+
+## Legibility is a relation, not a property
+
+Reader R1 scores *below* R2 after four operations and *above* R2 after eight.
+
+The readers cannot even be ranked consistently.
+
+An honest table reports that spread. Averaging it away would have destroyed
+the one thing worth knowing.
+
+---
+
+{/* _class: banner */}
+
+## Before Wednesday
+
+Download the [week 1 pack](/packs/week-01/): `card.txt` and
+`counting-rule.txt`. Ten minutes.
+
+Workshop: [The office that ate itself](/sessions/01-photocopy/) — you apply
+the rule to all four copies and both readers, and check the control
+yourself.
+
+## Text walkthrough
+
+For a reader who cannot use the deck view: Chester Carlson's photocopier
+took a decade to be adopted because the problem it solved wasn't one anyone
+had asked about. This course's copy room test card 0S1I-B85l is built from
+confusable character pairs so a legibility failure can be counted exactly —
+compare a transcription to the card position by position, since both are
+the same length. A digital control, copied byte for byte eight times and
+checksummed at each step, comes back identical, while a photocopy chain of
+the same length degrades — showing the damage belongs to this photocopier,
+not to copying in general. Separately, two readers transcribing the same
+single photocopy already disagree at one position, which is not a flaw in
+the counting rule (deterministic, by construction) but evidence that
+legibility is a relation between a copy and a reader, not a fixed property
+of the copy.
