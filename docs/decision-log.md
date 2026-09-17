@@ -1225,6 +1225,73 @@ browser.
 **Commits:** `4a6d9fa` categorical resampling pack, `d166b25` workshop,
 lecture and archive pages.
 
+## 2026-09-17 — Week 10 built: a restoration feature-table pack
+
+**Scope:** `packs/week-10` (generator, model, spec test), the week 10
+workshop and lecture pages, and the Image archive section.
+
+### Decisions and reasons
+
+- **Built a new small specimen instead of assuming pixel data that never
+  existed.** The plan says to "compare week 4's degraded image, its retained
+  source and one prepared restoration output," but week 4's own pack
+  (confirmed by rereading it) is entirely metadata — dimensions, file size,
+  chroma subsampling, EXIF absence — with no actual pixel data ever
+  generated for `image/source` or `image/output-7`. Rather than fabricate a
+  photographic image or silently drop the comparison, this pack builds an
+  8x8 synthetic tone chart, explicit about not being a photograph, and the
+  archive's Image section now says so directly.
+- **Chose a real, named restoration algorithm (bilinear interpolation) over
+  a hand-tuned one.** Using a standard, describable upsampling method means
+  the "restoration output" is not secretly rigged to prove a point — its
+  behaviour at each of the six checked features was computed, not chosen.
+- **Reported the real result even though it complicated the story.** The
+  original model.json draft assumed every feature inside a non-uniform block
+  would come back unsupported. Running the actual code showed one of the
+  four (f4) matched the retained source exactly. Rather than drop or replace
+  that feature, `reveal.summary` was rewritten to explain why a correct
+  match there still isn't evidence of real recovery (the interpolation
+  produces one smooth value regardless of which true sub-cell is asked
+  about) — a more honest and more useful lesson than a clean 4-for-4 failure
+  would have been.
+- **Defined supported/unsupported/uncertain by what the evidence can show,
+  not by a preferred conclusion.** "Uncertain" applies only to features
+  inside already-uniform source blocks, where a match is guaranteed and
+  proves nothing about restoration — not used as a hedge for unclear cases.
+  This satisfies the gate "make the non-visual table expose the same
+  observations without telling students which conclusion to choose."
+- **Verified both readings' accessibility before citing them.** PULSE
+  (Menon et al., CVPR 2020) is open on arXiv (2003.03808) — read directly. The
+  Obama depixelation case study is Quach, K. (2020, June 24), *The Register*,
+  freely readable (confirmed via direct fetch, not just a search snippet),
+  and its own caveat — PULSE was never designed to recover a specific
+  person's true appearance — is exactly the distinction this week's lecture
+  needed, so it is quoted rather than paraphrased away.
+- **Avoided the numerical-ceiling claim the gate warns against.** No page
+  states or implies a bigger image "contains less information" in any
+  general sense; the lecture's only quantitative claim ("one of four") is
+  scoped explicitly to this one specimen and this one algorithm.
+
+### Verification
+
+`mise exec -- pnpm check`: typecheck clean, 49 pages built, axe-clean, no
+broken links, course API 32 nodes / 49 edges, both decks still pass
+astromotion's structural check, 112 of 112 tests green (103 existing + 9 new
+in `spec/week-10-pack.test.ts`, including a real many-to-one block-averaging
+check, a determinism check, a check that at least one non-uniform-block
+feature is unsupported, and a check that both uniform-block features match).
+
+**Still not established.** No fresh reader has worked the feature table from
+the pack alone — only an author check that the generated data matches the
+reveal text written about it. The PULSE/Obama case study's further
+secondary coverage (Vice, The Verge, thegradient.pub) was found but not read
+in full; only the Register article actually cited was read end-to-end.
+Neither page has been checked on an actual phone-width viewport in a
+browser.
+
+**Commits:** `281fcd2` restoration feature-table pack, `2de66a8` workshop,
+lecture and archive pages.
+
 ### Template for subsequent observed results
 
 - What was tested and with which materials/version:
