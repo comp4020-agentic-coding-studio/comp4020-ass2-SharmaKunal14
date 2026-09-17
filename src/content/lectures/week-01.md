@@ -7,6 +7,7 @@ teachers:
   - wren-halloway
 related:
   - sessions/01-photocopy
+slides: /decks/week-01/
 ---
 
 Sixty minutes. The workshop on Wednesday does the counting; this hour is about
