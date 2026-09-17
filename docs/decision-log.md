@@ -1292,6 +1292,81 @@ browser.
 **Commits:** `281fcd2` restoration feature-table pack, `2de66a8` workshop,
 lecture and archive pages.
 
+## 2026-09-17 — Week 11 built: a chain-of-custody manifest audit
+
+### Decisions and reasons
+
+- **Reused image/output-7 rather than inventing a new specimen.** The plan
+  calls for "week 4's image copies with supplied metadata manifests before
+  and after a documented stripping operation." Output 7 already has an
+  established, deposited identity in the archive (week 4) with a known gap
+  in its record (no EXIF, no upload log). Building the provenance-audit
+  scenario on top of that object, rather than a fresh one, lets the week
+  reuse rather than re-explain the specimen, and lets the "never captured"
+  category in the audit connect directly to a fact week 4 already
+  established instead of asserting a new one.
+- **Computed the "after" manifest from the "before" manifest by code, not by
+  hand-typing both.** The exercise only has a point if the stripping log is
+  genuinely incomplete relative to the *real* diff between the two
+  manifests. Hand-authoring both manifests to *look* inconsistent with the
+  log risks an accidental or unfalsifiable inconsistency. Instead,
+  `computeAfter()` in `packs/week-11/build.ts` derives the after-manifest
+  from the before-manifest by applying exactly the operations in
+  `strippedFields` and `renamedFields`, then recomputes a real SHA-256
+  metadata checksum over the resulting field set. The log
+  (`loggedOperations`) mentions only the two removals, so the rename and the
+  checksum change are undocumented as a structural consequence of running
+  the code, not because the reveal text says so.
+- **Used a plain metadata checksum, and said explicitly that it is not a
+  signature.** A checksum that changes when the field set changes is a real,
+  small, honest way to make "the log doesn't cover everything that changed"
+  concrete without needing real image bytes. The reveal and the lecture both
+  state plainly that this is an unsigned SHA-256 digest, not a C2PA
+  credential, so the exercise cannot be read as demonstrating (or
+  undermining) cryptographic provenance.
+- **Verified the C2PA reading before citing it.** `c2pa.org`'s specification
+  page 301-redirects to `spec.c2pa.org`; fetched the redirected URL directly
+  and confirmed it is freely accessible with no login, then cited it by
+  section (§1.2 Scope, §2.3.10 Authenticity) rather than as a bare link,
+  after reading what those sections actually say about authenticity meaning
+  cryptographic non-tampering, not truth of content.
+- **Treated circular sourcing as optional context, per the plan, rather than
+  inventing a citation for it.** The workshop's Evaluate section asks
+  students to name how a provenance record that cites another provenance
+  record can loop back on itself, as a conceptual question they answer in
+  their own words, without a supplied reading — matching the plan's "circular
+  sourcing is optional context" rather than manufacturing a source for a
+  claim that does not need one.
+- **Kept "missing is not false" as its own category, not folded into
+  "undocumented removal."** `gpsCoordinates` and `cameraModel` are absent
+  from both manifests because they were never captured at any stage (per
+  week 4), not because this stripping operation removed them. The audit
+  worksheet and the pack's tests both distinguish this from the two fields
+  genuinely removed by the logged operation, addressing the gate against
+  treating every missing field as evidence of falsity.
+
+### Verification
+
+`mise exec -- pnpm check`: typecheck clean, 50 pages built, axe-clean, no
+broken links, course API 32 nodes / 52 edges, both decks still pass
+astromotion's structural check, 120 of 120 tests green (112 existing + 8 new
+in `spec/week-11-pack.test.ts`, including a check that the log's operations
+actually name the stripped fields, a check that the rename survives under a
+new key with no log entry naming it, a check that the checksum genuinely
+changes and is never mentioned in the log, and a check that never-captured
+fields are null in both manifests, not just the public one).
+
+**Still not established.** No fresh reader has audited the manifests from
+the pack alone — only an author check that the generated audit worksheet
+matches the reveal text written about it. Neither page has been checked on
+an actual phone-width viewport in a browser. Whether "propose one
+proportionate archive-policy improvement" produces answers of comparable
+quality across a real cohort is untested with only one author's own attempt
+at the task.
+
+**Commits:** `8c957a4` chain-of-custody manifest audit pack, `ace30cb`
+workshop, lecture and archive pages.
+
 ### Template for subsequent observed results
 
 - What was tested and with which materials/version:
