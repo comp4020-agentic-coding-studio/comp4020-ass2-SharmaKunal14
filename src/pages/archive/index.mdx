@@ -142,7 +142,11 @@ so it demonstrates a limit of inference rather than a biological result.
 ### Bits
 
 A fixed short bitstring, used in week 8 to price error correction in overhead
-rather than in good intentions.
+rather than in good intentions. A 3x repetition code (payload `1011`,
+codeword `111 000 111 111`) is worked by hand: majority-vote decoding
+corrects one bit-flip per triplet at 200% overhead, and a second flip inside
+the same triplet produces a wrong, unflagged decode — the guarantee's stated
+limit, not an edge case outside it.
 
 ### Distribution model
 
