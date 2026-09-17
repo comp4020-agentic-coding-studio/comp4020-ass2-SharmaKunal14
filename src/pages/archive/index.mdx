@@ -131,9 +131,13 @@ idea under stated parameters, and each page names what the model leaves out.
 ### Sequence model
 
 A synthetic replication model with declared error rates and fixed seeds, used in
-week 7 to watch ancestry inference degrade. It omits selection and population
-structure, so it demonstrates a limit of inference rather than a biological
-result.
+week 7 to watch ancestry inference degrade. A 24-symbol ancestor over a
+four-symbol alphabet is copied forward for 40 generations at three fixed error
+rates (low 0.02, medium 0.08, high 0.2 per position), three fixed seeds per
+rate, with agreement against the generation-0 ancestor reported at generations
+1, 5, 10, 20 and 40. Settings and seeds are published for reproduction in
+`/packs/week-07/settings.json`. It omits selection and population structure,
+so it demonstrates a limit of inference rather than a biological result.
 
 ### Bits
 
