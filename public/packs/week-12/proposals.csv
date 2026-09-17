@@ -1,0 +1,7 @@
+proposal,family,tier,items_at_source,item_count,cost
+deep-image,print,"examples",0,11,55.000
+deep-image,audio,"examples",0,5,25.000
+deep-image,image,"source",2,2,24.005
+start-audio,print,"examples",0,11,55.000
+start-audio,image,"examples",0,2,10.000
+start-audio,audio,"4/5 source, rest examples",4,5,53.010

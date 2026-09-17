@@ -1,0 +1,7 @@
+An objection, and a response — week 12 pack
+
+The image family already carries a documented, partly-inferred provenance gap (week 11's audit). Spending the budget there polishes an already-uncertain record instead of creating coverage where there is currently none, such as real audio bytes.
+
+---
+
+This does not settle which proposal is better; it names what the naive value score in this pack cannot see. Full source-tier preservation of the image family also buys something the score does not count: byte-level material for week 11's kind of audit to be run on again later, on a family that already has a documented gap worth closing. Starting real audio preservation buys first coverage for a family with none. A memo has to say which of those it is choosing to weight higher, not appeal to a total that averages the two questions away.

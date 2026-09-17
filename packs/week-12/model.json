@@ -1,0 +1,65 @@
+{
+  "pack": "week-12",
+  "note": "Authored teaching scenario. The item counts are the real counts of published archive records (see /archive/); the sizes for print and image are the real figures from earlier packs (week 4's retained listing; transcription files are a few KB). Audio's size is an estimate, labelled as such, because no audio bytes are currently published for that collection. The dollar rates are fictional, stated so a student can recompute every total.",
+  "budgetPerYear": 120,
+  "rates": {
+    "logsLaborPerItem": 1,
+    "examplesLaborPerItem": 5,
+    "sourceLaborPerItem": 12,
+    "storagePerGbYear": 0.5
+  },
+  "revisedRates": {
+    "sourceLaborPerItem": 20,
+    "note": "Source-tier labor revised upward from $12 to $20 per item, reflecting that full byte-level preservation now includes a per-item provenance audit of the kind week 11 actually required — a cost the original $12 figure did not account for."
+  },
+  "families": [
+    {
+      "id": "print",
+      "label": "Print",
+      "itemCount": 11,
+      "sourceSizeGb": 0.0000210,
+      "note": "The 11 published print records: the card and its three photocopy generations, the digital control, the ordinance, and its five witnesses. Each is a short transcription, a few KB."
+    },
+    {
+      "id": "audio",
+      "label": "Audio",
+      "itemCount": 5,
+      "sourceSizeGb": 0.0254,
+      "note": "The 5 published audio records (source, W, X, Y, Z). No audio bytes are currently published for this collection — the archive holds only feature tables, by policy. A source tier here means preserving real audio bytes for the first time, estimated at 30 seconds of CD-quality WAV per item (roughly 5.2 MB), not a measurement of an actual retained file."
+    },
+    {
+      "id": "image",
+      "label": "Image",
+      "itemCount": 2,
+      "sourceSizeGb": 0.010860,
+      "note": "The 2 published image records: the 2400x1600 source (11,240 KB, per week 4's retained working-directory listing) and Output 7 (148 KB)."
+    }
+  ],
+  "valuePerTier": { "logs": 1, "examples": 2, "source": 3 },
+  "proposals": [
+    {
+      "id": "deep-image",
+      "label": "Deep image, thin everything else",
+      "summary": "Bring the image family to full source-tier preservation. Hold print and audio at examples tier.",
+      "allocation": [
+        { "family": "print", "tier": "examples" },
+        { "family": "audio", "tier": "examples" },
+        { "family": "image", "tier": "source" }
+      ]
+    },
+    {
+      "id": "start-audio",
+      "label": "Start preserving real audio",
+      "summary": "Hold print and image at examples tier. Spend the remaining budget bringing as much of the audio family as affordable to source tier — the first real audio bytes this archive would retain — leaving the rest at examples.",
+      "allocation": [
+        { "family": "print", "tier": "examples" },
+        { "family": "image", "tier": "examples" },
+        { "family": "audio", "tier": "source-partial", "fallbackTier": "examples" }
+      ]
+    }
+  ],
+  "objection": {
+    "text": "The image family already carries a documented, partly-inferred provenance gap (week 11's audit). Spending the budget there polishes an already-uncertain record instead of creating coverage where there is currently none, such as real audio bytes.",
+    "response": "This does not settle which proposal is better; it names what the naive value score in this pack cannot see. Full source-tier preservation of the image family also buys something the score does not count: byte-level material for week 11's kind of audit to be run on again later, on a family that already has a documented gap worth closing. Starting real audio preservation buys first coverage for a family with none. A memo has to say which of those it is choosing to weight higher, not appeal to a total that averages the two questions away."
+  }
+}
