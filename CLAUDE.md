@@ -38,5 +38,3 @@ affected consumers second. Avoid copying shared rules into every phase.
 - Record actual choices and checks in `docs/decision-log.md`. Do not invent
   timings, learner observations, failures, citations or commit hashes. Distinguish
   an author consistency check from a blind learner trial.
-- `PROCESS.md` remains the student's own evidence narrative. Support it with
-  real records; do not write fictional first-person experiences for the student.
