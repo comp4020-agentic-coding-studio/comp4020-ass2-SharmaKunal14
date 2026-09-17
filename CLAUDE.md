@@ -26,7 +26,7 @@ affected consumers second. Avoid copying shared rules into every phase.
   the work is a book or paywalled, an original teaching summary of the specific
   claim being used. Adopted from Calling Bullshit, which links nearly every
   required reading to a retrievable PDF and specifies chapters for the books it
-  cannot link.
+  cannot link. Checked by `spec/reading-citations.test.ts`.
 - Name the specimen each week works on, concretely, rather than "a photograph"
   or "a recording". A week a reader can picture is a week they can tell apart
   from the others.
@@ -37,4 +37,6 @@ affected consumers second. Avoid copying shared rules into every phase.
   test with a documented reason; do not suppress a valid failure to obtain green output.
 - Record actual choices and checks in `docs/decision-log.md`. Do not invent
   timings, learner observations, failures, citations or commit hashes. Distinguish
-  an author consistency check from a blind learner trial.
+  an author consistency check from a blind learner trial. Checked by
+  `spec/decision-log-freshness.test.ts`, which requires a dated entry for every
+  day content changed.
