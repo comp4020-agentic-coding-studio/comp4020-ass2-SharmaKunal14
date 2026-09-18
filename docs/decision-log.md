@@ -1590,6 +1590,51 @@ path from `packs/` into the Astro pipeline.
 **Commits:** pack redesign + zip — `1cc8fac` (redesign pack-index.ts,
 regenerate all 10 packs), `8b3735e` (pack-zip harness), this entry.
 
+## 2026-09-18 — Typographic dashes/quotes replaced with ASCII in pack content
+
+**Scope:** The user reported garbled characters ("â€"" instead of "—") when
+opening a pack's `.txt` file directly in a browser.
+
+### Decisions and reasons
+
+- Confirmed the on-disk files were correct, unambiguous UTF-8 (`file` and
+  `hexdump -C` on `public/packs/week-04/route-cards.txt` show the em dash as
+  its proper 3-byte sequence, `e2 80 94`) — this was never a write-time
+  corruption bug.
+- The actual cause: the local preview server sends `Content-Type: text/plain`
+  for `.txt`/`.csv`/`.md` pack files with no `charset` parameter (confirmed
+  via `curl -sI`), so a browser opening one directly has to guess the
+  encoding and can render UTF-8 multi-byte sequences as mojibake. GitHub
+  Pages' static file serving gives no way to attach a custom header to fix
+  this after deploy, so a server-side fix isn't available for the real
+  deployment target.
+- Fixed at the content layer instead, where it's portable regardless of
+  hosting: replaced em dashes, en dashes, curly quotes and ellipses with
+  their ASCII equivalents (`--`, `-`, `'`, `"`, `...`) throughout every
+  `packs/week-NN/build.ts` and its `*.json` data file, then regenerated all
+  10 packs. `packs/pack-index.ts` itself (its `index.html` output already
+  declares `<meta charset="utf-8">`) and source-code prose comments were left
+  untouched — only the strings that land in a pack's shipped plain-text
+  output were in scope.
+- Updated `spec/week-04-pack.test.ts`'s one assertion that hardcoded an em
+  dash to match the new ASCII form.
+
+### Verification
+
+Regenerated all 10 packs via `mise exec -- node packs/week-NN/build.ts`;
+confirmed no pack output file (excluding `.zip`/`.html`) contains any of
+`– — ‘ ’ “ ” …` afterwards. Spot-checked `route-cards.txt` and
+`public/packs/week-04/pack.zip`'s contents (`unzip -Z1`) — zip contents
+unchanged apart from the byte-size shrink from the shorter ASCII strings.
+`mise exec -- pnpm check` passed in full: 161/161 tests.
+
+### Still not established
+
+Whether the missing charset is specific to the local `astro preview` server
+or also true of the real GitHub Pages deployment was not checked (would
+require an actual deploy); the ASCII-content fix sidesteps the question
+either way rather than depending on the answer.
+
 ### Template for subsequent observed results
 
 - What was tested and with which materials/version:
