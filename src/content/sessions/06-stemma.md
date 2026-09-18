@@ -101,7 +101,7 @@ supports the tree built on the strong one.
 
 ## Deposit — 30 minutes
 
-Open [`reveal/production-log.md`](/packs/week-06/reveal/production-log.md) and
+Open `reveal/production-log.md` (ask your tutor for the link once your tree is drawn) and
 compare it against your proposed tree. Write a short correction note: which
 edges matched, which did not, and — if your tree differs from the log — whether
 your reasoning was still defensible given only the evidence you had. Deposit

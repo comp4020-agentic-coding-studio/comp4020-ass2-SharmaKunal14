@@ -99,7 +99,7 @@ mean here is settling toward roughly 0.25, not toward 0.
 
 ## Deposit — 30 minutes
 
-Open [`reveal/analysis.md`](/packs/week-07/reveal/analysis.md) and compare it
+Open `reveal/analysis.md` (ask your tutor for the link once your conclusion is written) and compare it
 against your own limitations note and unjustifiable-conclusion sentence. Where
 they differ, write one line on whether your reasoning was still defensible
 from what the pack gave you. Deposit your prediction, your rate-by-rate

@@ -122,7 +122,7 @@ consideration it leaves out.
 
 ## Deposit — 30 minutes
 
-Open [`reveal/analysis.md`](/packs/week-12/reveal/analysis.md) and compare it
+Open `reveal/analysis.md` (ask your tutor for the link once your memo is written) and compare it
 against your memo. It does not name a winning proposal, and neither should
 yours — a memo that states its allocation, its cost under both rates, and the
 loss it accepts is complete without also insisting no other choice was

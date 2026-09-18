@@ -109,7 +109,7 @@ same failure as this week's undocumented rename.
 
 ## Deposit — 30 minutes
 
-Open [`reveal/analysis.md`](/packs/week-11/reveal/analysis.md) and compare it
+Open `reveal/analysis.md` (ask your tutor for the link once your worksheet is done) and compare it
 against your own worksheet. Deposit your completed audit worksheet, labelled
 by field, into the [Image collection](/archive/#image). Week 12 reuses this
 audit; do not attempt to re-verify every earlier week's evidence from scratch.

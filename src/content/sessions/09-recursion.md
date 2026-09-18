@@ -107,7 +107,7 @@ your conditional conclusion with its named limitation — before opening
 
 ## Deposit — 30 minutes
 
-Open [`reveal/analysis.md`](/packs/week-09/reveal/analysis.md) and compare it
+Open `reveal/analysis.md` (ask your tutor for the link once your table is done) and compare it
 against your own conclusion. Deposit your retention table, your conditional
 conclusion and your limitation note into the [Distribution model
 study](/archive/#distribution-model), labelled a simplified model throughout.

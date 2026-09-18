@@ -121,7 +121,7 @@ six judgements could you actually have made?
 
 ## Deposit — 30 minutes
 
-Open [`reveal/analysis.md`](/packs/week-10/reveal/analysis.md) and compare it
+Open `reveal/analysis.md` (ask your tutor for the link once your predictions are written) and compare it
 against your own table. Deposit your feature table, labelled
 supported/unsupported/uncertain, into the [Image
 collection](/archive/#image).
