@@ -1,7 +1,7 @@
-Simplified sequence-replication model — week 7 pack
-A simplified synthetic replication model. It has no selection, no population structure, and no biological claim attached to its symbols — it exists to show how ancestor-agreement decays as a copying error rate rises, and where that decay stops being a reliable signal.
+Simplified sequence-replication model -- week 7 pack
+A simplified synthetic replication model. It has no selection, no population structure, and no biological claim attached to its symbols -- it exists to show how ancestor-agreement decays as a copying error rate rises, and where that decay stops being a reliable signal.
 
-settings.json has the ancestor, alphabet, error rates and seeds — everything
+settings.json has the ancestor, alphabet, error rates and seeds -- everything
 needed to reproduce every number in this pack from the method it also states.
 
 results.csv is ancestor agreement (fraction of positions matching the

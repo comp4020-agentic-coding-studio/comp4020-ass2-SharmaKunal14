@@ -1,4 +1,4 @@
-# Analysis — week 4
+# Analysis -- week 4
 
 Authored teaching scenario. Every observation, prediction and record below was written for this exercise. None was produced by running image software or by examining an image, and nothing here supports a claim about how any real tool or forensic technique behaves.
 
@@ -6,8 +6,8 @@ Authored teaching scenario. Every observation, prediction and record below was w
 
 | Route | Predicted size (KB) | Off by | Exact fields match | Compatible |
 |---|---:|---:|---|---|
-| Route A — resize once, save once | 142 | 6 | yes | yes |
-| Route B — save, resize, save again | 155 | 7 | yes | yes |
+| Route A -- resize once, save once | 142 | 6 | yes | yes |
+| Route B -- save, resize, save again | 155 | 7 | yes | yes |
 
 Every field required to match exactly does match under both routes: dimensions, chroma subsampling and the absence of EXIF. On file size, route A's prediction is 6 KB from the observed 148 KB and route B's is 7 KB, both within the 15 KB scenario rule, so file size does not distinguish them. Both routes also end with the same save at quality 78, so the final encode settings cannot distinguish them either.
 
@@ -15,11 +15,11 @@ Every field required to match exactly does match under both routes: dimensions, 
 
 | Item | Status | Separates the routes |
 |---|---|---|
-| E1 — Retained transformation record for Output 7, with file hashes | available | yes |
-| E2 — Working-directory listing | available | no |
-| E3 — Handover note retained with the output | available | no |
-| E4 — EXIF metadata dump for the output | unavailable | no |
-| E5 — Upload log from the service the output was distributed through | unavailable | no |
+| E1 -- Retained transformation record for Output 7, with file hashes | available | yes |
+| E2 -- Working-directory listing | available | no |
+| E3 -- Handover note retained with the output | available | no |
+| E4 -- EXIF metadata dump for the output | unavailable | no |
+| E5 -- Upload log from the service the output was distributed through | unavailable | no |
 
 **E1.** This record links Output 7 to a full-size JPEG: it names that file as the input to the resize, and the hash matches. Route A resizes the source directly and never has a full-size JPEG to read, so route A is excluded. It does not establish route B: any history that saved at full size before resizing would produce a record of this shape.
 
@@ -37,6 +37,6 @@ Output 7 was produced by route B.
 
 **What resolves it.** E1, and only because it links rather than lists. The transformation record names a full-size JPEG as the input to the resize and the input hash matches a file that was present. Route A resizes the source directly and never has a full-size JPEG to read, so route A is excluded.
 
-**What does not.** E2 and E3 both show that a full-size JPEG existed, and neither shows that Output 7 was made from it. The interim file could be an unrelated export. Co-existence is not descent. A student who chose either, noticed that gap and reported the question as still open has done the week correctly — and has arrived at the distinction the week is for.
+**What does not.** E2 and E3 both show that a full-size JPEG existed, and neither shows that Output 7 was made from it. The interim file could be an unrelated export. Co-existence is not descent. A student who chose either, noticed that gap and reported the question as still open has done the week correctly -- and has arrived at the distinction the week is for.
 
 **Limits.** Excluding route A is not establishing route B. Every history that saved at full size before resizing would produce a record of E1's shape: a save at a different quality then a resize, or a route through a third intermediate size. Two routes were proposed, which is a fact about who was asked. The evidence supports the weaker claim, 'not route A, and consistent with route B'. Every record in this pack is authored, and none of it demonstrates the behaviour of real software.

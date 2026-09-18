@@ -1,6 +1,6 @@
 {
   "pack": "week-09",
-  "note": "A small categorical resampling model. It has no language-model architecture, no optimisation and no notion of a sentence — it exists to show, in miniature, how a rare category's count moves across resampling rounds under three data-retention conditions.",
+  "note": "A small categorical resampling model. It has no language-model architecture, no optimisation and no notion of a sentence -- it exists to show, in miniature, how a rare category's count moves across resampling rounds under three data-retention conditions.",
   "categories": ["A", "B", "C", "D", "E", "F"],
   "trueProbabilities": [0.4, 0.25, 0.15, 0.1, 0.07, 0.03],
   "rareCategory": "F",
@@ -8,13 +8,13 @@
   "rounds": 5,
   "seeds": [11, 23, 47],
   "conditions": [
-    { "id": "baseline", "label": "original-data baseline", "description": "Every round draws fresh samples from the fixed true distribution. No recursion at all — this is the control." },
+    { "id": "baseline", "label": "original-data baseline", "description": "Every round draws fresh samples from the fixed true distribution. No recursion at all -- this is the control." },
     { "id": "full-recursive", "label": "fully recursive (replace)", "description": "Round 1 draws from the true distribution. Every later round draws from the empirical distribution estimated from the previous round's own samples, with nothing else mixed in." },
     { "id": "retain-original", "label": "recursive with retained original data", "description": "Round 1 draws from the true distribution. Every later round estimates its sampling distribution from a 50/50 mix of the previous round's generated samples and a fresh sample from the true distribution." }
   ],
   "reveal": {
-    "summary": "The baseline never loses category F because it is never estimated from a prior sample. The fully recursive condition is the only one where an empirical estimate can assign category F zero probability, after which no run of that condition can ever produce it again — a genuine absorbing state, not a modelling flourish. Mixing in fresh original-data samples measurably reduces how often that happens and how early, without guaranteeing it never happens.",
-    "limitations": "This model has no language-model architecture, no training objective and no notion of style, sentence or token beyond an arbitrary category label. Six categories and three seeds per condition show that runs vary and that one mechanism (estimating a distribution from a finite sample, then sampling from that estimate) can zero out a rare category — they do not establish that any real trained language model degrades this way, at what rate, or that retaining original data protects any particular model to any particular degree.",
+    "summary": "The baseline never loses category F because it is never estimated from a prior sample. The fully recursive condition is the only one where an empirical estimate can assign category F zero probability, after which no run of that condition can ever produce it again -- a genuine absorbing state, not a modelling flourish. Mixing in fresh original-data samples measurably reduces how often that happens and how early, without guaranteeing it never happens.",
+    "limitations": "This model has no language-model architecture, no training objective and no notion of style, sentence or token beyond an arbitrary category label. Six categories and three seeds per condition show that runs vary and that one mechanism (estimating a distribution from a finite sample, then sampling from that estimate) can zero out a rare category -- they do not establish that any real trained language model degrades this way, at what rate, or that retaining original data protects any particular model to any particular degree.",
     "unjustifiableConclusion": "That this toy model measures how quickly a real large language model 'forgets' rare styles or facts under recursive training, or that the specific retention numbers here transfer to any other categorical distribution, sample size or mixing ratio. The mechanism illustrated (sampling noise compounding through repeated re-estimation) is the transferable idea; the numbers are a property of this six-category, 200-draw-per-round setup only."
   }
 }

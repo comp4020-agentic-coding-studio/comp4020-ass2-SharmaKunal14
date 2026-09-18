@@ -1,4 +1,4 @@
-E1 — Retained transformation record for Output 7, with file hashes
+E1 -- Retained transformation record for Output 7, with file hashes
 Authored teaching scenario. Every observation, prediction and record below was written for this exercise. None was produced by running image software or by examining an image, and nothing here supports a claim about how any real tool or forensic technique behaves.
 
 Transformation record, retained in full for this output

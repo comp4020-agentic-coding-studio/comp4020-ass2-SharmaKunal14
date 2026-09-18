@@ -66,7 +66,7 @@
       "kind": "equipment",
       "inSource": false,
       "carriers": ["X", "Z"],
-      "explanation": "Frequency response is a property of the deck and its settings, not of the recording's history. Two dubs made on the same worn machine share it without being related. It groups X with Z, which contradicts F2's grouping of X with Y — and F2 wins, because a one-off flaw at a fixed timestamp is far harder to produce twice than a generic response curve.",
+      "explanation": "Frequency response is a property of the deck and its settings, not of the recording's history. Two dubs made on the same worn machine share it without being related. It groups X with Z, which contradicts F2's grouping of X with Y -- and F2 wins, because a one-off flaw at a fixed timestamp is far harder to produce twice than a generic response curve.",
       "groupsAncestry": false
     }
   ],

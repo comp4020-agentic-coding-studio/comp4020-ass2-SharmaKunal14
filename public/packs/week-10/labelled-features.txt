@@ -1,24 +1,24 @@
-Named features — accessible route (no image required)
+Named features -- accessible route (no image required)
 
 Tones run 0 (lightest) to 4 (darkest). Every value below is the
-actual computed tone at that cell — nothing here has been rounded for effect.
+actual computed tone at that cell -- nothing here has been rounded for effect.
 
-f1 — Top-left interior (row 0, col 0; inside a block whose four source cells are all equal)
+f1 -- Top-left interior (row 0, col 0; inside a block whose four source cells are all equal)
   source tone 1; degraded tone 1; restored tone 1
 
-f2 — Top-right interior (row 1, col 6; inside a block whose four source cells are all equal)
+f2 -- Top-right interior (row 1, col 6; inside a block whose four source cells are all equal)
   source tone 3; degraded tone 3; restored tone 3
 
-f3 — Fine anomaly cell (row 2, col 2; the one cell in its block that differs from its three neighbours)
+f3 -- Fine anomaly cell (row 2, col 2; the one cell in its block that differs from its three neighbours)
   source tone 4; degraded tone 2; restored tone 1
 
-f4 — Anomaly block, adjacent cell (row 2, col 3; shares a block with f3 but was not itself the odd one out)
+f4 -- Anomaly block, adjacent cell (row 2, col 3; shares a block with f3 but was not itself the odd one out)
   source tone 1; degraded tone 2; restored tone 1
 
-f5 — Diagonal detail, first cell (row 4, col 4; one of four cells forming a one-cell-wide diagonal line)
+f5 -- Diagonal detail, first cell (row 4, col 4; one of four cells forming a one-cell-wide diagonal line)
   source tone 0; degraded tone 2; restored tone 2
 
-f6 — Diagonal detail, last cell (row 7, col 7; the diagonal line's other end, a different block from f5)
+f6 -- Diagonal detail, last cell (row 7, col 7; the diagonal line's other end, a different block from f5)
   source tone 0; degraded tone 2; restored tone 2
 
 Full 64-cell grid for source, degraded and restored is in pixels.csv.

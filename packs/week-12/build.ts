@@ -128,7 +128,7 @@ function main(): void {
 
   writeFileSync(
     `${OUT}/budget.txt`,
-    `Budget — week 12 pack\n${pack.note}\n\n` +
+    `Budget -- week 12 pack\n${pack.note}\n\n` +
       `Annual budget: ${fmt(pack.budgetPerYear)}\n\n` +
       `Rates:\n  logs tier: ${fmt(pack.rates.logsLaborPerItem)} / item / year\n` +
       `  examples tier: ${fmt(pack.rates.examplesLaborPerItem)} / item / year\n` +
@@ -161,12 +161,12 @@ function main(): void {
 
   writeFileSync(
     `${OUT}/objection.txt`,
-    `An objection, and a response — week 12 pack\n\n${pack.objection.text}\n\n---\n\n${pack.objection.response}\n`,
+    `An objection, and a response -- week 12 pack\n\n${pack.objection.text}\n\n---\n\n${pack.objection.response}\n`,
   );
 
   writeFileSync(
     `${OUT}/README.txt`,
-    `The original that never was — week 12 pack\n${pack.note}\n\n` +
+    `The original that never was -- week 12 pack\n${pack.note}\n\n` +
       `budget.txt states the annual budget, the rates and the three families'\n` +
       `real item counts and sizes. proposals.csv gives two competing allocations,\n` +
       `computed from those rates, not typed in as totals. proposal-totals.csv\n` +
@@ -181,7 +181,7 @@ function main(): void {
 
   writeFileSync(
     `${OUT}/reveal/analysis.md`,
-    `# Analysis — week 12\n\n${pack.note}\n\n## Proposals at baseline rates\n\n` +
+    `# Analysis -- week 12\n\n${pack.note}\n\n## Proposals at baseline rates\n\n` +
       `| Proposal | Total cost | Over budget | Naive value |\n|---|---:|---|---:|\n` +
       baseline.map((r) => `| ${r.label} | ${fmt(r.totalCost)} | ${r.overBudget} | ${r.totalValue} |`).join("\n") +
       `\n\nBudget: ${fmt(pack.budgetPerYear)}.\n\n## After the revised rate\n\n${pack.revisedRates.note}\n\n` +
@@ -190,7 +190,7 @@ function main(): void {
       `\n\n## The objection\n\n${pack.objection.text}\n\n**Response.** ${pack.objection.response}\n`,
   );
 
-  writePackIndex(OUT, "Week 12 pack — the original that never was",
+  writePackIndex(OUT, "Week 12 pack -- the original that never was",
     "A fixed annual budget, three archive families with real item counts, and two competing preservation proposals computed from stated rates. Compare them, then see what changes when one rate is revised.",
     [
       { name: "budget.txt", what: "the budget, the rates, and each family's real item count and size" },

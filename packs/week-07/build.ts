@@ -3,7 +3,7 @@
 // sequence is copied forward, generation by generation, under a fixed
 // per-position substitution rate. Three rates, three fixed seeds each, so a
 // student sees runs vary rather than a single dramatic line. No selection, no
-// population structure — see model.json's note and reveal.limitations.
+// population structure -- see model.json's note and reveal.limitations.
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { writePackIndex } from "../pack-index.ts";
@@ -32,7 +32,7 @@ export function mulberry32(seed: number): () => number {
   };
 }
 
-/** Builds the fixed ancestor sequence, deterministic in the alphabet order — not random. */
+/** Builds the fixed ancestor sequence, deterministic in the alphabet order -- not random. */
 export function ancestor(model: Model): string[] {
   const out: string[] = [];
   for (let i = 0; i < model.ancestorLength; i++) out.push(model.alphabet[i % model.alphabet.length]);
@@ -165,26 +165,26 @@ function main(): void {
 
   writeFileSync(
     `${OUT}/trend.txt`,
-    `Ancestor agreement over generations — text description (accessible route)\n\n` +
+    `Ancestor agreement over generations -- text description (accessible route)\n\n` +
       `Three error rates, three fixed seeds each, agreement measured against the\n` +
       `generation-0 ancestor at generations ${model.selectedGenerations.join(", ")}.\n\n` +
       `${trend}\n\n` +
       `The mean at every rate falls from generation 1 to generation 40, and falls\n` +
-      `faster at higher rates — but no individual run is a smooth line. Random\n` +
+      `faster at higher rates -- but no individual run is a smooth line. Random\n` +
       `substitutions can happen to restore agreement as well as damage it, so a\n` +
       `single seed can tick up between two reported generations even while the\n` +
       `mean across seeds keeps falling. With four possible symbols per position,\n` +
       `a sequence with no relation at all to the ancestor would still match it at\n` +
-      `about a quarter of positions by chance — every mean here is settling toward\n` +
+      `about a quarter of positions by chance -- every mean here is settling toward\n` +
       `that floor, not toward zero. The three seeds at the same rate do not track\n` +
-      `identically — the spread figures above are the size of that disagreement at\n` +
+      `identically -- the spread figures above are the size of that disagreement at\n` +
       `each generation. Full per-run numbers are in results.csv.\n`,
   );
 
   writeFileSync(
     `${OUT}/README.txt`,
-    `Simplified sequence-replication model — week 7 pack\n${model.note}\n\n` +
-      `settings.json has the ancestor, alphabet, error rates and seeds — everything\n` +
+    `Simplified sequence-replication model -- week 7 pack\n${model.note}\n\n` +
+      `settings.json has the ancestor, alphabet, error rates and seeds -- everything\n` +
       `needed to reproduce every number in this pack from the method it also states.\n\n` +
       `results.csv is ancestor agreement (fraction of positions matching the\n` +
       `generation-0 ancestor) for every error rate, seed and reported generation.\n\n` +
@@ -196,18 +196,18 @@ function main(): void {
 
   writeFileSync(
     `${OUT}/reveal/analysis.md`,
-    `# Analysis — week 7\n\n${model.reveal.summary}\n\n` +
+    `# Analysis -- week 7\n\n${model.reveal.summary}\n\n` +
       `## What this model omits\n\n${model.reveal.limitations}\n\n` +
       `## A conclusion this pack cannot justify\n\n${model.reveal.unjustifiableConclusion}\n`,
   );
 
-  writePackIndex(OUT, "Week 7 pack — reading ancestry through a simplified model",
+  writePackIndex(OUT, "Week 7 pack -- reading ancestry through a simplified model",
     "Three error rates, three seeds each. Read the parameters, predict a trend, then compare the prepared runs.",
     [
-      { name: "settings.json", what: "ancestor, alphabet, error rates, seeds and the method — for reproduction" },
+      { name: "settings.json", what: "ancestor, alphabet, error rates, seeds and the method -- for reproduction" },
       { name: "results.csv", what: "ancestor agreement by error rate, seed and generation" },
       { name: "plot.svg", what: "all nine runs plotted; variation across seeds is visible, not averaged away" },
-      { name: "trend.txt", what: "the same trend as a table and prose — accessible route" },
+      { name: "trend.txt", what: "the same trend as a table and prose -- accessible route" },
       { name: "README.txt", what: "what is in this folder" },
     ]);
 

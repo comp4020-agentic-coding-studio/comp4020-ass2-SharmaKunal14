@@ -1,4 +1,4 @@
-Re-encoding experiment — week 3 pack
+Re-encoding experiment -- week 3 pack
 Hypothetical values, supplied to practise experimental design. The score below is an invented composite, not a physical measurement, and it was not produced by a real encoder. Conclusions drawn here are about experimental reasoning, not about codec behaviour.
 
 the-comparison.txt is the comparison you have been handed, and the claim

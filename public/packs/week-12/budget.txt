@@ -1,4 +1,4 @@
-Budget — week 12 pack
+Budget -- week 12 pack
 Authored teaching scenario. The item counts are the real counts of published archive records (see /archive/); the sizes for print and image are the real figures from earlier packs (week 4's retained listing; transcription files are a few KB). Audio's size is an estimate, labelled as such, because no audio bytes are currently published for that collection. The dollar rates are fictional, stated so a student can recompute every total.
 
 Annual budget: $120.00
@@ -12,7 +12,7 @@ Print: 11 items, 0.000021 GB at source tier.
   The 11 published print records: the card and its three photocopy generations, the digital control, the ordinance, and its five witnesses. Each is a short transcription, a few KB.
 
 Audio: 5 items, 0.0254 GB at source tier.
-  The 5 published audio records (source, W, X, Y, Z). No audio bytes are currently published for this collection — the archive holds only feature tables, by policy. A source tier here means preserving real audio bytes for the first time, estimated at 30 seconds of CD-quality WAV per item (roughly 5.2 MB), not a measurement of an actual retained file.
+  The 5 published audio records (source, W, X, Y, Z). No audio bytes are currently published for this collection -- the archive holds only feature tables, by policy. A source tier here means preserving real audio bytes for the first time, estimated at 30 seconds of CD-quality WAV per item (roughly 5.2 MB), not a measurement of an actual retained file.
 
 Image: 2 items, 0.01086 GB at source tier.
   The 2 published image records: the 2400x1600 source (11,240 KB, per week 4's retained working-directory listing) and Output 7 (148 KB).

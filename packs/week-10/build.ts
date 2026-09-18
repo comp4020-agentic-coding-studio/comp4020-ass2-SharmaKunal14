@@ -2,7 +2,7 @@
 // Builds the week 10 pack: a small synthetic tone chart, degraded by 2x2
 // block-averaging then upsampled two ways (blocky nearest-neighbour, and
 // smoothed bilinear interpolation standing in for "restoration"). Only
-// arithmetic on an 8x8 integer grid — no photograph, no PRNG. See
+// arithmetic on an 8x8 integer grid -- no photograph, no PRNG. See
 // model.json's note and reveal.limitations for what is deliberately left out.
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
@@ -120,21 +120,21 @@ function main(): void {
   writeFileSync(`${OUT}/feature-table.csv`, featureRows.join("\n") + "\n");
 
   const labelled = model.features
-    .map((f) => `${f.id} — ${f.label} (row ${f.row}, col ${f.col}; ${f.note})\n  source tone ${source[f.row][f.col]}; degraded tone ${deg[f.row][f.col]}; restored tone ${rest[f.row][f.col]}`)
+    .map((f) => `${f.id} -- ${f.label} (row ${f.row}, col ${f.col}; ${f.note})\n  source tone ${source[f.row][f.col]}; degraded tone ${deg[f.row][f.col]}; restored tone ${rest[f.row][f.col]}`)
     .join("\n\n");
 
   writeFileSync(
     `${OUT}/labelled-features.txt`,
-    `Named features — accessible route (no image required)\n\n` +
+    `Named features -- accessible route (no image required)\n\n` +
       `Tones run 0 (lightest) to ${model.tones - 1} (darkest). Every value below is the\n` +
-      `actual computed tone at that cell — nothing here has been rounded for effect.\n\n` +
+      `actual computed tone at that cell -- nothing here has been rounded for effect.\n\n` +
       `${labelled}\n\n` +
       `Full 64-cell grid for source, degraded and restored is in pixels.csv.\n`,
   );
 
   writeFileSync(
     `${OUT}/README.txt`,
-    `Synthetic tone chart — week 10 pack\n${model.note}\n\n` +
+    `Synthetic tone chart -- week 10 pack\n${model.note}\n\n` +
       `source.svg, degraded.svg and restored.svg are the three images to compare.\n` +
       `pixels.csv has all 64 cells for all three; feature-table.csv has just the\n` +
       `six named features this pack asks you to check by hand; labelled-features.txt\n` +
@@ -145,12 +145,12 @@ function main(): void {
 
   writeFileSync(
     `${OUT}/reveal/analysis.md`,
-    `# Analysis — week 10\n\n${model.reveal.summary}\n\n` +
+    `# Analysis -- week 10\n\n${model.reveal.summary}\n\n` +
       `## What this specimen omits\n\n${model.reveal.limitations}\n\n` +
       `## A conclusion this pack cannot justify\n\n${model.reveal.unjustifiableConclusion}\n`,
   );
 
-  writePackIndex(OUT, "Week 10 pack — a restoration claim, checked feature by feature",
+  writePackIndex(OUT, "Week 10 pack -- a restoration claim, checked feature by feature",
     "Three images and the arithmetic behind them. Predict each feature before you check it against the retained source.",
     [
       { name: "source.svg", what: "the retained source image" },

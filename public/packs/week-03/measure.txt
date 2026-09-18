@@ -8,4 +8,4 @@ For each of the eight frequency bands, take the absolute difference in band ener
 Repeatability: 0.5 score points.
 Repeating the whole procedure and recomputing the difference between two conditions moves that difference by up to 0.5 score points. The figure is the repeatability of a pairwise difference, not of a single score, because a comparison is what you are reporting. A difference of 0.5 or less is a non-detection: this scenario gives you no basis for saying the conditions differ.
 
-Source: audio/source — the same thirty-second recording as week 2
+Source: audio/source -- the same thirty-second recording as week 2

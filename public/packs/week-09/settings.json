@@ -27,7 +27,7 @@
     {
       "id": "baseline",
       "label": "original-data baseline",
-      "description": "Every round draws fresh samples from the fixed true distribution. No recursion at all — this is the control."
+      "description": "Every round draws fresh samples from the fixed true distribution. No recursion at all -- this is the control."
     },
     {
       "id": "full-recursive",

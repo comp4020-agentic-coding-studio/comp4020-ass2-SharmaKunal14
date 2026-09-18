@@ -1,4 +1,4 @@
-# Production log — week 6 practice pack
+# Production log -- week 6 practice pack
 
 Authored teaching scenario. The witnesses were generated from
 `packs/week-06/archetype.txt` by applying the variants below; they are not
@@ -20,11 +20,11 @@ D and E differ in hand and layout and carry different marginalia. Their text agr
 
 **Point 1** (substitution). A's own innovation. Singleton, so it carries no ancestry information beyond showing A is not a descendant of any other witness here.
 
-**Point 2** (haplography). The eye skipped from the first 'shall rest' to the second, dropping the text between. Loss between repeated words is a common scribal failure; the reverse — a scribe inserting 'and shall rest' — has no mechanism. So the longer reading is original and the four carriers share an ancestor A does not descend from.
+**Point 2** (haplography). The eye skipped from the first 'shall rest' to the second, dropping the text between. Loss between repeated words is a common scribal failure; the reverse -- a scribe inserting 'and shall rest' -- has no mechanism. So the longer reading is original and the four carriers share an ancestor A does not descend from.
 
 **Point 3** (homoeoteleuton). Eye-skip between two occurrences of 'shall keep'. The omission destroys the rule's point, which is that the house keeps both; no scribe would add that clause back by chance. Its three carriers are a subgroup inside variant 2's four.
 
-**Point 4** (normalisation). Modernising an archaic idiom is the commonest kind of unconscious scribal change, and two scribes make it independently all the time. Its carriers cannot share an ancestor: any common ancestor of A and C lies at or above the archetype, and a reading there would appear in B, D and E as well. Contamination — A's scribe consulting C's branch for this line — cannot be excluded, only judged less likely than independent modernisation.
+**Point 4** (normalisation). Modernising an archaic idiom is the commonest kind of unconscious scribal change, and two scribes make it independently all the time. Its carriers cannot share an ancestor: any common ancestor of A and C lies at or above the archetype, and a reading there would appear in B, D and E as well. Contamination -- A's scribe consulting C's branch for this line -- cannot be excluded, only judged less likely than independent modernisation.
 
 **Point 5** (dittography). B's own innovation, and obviously secondary: the repetition is meaningless.
 

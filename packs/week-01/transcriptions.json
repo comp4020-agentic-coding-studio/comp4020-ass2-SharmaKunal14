@@ -5,7 +5,7 @@
   "copies": [
     {
       "id": "control",
-      "label": "Digital control — 8 copy operations",
+      "label": "Digital control -- 8 copy operations",
       "operation": "Copied byte for byte eight times, once per photocopy generation. Each step was verified against the previous by checksum, so the eighth copy is demonstrably identical to the card rather than assumed to be.",
       "readers": {
         "R1": [],
@@ -16,7 +16,7 @@
     },
     {
       "id": "g1",
-      "label": "Photocopy — 1 copy operation",
+      "label": "Photocopy -- 1 copy operation",
       "operation": "One pass on the copier, at the settings held fixed for every generation.",
       "readers": {
         "R1": [
@@ -33,7 +33,7 @@
     },
     {
       "id": "g4",
-      "label": "Photocopy — 4 copy operations",
+      "label": "Photocopy -- 4 copy operations",
       "operation": "A copy of the third copy, same machine and settings.",
       "readers": {
         "R1": [
@@ -86,7 +86,7 @@
     },
     {
       "id": "g8",
-      "label": "Photocopy — 8 copy operations",
+      "label": "Photocopy -- 8 copy operations",
       "operation": "A copy of the seventh copy, same machine and settings.",
       "readers": {
         "R1": [

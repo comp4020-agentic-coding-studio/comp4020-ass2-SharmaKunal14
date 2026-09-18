@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Builds the week 3 pack. Students get the raw per-band deviations for every
-// condition and one comparison already drawn for them — the confounded one.
+// condition and one comparison already drawn for them -- the confounded one.
 // The sums are not published: computing them is the measurement, and a table
 // that arrives totalled is the answer to the arithmetic half of the task.
 //
@@ -87,7 +87,7 @@ function main(): void {
 
   writeFileSync(
     `${OUT}/README.txt`,
-    `Re-encoding experiment — week 3 pack\n${pack.note}\n\n` +
+    `Re-encoding experiment -- week 3 pack\n${pack.note}\n\n` +
       `the-comparison.txt is the comparison you have been handed, and the claim\n` +
       `someone drew from it. band-deviations.csv has the raw numbers for that\n` +
       `comparison and for four other conditions run at the same time.\n\n` +
@@ -101,7 +101,7 @@ function main(): void {
 
   writeFileSync(
     `${OUT}/reveal/analysis.md`,
-    `# Analysis — week 3\n\n${pack.note}\n\n## Totals\n\n` +
+    `# Analysis -- week 3\n\n${pack.note}\n\n## Totals\n\n` +
       `| Condition | Bitrate | Cycles | Deviation score |\n|---|---|---:|---:|\n` +
       pack.conditions
         .map((c) => `| ${c.label} | ${c.bitrate ?? "none"} | ${c.cycles} | ${total(c)} |`)
@@ -113,9 +113,9 @@ function main(): void {
           const v = varied(pack, m);
           const verdict =
             v.length > 1
-              ? "confounded — the difference cannot be attributed to either variable"
+              ? "confounded -- the difference cannot be attributed to either variable"
               : Math.abs(d) <= pack.measure.repeatability
-                ? `non-detection — at or below the ${pack.measure.repeatability}-point repeatability of a pairwise difference`
+                ? `non-detection -- at or below the ${pack.measure.repeatability}-point repeatability of a pairwise difference`
                 : "isolates one variable, and the difference exceeds the repeatability, so it is detectable in this scenario";
           return `| ${m.label} (${m.left} vs ${m.right}) | ${v.join(" and ")} | ${d} | ${verdict} |`;
         })
@@ -124,7 +124,7 @@ function main(): void {
       `**Conclusion.** ${pack.reveal.conclusion}\n\n**Limits.** ${pack.reveal.limits}\n`,
   );
 
-  writePackIndex(OUT, "Week 3 pack — did re-encoding cause it?",
+  writePackIndex(OUT, "Week 3 pack -- did re-encoding cause it?",
     "You are given a comparison and a claim drawn from it. Decide whether the comparison supports the claim.",
     [
       { name: "the-comparison.txt", what: "the comparison you were handed, and the claim" },

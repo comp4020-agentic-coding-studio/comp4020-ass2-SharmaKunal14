@@ -97,7 +97,7 @@ function main(): void {
       const read = transcription(card, edits);
       writeFileSync(
         `${OUT}/${copy.id}-${reader.toLowerCase()}.txt`,
-        `${copy.label} — transcribed by reader ${reader}\n` +
+        `${copy.label} -- transcribed by reader ${reader}\n` +
           `${pack.note}\n\n${render(heading, read)}\n`,
       );
       // Answer cells stay empty. A worksheet that arrives already filled in is
@@ -121,7 +121,7 @@ function main(): void {
 
   writeFileSync(
     `${OUT}/worked-answer.md`,
-    `# Worked answer — week 1
+    `# Worked answer -- week 1
 
 Computed from the transcriptions in this folder by \`packs/week-01/build.ts\`,
 not typed alongside them.
@@ -168,7 +168,7 @@ counts match. A control copied once would prove nothing about a chain of eight.
 It is not enough to say a higher count proves more copy operations. The counts
 come from one card, one machine and two readers. A different card, a different
 machine or a third reader would give different numbers, and after a single
-photocopy operation the two readers here already disagree — one found an error
+photocopy operation the two readers here already disagree -- one found an error
 and the other found none in the same copy.
 
 Three separate claims are worth keeping apart:
@@ -189,7 +189,7 @@ and above R2 after eight: the readers cannot be ranked consistently either.
 
   writeFileSync(
     `${OUT}/README.txt`,
-    `Copy room test card — week 1 pack
+    `Copy room test card -- week 1 pack
 ${pack.note}
 
 card.txt is the source. Every copy in this folder is a transcription of a copy
@@ -197,7 +197,7 @@ of it, made by one of two readers, in an authored scenario rather than a
 recorded one, and every transcription is the same length as
 the card so you can compare position by position without judgement calls.
 
-counting-rule.txt is the rule. worksheet.csv is the blank table you fill in —
+counting-rule.txt is the rule. worksheet.csv is the blank table you fill in --
 its answer columns are empty on purpose. worked-answer.md has the answer and the argument; it is computed
 from these files rather than typed beside them.
 
@@ -207,7 +207,7 @@ what a legibility test card is for.
 `,
   );
 
-  writePackIndex(OUT, "Week 1 pack — copy room test card",
+  writePackIndex(OUT, "Week 1 pack -- copy room test card",
     "Every file here is plain text. Start with the card and the counting rule.",
     [
       { name: "card.txt", what: "the source card, four lines" },
@@ -221,7 +221,7 @@ what a legibility test card is for.
       { name: "g4-r2.txt", what: "generation 4, reader R2" },
       { name: "g8-r1.txt", what: "generation 8, reader R1" },
       { name: "g8-r2.txt", what: "generation 8, reader R2" },
-      { name: "worked-answer.md", what: "the answer and the argument — open it after your own table" },
+      { name: "worked-answer.md", what: "the answer and the argument -- open it after your own table" },
       { name: "README.txt", what: "what is in this folder" },
     ]);
 

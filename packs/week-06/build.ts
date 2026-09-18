@@ -74,7 +74,7 @@ export function witnessLines(
   return lines;
 }
 
-/** What each witness reads at a variant point — with nothing marked original. */
+/** What each witness reads at a variant point -- with nothing marked original. */
 export function collation(archetype: string[], variants: Variant[], witnesses: string[]) {
   return variants.map((variant) => {
     const readings: Record<string, string> = {};
@@ -98,7 +98,7 @@ function main(): void {
   for (const witness of pack.witnesses) {
     writeFileSync(
       `${OUT}/witness-${witness.toLowerCase()}.txt`,
-      `Ordinance of the Copy-House — witness ${witness}\n` +
+      `Ordinance of the Copy-House -- witness ${witness}\n` +
         `Authored teaching copy. Not a transcription of a real manuscript.\n\n` +
         `${render(witnessLines(witness, archetype, pack.variants))}\n`,
     );
@@ -117,7 +117,7 @@ function main(): void {
 
   writeFileSync(
     `${OUT}/README.txt`,
-    `Ordinance of the Copy-House — week 6 practice pack
+    `Ordinance of the Copy-House -- week 6 practice pack
 ${pack.note}
 
 Five witnesses: ${pack.witnesses.join(", ")}. Each is a copy of a text none of
@@ -137,7 +137,7 @@ reveal/ holds the answer. Open it after you have a tree, not before.
   writeFileSync(`${OUT}/reveal/archetype.txt`, `${archetype.join("\n")}\n`);
   writeFileSync(
     `${OUT}/reveal/production-log.md`,
-    `# Production log — week 6 practice pack
+    `# Production log -- week 6 practice pack
 
 Authored teaching scenario. The witnesses were generated from
 \`packs/week-06/archetype.txt\` by applying the variants below; they are not
@@ -168,7 +168,7 @@ ${JSON.stringify(pack.supportedStemma, null, 2)}
 `,
   );
 
-  writePackIndex(OUT, "Week 6 pack — Ordinance of the Copy-House",
+  writePackIndex(OUT, "Week 6 pack -- Ordinance of the Copy-House",
     "Five witnesses of a text none of them is. The original is not in this folder.",
     [
       { name: "collation.csv", what: "the seven points where the witnesses disagree" },

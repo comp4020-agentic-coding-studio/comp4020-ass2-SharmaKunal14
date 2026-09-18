@@ -1,4 +1,4 @@
-Rare-category (F) retention across resampling rounds — text description (accessible route)
+Rare-category (F) retention across resampling rounds -- text description (accessible route)
 
 Three conditions, three fixed seeds each, 200 draws per round,
 5 recursive rounds after the shared round-0 draw. "Retained"
@@ -11,7 +11,7 @@ fully recursive (replace): round 0: retained in 3/3 seeds; round 1: retained in 
 recursive with retained original data: round 0: retained in 3/3 seeds; round 1: retained in 3/3 seeds; round 2: retained in 3/3 seeds; round 3: retained in 3/3 seeds; round 4: retained in 3/3 seeds; round 5: retained in 3/3 seeds.
 
 Once a run's estimated distribution assigns the rare category zero
-probability, that run can never draw it again — a genuine absorbing state
+probability, that run can never draw it again -- a genuine absorbing state
 in this model, not a smoothed trend line. Full per-round counts for every
 category are in counts.csv; the rare category alone is in
 rare-category-retention.csv.

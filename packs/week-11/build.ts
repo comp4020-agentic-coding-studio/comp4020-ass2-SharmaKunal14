@@ -124,7 +124,7 @@ function main(): void {
 
   writeFileSync(
     `${OUT}/stripping-log.txt`,
-    `Stripping log — ${pack.item}\n${pack.note}\n\n` +
+    `Stripping log -- ${pack.item}\n${pack.note}\n\n` +
       `Operations recorded by the publishing pipeline when the deposit copy was\n` +
       `made public:\n\n` +
       pack.loggedOperations.map((op) => `  - ${op}`).join("\n") +
@@ -141,7 +141,7 @@ function main(): void {
 
   writeFileSync(
     `${OUT}/README.txt`,
-    `Chain of custody — week 11 pack\n${pack.note}\n\n` +
+    `Chain of custody -- week 11 pack\n${pack.note}\n\n` +
       `manifest-before.json is the metadata recorded on ${pack.item} at deposit.\n` +
       `manifest-after.json is the metadata on the public archive copy.\n` +
       `stripping-log.txt is the publishing pipeline's own account of what it changed.\n\n` +
@@ -154,14 +154,14 @@ function main(): void {
 
   writeFileSync(
     `${OUT}/reveal/analysis.md`,
-    `# Analysis — week 11\n\n${pack.note}\n\n## Audit worksheet, computed\n\n` +
+    `# Analysis -- week 11\n\n${pack.note}\n\n## Audit worksheet, computed\n\n` +
       `| Field | In before | In after | Logged as changed | Judgement |\n|---|---|---|---|---|\n` +
       rows.map((r) => `| ${r.field} | ${r.inBefore} | ${r.inAfter} | ${r.loggedAsChanged} | ${r.judgement} |`).join("\n") +
       `\n\n${pack.reveal.summary}\n\n## Missing is not false\n\n${pack.reveal.missingIsNotFalse}\n\n` +
       `## Not a signature\n\n${pack.reveal.notASignature}\n`,
   );
 
-  writePackIndex(OUT, "Week 11 pack — chain of custody",
+  writePackIndex(OUT, "Week 11 pack -- chain of custody",
     "A deposit manifest, a public manifest, and the pipeline's own log of what it changed between them. Audit whether the log's account matches the real diff.",
     [
       { name: "manifest-before.json", what: "metadata recorded at deposit" },

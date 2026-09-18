@@ -1,4 +1,4 @@
-# Analysis — week 12
+# Analysis -- week 12
 
 Authored teaching scenario. The item counts are the real counts of published archive records (see /archive/); the sizes for print and image are the real figures from earlier packs (week 4's retained listing; transcription files are a few KB). Audio's size is an estimate, labelled as such, because no audio bytes are currently published for that collection. The dollar rates are fictional, stated so a student can recompute every total.
 
@@ -13,7 +13,7 @@ Budget: $120.00.
 
 ## After the revised rate
 
-Source-tier labor revised upward from $12 to $20 per item, reflecting that full byte-level preservation now includes a per-item provenance audit of the kind week 11 actually required — a cost the original $12 figure did not account for.
+Source-tier labor revised upward from $12 to $20 per item, reflecting that full byte-level preservation now includes a per-item provenance audit of the kind week 11 actually required -- a cost the original $12 figure did not account for.
 
 | Proposal | Baseline cost | Revised cost | Flips over budget |
 |---|---:|---:|---|

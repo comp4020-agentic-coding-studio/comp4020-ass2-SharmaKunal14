@@ -1,4 +1,4 @@
-The original that never was — week 12 pack
+The original that never was -- week 12 pack
 Authored teaching scenario. The item counts are the real counts of published archive records (see /archive/); the sizes for print and image are the real figures from earlier packs (week 4's retained listing; transcription files are a few KB). Audio's size is an estimate, labelled as such, because no audio bytes are currently published for that collection. The dollar rates are fictional, stated so a student can recompute every total.
 
 budget.txt states the annual budget, the rates and the three families'

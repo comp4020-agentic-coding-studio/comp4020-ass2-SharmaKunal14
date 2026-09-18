@@ -6,16 +6,16 @@ What each one predicts is in observations.csv, beside what was observed.
 Your job is to apply the tolerance and say whether the observations can
 tell the two routes apart.
 
-Route A — resize once, save once
+Route A -- resize once, save once
   1. Open the 2400 x 1600 source
   2. Resize to 1200 x 800
   3. Save as JPEG at quality 78
 
-Route B — save, resize, save again
+Route B -- save, resize, save again
   1. Open the 2400 x 1600 source
   2. Save as JPEG at quality 90
   3. Reopen that saved file and resize to 1200 x 800
   4. Save as JPEG at quality 78
 
-Source: image/source — an authored image, 2400 x 1600
-Artefact: image/output-7 — provenance unknown — this is the question
+Source: image/source -- an authored image, 2400 x 1600
+Artefact: image/output-7 -- provenance unknown -- this is the question

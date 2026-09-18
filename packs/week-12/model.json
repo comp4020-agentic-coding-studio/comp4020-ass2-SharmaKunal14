@@ -10,7 +10,7 @@
   },
   "revisedRates": {
     "sourceLaborPerItem": 20,
-    "note": "Source-tier labor revised upward from $12 to $20 per item, reflecting that full byte-level preservation now includes a per-item provenance audit of the kind week 11 actually required — a cost the original $12 figure did not account for."
+    "note": "Source-tier labor revised upward from $12 to $20 per item, reflecting that full byte-level preservation now includes a per-item provenance audit of the kind week 11 actually required -- a cost the original $12 figure did not account for."
   },
   "families": [
     {
@@ -25,7 +25,7 @@
       "label": "Audio",
       "itemCount": 5,
       "sourceSizeGb": 0.0254,
-      "note": "The 5 published audio records (source, W, X, Y, Z). No audio bytes are currently published for this collection — the archive holds only feature tables, by policy. A source tier here means preserving real audio bytes for the first time, estimated at 30 seconds of CD-quality WAV per item (roughly 5.2 MB), not a measurement of an actual retained file."
+      "note": "The 5 published audio records (source, W, X, Y, Z). No audio bytes are currently published for this collection -- the archive holds only feature tables, by policy. A source tier here means preserving real audio bytes for the first time, estimated at 30 seconds of CD-quality WAV per item (roughly 5.2 MB), not a measurement of an actual retained file."
     },
     {
       "id": "image",
@@ -50,7 +50,7 @@
     {
       "id": "start-audio",
       "label": "Start preserving real audio",
-      "summary": "Hold print and image at examples tier. Spend the remaining budget bringing as much of the audio family as affordable to source tier — the first real audio bytes this archive would retain — leaving the rest at examples.",
+      "summary": "Hold print and image at examples tier. Spend the remaining budget bringing as much of the audio family as affordable to source tier -- the first real audio bytes this archive would retain -- leaving the rest at examples.",
       "allocation": [
         { "family": "print", "tier": "examples" },
         { "family": "image", "tier": "examples" },

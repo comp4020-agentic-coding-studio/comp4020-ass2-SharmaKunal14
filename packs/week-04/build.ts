@@ -10,7 +10,7 @@
 // calculated. Weeks 1 and 3 withhold results a student can compute from a
 // stated rule and supplied inputs; here no such rule exists, so withholding
 // made the activity impossible. The predictions are now published and the
-// student's work is applying the tolerance to the differences — which reveals
+// student's work is applying the tolerance to the differences -- which reveals
 // nothing, because both routes fit.
 //
 // The obtainable evidence items used to exist only as descriptions in the
@@ -78,7 +78,7 @@ function main(): void {
 
   writeFileSync(
     `${OUT}/tolerance.txt`,
-    `Observation tolerance — a scenario rule\n${pack.note}\n\n` +
+    `Observation tolerance -- a scenario rule\n${pack.note}\n\n` +
       `File size: within ${pack.tolerance.fileSizeKb} KB.\n` +
       `${pack.tolerance.exactFields.join(", ")}: must match exactly.\n\n` +
       `${pack.tolerance.note}\n`,
@@ -94,7 +94,7 @@ function main(): void {
       pack.routes
         .map((r) => `${r.label}\n${r.steps.map((s, i) => `  ${i + 1}. ${s}`).join("\n")}`)
         .join("\n\n") +
-      `\n\nSource: ${pack.source}\nArtefact: ${pack.artefact.id} — provenance ${pack.artefact.provenance}\n`,
+      `\n\nSource: ${pack.source}\nArtefact: ${pack.artefact.id} -- provenance ${pack.artefact.provenance}\n`,
   );
 
   writeFileSync(
@@ -104,7 +104,7 @@ function main(): void {
         [
           e.id,
           `"${e.item}"`,
-          e.available ? "available" : `"unavailable — ${e.unavailableBecause}"`,
+          e.available ? "available" : `"unavailable -- ${e.unavailableBecause}"`,
           e.available ? evidenceFile(e) : "",
         ].join(","),
       ),
@@ -114,7 +114,7 @@ function main(): void {
   for (const item of pack.evidenceMenu.filter((e) => e.available)) {
     writeFileSync(
       `${OUT}/${evidenceFile(item)}`,
-      `${item.id} — ${item.item}\n${pack.note}\n\n${item.result}\n\n` +
+      `${item.id} -- ${item.item}\n${pack.note}\n\n${item.result}\n\n` +
         `This file contains the result of this request only. What it means for the\n` +
         `two routes is for you to say; the other requests are in their own files.\n`,
     );
@@ -122,7 +122,7 @@ function main(): void {
 
   writeFileSync(
     `${OUT}/README.txt`,
-    `Two routes, one output — week 4 pack\n${pack.note}\n\n` +
+    `Two routes, one output -- week 4 pack\n${pack.note}\n\n` +
       `observations.csv lists what was observed about ${pack.artefact.label} and what\n` +
       `each proposed route predicts. tolerance.txt gives the scenario rule for how\n` +
       `close counts as indistinguishable.\n\n` +
@@ -139,7 +139,7 @@ function main(): void {
 
   writeFileSync(
     `${OUT}/reveal/analysis.md`,
-    `# Analysis — week 4\n\n${pack.note}\n\n## Why both routes fit\n\n` +
+    `# Analysis -- week 4\n\n${pack.note}\n\n## Why both routes fit\n\n` +
       `| Route | Predicted size (KB) | Off by | Exact fields match | Compatible |\n|---|---:|---:|---|---|\n` +
       pack.routes
         .map(
@@ -152,7 +152,7 @@ function main(): void {
       pack.evidenceMenu
         .map(
           (e) =>
-            `| ${e.id} — ${e.item} | ${e.available ? "available" : "unavailable"} | ${e.discriminates ? "yes" : "no"} |`,
+            `| ${e.id} -- ${e.item} | ${e.available ? "available" : "unavailable"} | ${e.discriminates ? "yes" : "no"} |`,
         )
         .join("\n") +
       `\n\n` +
@@ -163,7 +163,7 @@ function main(): void {
       `**Limits.** ${pack.reveal.limits}\n`,
   );
 
-  writePackIndex(OUT, "Week 4 pack — two routes, one output",
+  writePackIndex(OUT, "Week 4 pack -- two routes, one output",
     "Two proposed histories, one set of observations, and three requests you can actually make. Decide whether the observations can tell the routes apart.",
     [
       { name: "observations.csv", what: "what was observed, and what each route predicts" },
@@ -172,7 +172,7 @@ function main(): void {
       { name: "evidence-menu.csv", what: "the five requests, three of which have a file to open" },
       ...pack.evidenceMenu.filter((e) => e.available).map((e) => ({
         name: evidenceFile(e),
-        what: `${e.item.toLowerCase()} — open only after you have committed to what it would show`,
+        what: `${e.item.toLowerCase()} -- open only after you have committed to what it would show`,
       })),
       { name: "README.txt", what: "what is in this folder" },
     ]);

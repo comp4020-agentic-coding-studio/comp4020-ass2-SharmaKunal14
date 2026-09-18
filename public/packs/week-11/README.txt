@@ -1,4 +1,4 @@
-Chain of custody — week 11 pack
+Chain of custody -- week 11 pack
 Authored teaching scenario. The manifests, the stripping log and the checksums below were written for this exercise, not extracted from a real file or a real publishing pipeline. This is a plain, unsigned JSON manifest, not a C2PA-style cryptographically signed credential, and the audit below never claims otherwise.
 
 manifest-before.json is the metadata recorded on image/output-7 (from week 4), deposit copy versus its public archive copy at deposit.

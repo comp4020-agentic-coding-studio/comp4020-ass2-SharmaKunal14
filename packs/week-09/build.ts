@@ -3,7 +3,7 @@
 // six-category distribution, with one rare category, is resampled round by
 // round under three conditions (baseline, fully recursive, recursive with
 // retained original data), three fixed seeds each. Only sampling noise
-// compounding through re-estimation is modelled — see model.json's note and
+// compounding through re-estimation is modelled -- see model.json's note and
 // reveal.limitations for what is deliberately left out.
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
@@ -184,13 +184,13 @@ function main(): void {
 
   writeFileSync(
     `${OUT}/trend.txt`,
-    `Rare-category (${model.rareCategory}) retention across resampling rounds — text description (accessible route)\n\n` +
+    `Rare-category (${model.rareCategory}) retention across resampling rounds -- text description (accessible route)\n\n` +
       `Three conditions, three fixed seeds each, ${model.roundSize} draws per round,\n` +
       `${model.rounds} recursive rounds after the shared round-0 draw. "Retained"\n` +
       `means the rare category's count in that round's sample is greater than zero.\n\n` +
       `${trendByCondition}\n\n` +
       `Once a run's estimated distribution assigns the rare category zero\n` +
-      `probability, that run can never draw it again — a genuine absorbing state\n` +
+      `probability, that run can never draw it again -- a genuine absorbing state\n` +
       `in this model, not a smoothed trend line. Full per-round counts for every\n` +
       `category are in counts.csv; the rare category alone is in\n` +
       `rare-category-retention.csv.\n`,
@@ -198,32 +198,32 @@ function main(): void {
 
   writeFileSync(
     `${OUT}/README.txt`,
-    `Categorical resampling model — week 9 pack\n${model.note}\n\n` +
+    `Categorical resampling model -- week 9 pack\n${model.note}\n\n` +
       `settings.json has the categories, true probabilities, round size, seeds and\n` +
-      `each condition's method — everything needed to reproduce every number here.\n\n` +
+      `each condition's method -- everything needed to reproduce every number here.\n\n` +
       `counts.csv is every category's count for every condition, seed and round.\n` +
       `rare-category-retention.csv pulls out the rare category ${model.rareCategory} alone.\n\n` +
       `plot.svg draws the rare category's count for all nine runs; trend.txt is the\n` +
-      `same information as a table and prose — accessible route.\n\n` +
+      `same information as a table and prose -- accessible route.\n\n` +
       `reveal/analysis.md names what this model omits and a conclusion it cannot\n` +
       `justify. Open it after you have written your own conditional conclusion.\n`,
   );
 
   writeFileSync(
     `${OUT}/reveal/analysis.md`,
-    `# Analysis — week 9\n\n${model.reveal.summary}\n\n` +
+    `# Analysis -- week 9\n\n${model.reveal.summary}\n\n` +
       `## What this model omits\n\n${model.reveal.limitations}\n\n` +
       `## A conclusion this pack cannot justify\n\n${model.reveal.unjustifiableConclusion}\n`,
   );
 
-  writePackIndex(OUT, "Week 9 pack — rare categories under recursive resampling",
+  writePackIndex(OUT, "Week 9 pack -- rare categories under recursive resampling",
     "Three conditions, three seeds each. Read the conditions, predict, then compare the prepared rounds.",
     [
       { name: "settings.json", what: "categories, probabilities, round size, seeds and each condition's method" },
       { name: "counts.csv", what: "every category's count for every condition, seed and round" },
       { name: "rare-category-retention.csv", what: "the rare category's count alone, across rounds" },
       { name: "plot.svg", what: "all nine runs plotted; variation across seeds is visible, not averaged away" },
-      { name: "trend.txt", what: "the same trend as a table and prose — accessible route" },
+      { name: "trend.txt", what: "the same trend as a table and prose -- accessible route" },
       { name: "README.txt", what: "what is in this folder" },
     ]);
 
