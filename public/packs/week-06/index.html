@@ -5,23 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Week 6 pack — Ordinance of the Copy-House</title>
     <style>
-      body { font: 16px/1.6 system-ui, sans-serif; margin: 0 auto; max-width: 42rem; padding: 2rem 1rem; }
-      code { background: #f1f1f1; padding: 0.1em 0.3em; border-radius: 3px; }
-      li { margin-block: 0.4rem; }
+      /* Palette hand-mirrored from astro-theme-slop/slop.css — this file has
+         no build-time access to the theme package, since packs/ ships plain
+         static HTML with no Astro pipeline behind it. */
+      :root {
+        --gold: #b97d1c;
+        --bronze: #8a5c13;
+        --grey: #6b6154;
+        --paper: #fffdf9;
+        --line: #e7ddcd;
+      }
+      body {
+        font: 16px/1.6 system-ui, sans-serif;
+        margin: 0 auto;
+        max-width: 42rem;
+        padding: 2rem 1rem 3rem;
+        color: #2a2620;
+        background: var(--paper);
+      }
+      h1 {
+        margin-bottom: 0.3rem;
+        color: var(--bronze);
+        border-bottom: 3px solid var(--gold);
+        padding-bottom: 0.6rem;
+      }
+      .intro { color: var(--grey); }
+      .download {
+        display: block;
+        margin: 1.5rem 0;
+        padding: 0.9rem 1.2rem;
+        background: var(--gold);
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        border-radius: 6px;
+        text-align: center;
+      }
+      .download:hover { background: var(--bronze); }
+      .download small { display: block; font-weight: 400; opacity: 0.9; }
+      ul { list-style: none; padding: 0; margin: 0; }
+      li {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 0.5rem;
+        padding: 0.6rem 0;
+        border-bottom: 1px solid var(--line);
+      }
+      code { background: #f1ece1; padding: 0.1em 0.4em; border-radius: 3px; }
+      .badge {
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        color: var(--grey);
+        background: #f1ece1;
+        border-radius: 3px;
+        padding: 0.1em 0.4em;
+      }
+      .what { color: #4a4436; flex: 1 1 12rem; }
     </style>
   </head>
   <body>
     <main>
       <h1>Week 6 pack — Ordinance of the Copy-House</h1>
-      <p>Five witnesses of a text none of them is. The original is not in this folder.</p>
+      <p class="intro">Five witnesses of a text none of them is. The original is not in this folder.</p>
+      <a class="download" href="./pack.zip">
+        Download the whole pack
+        <small>7 files, 3.8 KB, one .zip</small>
+      </a>
       <ul>
-        <li><a href="./collation.csv"><code>collation.csv</code></a> — the seven points where the witnesses disagree</li>
-      <li><a href="./witness-a.txt"><code>witness-a.txt</code></a> — witness A</li>
-      <li><a href="./witness-b.txt"><code>witness-b.txt</code></a> — witness B</li>
-      <li><a href="./witness-c.txt"><code>witness-c.txt</code></a> — witness C</li>
-      <li><a href="./witness-d.txt"><code>witness-d.txt</code></a> — witness D</li>
-      <li><a href="./witness-e.txt"><code>witness-e.txt</code></a> — witness E</li>
-      <li><a href="./README.txt"><code>README.txt</code></a> — what is in this folder</li>
+        <li><a href="./collation.csv"><code>collation.csv</code></a><span class="badge">CSV</span><span class="what">the seven points where the witnesses disagree</span></li>
+        <li><a href="./witness-a.txt"><code>witness-a.txt</code></a><span class="badge">TXT</span><span class="what">witness A</span></li>
+        <li><a href="./witness-b.txt"><code>witness-b.txt</code></a><span class="badge">TXT</span><span class="what">witness B</span></li>
+        <li><a href="./witness-c.txt"><code>witness-c.txt</code></a><span class="badge">TXT</span><span class="what">witness C</span></li>
+        <li><a href="./witness-d.txt"><code>witness-d.txt</code></a><span class="badge">TXT</span><span class="what">witness D</span></li>
+        <li><a href="./witness-e.txt"><code>witness-e.txt</code></a><span class="badge">TXT</span><span class="what">witness E</span></li>
+        <li><a href="./README.txt"><code>README.txt</code></a><span class="badge">TXT</span><span class="what">what is in this folder</span></li>
       </ul>
     </main>
   </body>

@@ -5,24 +5,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Week 2 pack — one source, four copies</title>
     <style>
-      body { font: 16px/1.6 system-ui, sans-serif; margin: 0 auto; max-width: 42rem; padding: 2rem 1rem; }
-      code { background: #f1f1f1; padding: 0.1em 0.3em; border-radius: 3px; }
-      li { margin-block: 0.4rem; }
+      /* Palette hand-mirrored from astro-theme-slop/slop.css — this file has
+         no build-time access to the theme package, since packs/ ships plain
+         static HTML with no Astro pipeline behind it. */
+      :root {
+        --gold: #b97d1c;
+        --bronze: #8a5c13;
+        --grey: #6b6154;
+        --paper: #fffdf9;
+        --line: #e7ddcd;
+      }
+      body {
+        font: 16px/1.6 system-ui, sans-serif;
+        margin: 0 auto;
+        max-width: 42rem;
+        padding: 2rem 1rem 3rem;
+        color: #2a2620;
+        background: var(--paper);
+      }
+      h1 {
+        margin-bottom: 0.3rem;
+        color: var(--bronze);
+        border-bottom: 3px solid var(--gold);
+        padding-bottom: 0.6rem;
+      }
+      .intro { color: var(--grey); }
+      .download {
+        display: block;
+        margin: 1.5rem 0;
+        padding: 0.9rem 1.2rem;
+        background: var(--gold);
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        border-radius: 6px;
+        text-align: center;
+      }
+      .download:hover { background: var(--bronze); }
+      .download small { display: block; font-weight: 400; opacity: 0.9; }
+      ul { list-style: none; padding: 0; margin: 0; }
+      li {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 0.5rem;
+        padding: 0.6rem 0;
+        border-bottom: 1px solid var(--line);
+      }
+      code { background: #f1ece1; padding: 0.1em 0.4em; border-radius: 3px; }
+      .badge {
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        color: var(--grey);
+        background: #f1ece1;
+        border-radius: 3px;
+        padding: 0.1em 0.4em;
+      }
+      .what { color: #4a4436; flex: 1 1 12rem; }
     </style>
   </head>
   <body>
     <main>
       <h1>Week 2 pack — one source, four copies</h1>
-      <p>The evidence is a table of features, not a set of recordings. Start with the feature table.</p>
+      <p class="intro">The evidence is a table of features, not a set of recordings. Start with the feature table.</p>
+      <a class="download" href="./pack.zip">
+        Download the whole pack
+        <small>8 files, 2.9 KB, one .zip</small>
+      </a>
       <ul>
-        <li><a href="./feature-table.csv"><code>feature-table.csv</code></a> — the evidence: six features against the source and four copies</li>
-      <li><a href="./features.txt"><code>features.txt</code></a> — what each feature is and where it sits</li>
-      <li><a href="./s.txt"><code>s.txt</code></a> — the source recording</li>
-      <li><a href="./w.txt"><code>w.txt</code></a> — copy W</li>
-      <li><a href="./x.txt"><code>x.txt</code></a> — copy X</li>
-      <li><a href="./y.txt"><code>y.txt</code></a> — copy Y</li>
-      <li><a href="./z.txt"><code>z.txt</code></a> — copy Z</li>
-      <li><a href="./README.txt"><code>README.txt</code></a> — what is in this folder</li>
+        <li><a href="./feature-table.csv"><code>feature-table.csv</code></a><span class="badge">CSV</span><span class="what">the evidence: six features against the source and four copies</span></li>
+        <li><a href="./features.txt"><code>features.txt</code></a><span class="badge">TXT</span><span class="what">what each feature is and where it sits</span></li>
+        <li><a href="./s.txt"><code>s.txt</code></a><span class="badge">TXT</span><span class="what">the source recording</span></li>
+        <li><a href="./w.txt"><code>w.txt</code></a><span class="badge">TXT</span><span class="what">copy W</span></li>
+        <li><a href="./x.txt"><code>x.txt</code></a><span class="badge">TXT</span><span class="what">copy X</span></li>
+        <li><a href="./y.txt"><code>y.txt</code></a><span class="badge">TXT</span><span class="what">copy Y</span></li>
+        <li><a href="./z.txt"><code>z.txt</code></a><span class="badge">TXT</span><span class="what">copy Z</span></li>
+        <li><a href="./README.txt"><code>README.txt</code></a><span class="badge">TXT</span><span class="what">what is in this folder</span></li>
       </ul>
     </main>
   </body>

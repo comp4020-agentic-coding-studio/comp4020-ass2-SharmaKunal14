@@ -5,23 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Week 10 pack — a restoration claim, checked feature by feature</title>
     <style>
-      body { font: 16px/1.6 system-ui, sans-serif; margin: 0 auto; max-width: 42rem; padding: 2rem 1rem; }
-      code { background: #f1f1f1; padding: 0.1em 0.3em; border-radius: 3px; }
-      li { margin-block: 0.4rem; }
+      /* Palette hand-mirrored from astro-theme-slop/slop.css — this file has
+         no build-time access to the theme package, since packs/ ships plain
+         static HTML with no Astro pipeline behind it. */
+      :root {
+        --gold: #b97d1c;
+        --bronze: #8a5c13;
+        --grey: #6b6154;
+        --paper: #fffdf9;
+        --line: #e7ddcd;
+      }
+      body {
+        font: 16px/1.6 system-ui, sans-serif;
+        margin: 0 auto;
+        max-width: 42rem;
+        padding: 2rem 1rem 3rem;
+        color: #2a2620;
+        background: var(--paper);
+      }
+      h1 {
+        margin-bottom: 0.3rem;
+        color: var(--bronze);
+        border-bottom: 3px solid var(--gold);
+        padding-bottom: 0.6rem;
+      }
+      .intro { color: var(--grey); }
+      .download {
+        display: block;
+        margin: 1.5rem 0;
+        padding: 0.9rem 1.2rem;
+        background: var(--gold);
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        border-radius: 6px;
+        text-align: center;
+      }
+      .download:hover { background: var(--bronze); }
+      .download small { display: block; font-weight: 400; opacity: 0.9; }
+      ul { list-style: none; padding: 0; margin: 0; }
+      li {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 0.5rem;
+        padding: 0.6rem 0;
+        border-bottom: 1px solid var(--line);
+      }
+      code { background: #f1ece1; padding: 0.1em 0.4em; border-radius: 3px; }
+      .badge {
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        color: var(--grey);
+        background: #f1ece1;
+        border-radius: 3px;
+        padding: 0.1em 0.4em;
+      }
+      .what { color: #4a4436; flex: 1 1 12rem; }
     </style>
   </head>
   <body>
     <main>
       <h1>Week 10 pack — a restoration claim, checked feature by feature</h1>
-      <p>Three images and the arithmetic behind them. Predict each feature before you check it against the retained source.</p>
+      <p class="intro">Three images and the arithmetic behind them. Predict each feature before you check it against the retained source.</p>
+      <a class="download" href="./pack.zip">
+        Download the whole pack
+        <small>7 files, 3.7 KB, one .zip</small>
+      </a>
       <ul>
-        <li><a href="./source.svg"><code>source.svg</code></a> — the retained source image</li>
-      <li><a href="./degraded.svg"><code>degraded.svg</code></a> — the source after 2x2 block-averaging, shown blocky</li>
-      <li><a href="./restored.svg"><code>restored.svg</code></a> — the degraded image upsampled by bilinear interpolation</li>
-      <li><a href="./pixels.csv"><code>pixels.csv</code></a> — all 64 cells for source, degraded and restored</li>
-      <li><a href="./feature-table.csv"><code>feature-table.csv</code></a> — the six named features this pack asks you to check</li>
-      <li><a href="./labelled-features.txt"><code>labelled-features.txt</code></a> — the same six features as accessible text</li>
-      <li><a href="./README.txt"><code>README.txt</code></a> — what is in this folder</li>
+        <li><a href="./source.svg"><code>source.svg</code></a><span class="badge">SVG</span><span class="what">the retained source image</span></li>
+        <li><a href="./degraded.svg"><code>degraded.svg</code></a><span class="badge">SVG</span><span class="what">the source after 2x2 block-averaging, shown blocky</span></li>
+        <li><a href="./restored.svg"><code>restored.svg</code></a><span class="badge">SVG</span><span class="what">the degraded image upsampled by bilinear interpolation</span></li>
+        <li><a href="./pixels.csv"><code>pixels.csv</code></a><span class="badge">CSV</span><span class="what">all 64 cells for source, degraded and restored</span></li>
+        <li><a href="./feature-table.csv"><code>feature-table.csv</code></a><span class="badge">CSV</span><span class="what">the six named features this pack asks you to check</span></li>
+        <li><a href="./labelled-features.txt"><code>labelled-features.txt</code></a><span class="badge">TXT</span><span class="what">the same six features as accessible text</span></li>
+        <li><a href="./README.txt"><code>README.txt</code></a><span class="badge">TXT</span><span class="what">what is in this folder</span></li>
       </ul>
     </main>
   </body>
