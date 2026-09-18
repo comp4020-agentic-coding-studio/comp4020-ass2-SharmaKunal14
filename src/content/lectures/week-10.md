@@ -2,6 +2,7 @@
 title: "Enhance"
 description: "What a restoration can recover, what it supplies from a prior, and how to tell."
 week: 10
+slides: /decks/week-10/
 heroImage: /src/assets/images/hero-week-10.avif
 heroImageAlt: "Week 10 banner: Enhance"
 date: 2027-05-03

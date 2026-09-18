@@ -1,0 +1,102 @@
+---
+title: Enhance
+description: What a restoration can recover, what it supplies from a prior, and how to tell.
+---
+
+# Enhance
+
+Week 4 asked whether evidence on a single output could tell two
+histories apart. This week: when someone shows a "before" and an
+"after" and calls the after a recovery of lost detail — what would
+actually verify that, and what would only make it look verified?
+
+---
+
+{/* _class: centered */}
+
+## Three claims that are not the same claim
+
+**Plausible.** Looks like a coherent photograph. Weakest claim, easiest
+to satisfy.
+
+**Verified.** The restored value at a named location matches a retained
+source. Strong — and requires exactly what a real restoration usually
+lacks: the original.
+
+**Uncertain, not fabricated.** A flat, never-at-risk region matching
+tells you nothing about the method's power.
+
+---
+
+## This week's pack, stated plainly
+
+An 8×8 synthetic tone chart, degraded by 2×2 block averaging, restored by
+bilinear interpolation.
+
+Checked at six named locations: two uniform-block features matched
+(uninformative). Of four features with genuine variation: **one matched,
+three did not.**
+
+One out of four is not a recovery rate — it's what this pack's own
+arithmetic produced.
+
+---
+
+{/* _class: impact */}
+
+## A documented failure at higher stakes
+
+PULSE (Menon et al., CVPR 2020) searches a generative model's space of
+plausible faces for one that downsamples to match a blurry input.
+
+A pixelated photo of Barack Obama went in. White skin, blue eyes came
+out — verifiably wrong, because a real photo exists to check against.
+
+---
+
+{/* _class: quote */}
+
+## The correct general lesson
+
+Not "generative restoration invents things," as a blanket rule.
+
+**Plausibility was never evidence of correctness** — and checking
+requires exactly the retained source a real restoration claim usually
+cannot supply.
+
+---
+
+{/* _class: banner */}
+
+## Before Wednesday
+
+Download the pack. Read `pixels.csv` before `restored.svg`. Write down
+which of the six features you expect to match before you check.
+
+Workshop: [Enhance](/sessions/10-enhance/)
+
+## Text walkthrough
+
+For a reader who cannot use the deck view: three claims about a
+restoration are easily confused but not the same — plausible (looks like
+a coherent image, the weakest and easiest claim), verified (a restored
+value at a specific named location matches a retained source you can
+check against), and uncertain-not-fabricated (a region that was never at
+risk, such as a flat area, matching the source tells you nothing about
+the restoration method's power, since flat areas survive almost any
+degradation and restoration). This week's pack degrades an 8×8 synthetic
+tone chart by averaging each 2×2 block and restores it with ordinary
+bilinear interpolation, then checks six named locations against the
+retained original: two features sat in already-uniform blocks and matched
+uninformatively, while of four features with genuine internal variation,
+only one matched and three did not — one correct recovery out of four
+genuine attempts in this one specimen with this one method, not a general
+recovery rate. The same structure appears at much higher stakes in PULSE
+(Menon et al., CVPR 2020), a generative face-restoration method that,
+when run on a pixelated photo of Barack Obama, produced a plausible face
+with white skin and blue eyes — verifiably wrong because a real photograph
+exists to check against. The correct general lesson is not that generative
+restoration always invents detail, but that a plausible-looking output was
+never evidence of correctness on its own; checking requires exactly the
+retained source that a real restoration claim, unlike this pack's, usually
+cannot supply.

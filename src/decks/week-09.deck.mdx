@@ -1,0 +1,109 @@
+---
+title: The curse of recursion
+description: Resampling from your own output, and why the rare cases go first.
+---
+
+# The curse of recursion
+
+Week 7 asked what a finite run of copying error can and cannot show about
+ancestry. This week: what happens when each generation is a fresh sample
+drawn *from* the previous one — and what that does to the cases that
+were already rare.
+
+---
+
+## The claim this model illustrates
+
+Shumailov et al., "AI models collapse when trained on recursively
+generated data," *Nature* 631 (2024).
+
+**Early collapse** — drift from the original distribution, before any
+category disappears.
+
+**Late collapse** — a rare case is assigned zero probability and never
+recurs.
+
+---
+
+{/* _class: centered */}
+
+## Six categories, one fixed at 3%
+
+Category F: fixed at 3% true probability. Round 0 draws 200 samples.
+
+**Baseline** — keeps drawing from the true distribution (the control).
+
+**Fully recursive** — estimates each round from the previous round's own
+draw.
+
+**Retain-original** — estimates from a 50/50 mix of prior draw + fresh
+true-distribution draw.
+
+---
+
+## What happened, across three seeds
+
+Fully recursive: one seed sent category F to **zero by round 3**, and it
+stayed zero — once an estimate assigns zero probability, sampling from it
+can never recover the category.
+
+Baseline: never lost it, in any seed.
+
+Retain-original: didn't lose it, in any of the three seeds run here.
+
+---
+
+{/* _class: quote */}
+
+## What three seeds do and don't show
+
+They show the mechanism is real and reproducible in this model.
+
+They do **not** show how often it happens, how fast, or whether a 50/50
+mix specifically is what a real pipeline would need.
+
+---
+
+## Before this gets over-applied
+
+No language model, no token vocabulary, no training objective here.
+
+This model shows *that* recursive re-estimation from a finite sample can
+permanently erase a rare case — a mechanism general enough to plausibly
+matter elsewhere. It does not show that any particular real model
+degrades this way, or at what rate.
+
+---
+
+{/* _class: banner */}
+
+## Before Wednesday
+
+Download the pack. Read `settings.json` and each condition's description
+before opening `rare-category-retention.csv`. Write your prediction
+first.
+
+Workshop: [The curse of recursion](/sessions/09-recursion/)
+
+## Text walkthrough
+
+For a reader who cannot use the deck view: this week's toy model has six
+labelled categories, with category F fixed at a 3% true probability, and
+compares three conditions across 200-sample rounds — a baseline that
+always draws from the true distribution (the control), a fully recursive
+condition that estimates each round's distribution purely from the
+previous round's own sample, and a retain-original condition that mixes
+the previous round's sample 50/50 with a fresh true-distribution sample.
+Across three seeds, the fully recursive condition drove category F to a
+count of zero for one seed by round 3, and it never recovered — once an
+estimated distribution assigns a category zero probability, sampling from
+that estimate cannot reintroduce it — while the baseline never lost the
+category in any seed and the retain-original condition did not lose it in
+any of the three seeds tested. Three seeds are enough to show the
+mechanism is real and reproducible in this toy setting, but not enough to
+establish a rate, a timeline, or whether a 50/50 retention ratio
+specifically is what a real training pipeline would need; the model has no
+architecture, tokens or training objective, so it demonstrates that
+recursive re-estimation from a finite sample can permanently erase a rare
+case, not that any particular real generative model degrades this way or
+at what speed.
