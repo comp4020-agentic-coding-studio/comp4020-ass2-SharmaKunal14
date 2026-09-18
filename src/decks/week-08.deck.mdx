@@ -1,0 +1,110 @@
+---
+title: Copying without loss
+description: Redundancy as a purchase — what it buys, what it costs, and where the guarantee stops.
+---
+
+# Copying without loss
+
+Week 1 asked whether a copy changed at all. Week 7 modelled a process
+where change is not optional, only its rate is. This week asks: if you
+know roughly what damage to expect, what can you buy to survive it — and
+what doesn't that purchase cover?
+
+---
+
+{/* _class: centered */}
+
+## A repetition code, stated completely
+
+Send payload bit `1` as `111`. Decode by majority vote of the three
+received bits.
+
+Worked message — payload `1011` → codeword `111 000 111 111`.
+
+No arithmetic beyond counting.
+
+---
+
+## Detection is not correction
+
+Two identical adjacent copies let you *notice* a disagreement, not
+resolve it.
+
+A majority of three lets you notice **and** resolve it — provided at
+most one of the three is wrong.
+
+---
+
+## Where the guarantee stops
+
+| Case | Sent | Received | Decoded | Correct? |
+|---|---|---|---|---|
+| Unprotected | `1` | `0` | `0` | No |
+| 1 flip in triplet | `111` | `101` | `1` | Yes |
+| 2 flips in triplet | `111` | `100` | `0` | **No — silently** |
+
+Two flips outvote the correct bit. The decoder returns the wrong value
+with exactly the same confidence as a correct decode.
+
+---
+
+{/* _class: impact */}
+
+## Redundancy relocates the risk. It doesn't remove it.
+
+Paying for a stronger code raises the number of simultaneous faults the
+scheme survives, at a higher overhead.
+
+The repetition code paid three times the bits and still failed exactly as
+silently as sending the bit unprotected once.
+
+---
+
+## Overhead is a number you calculate
+
+A 3× repetition code always has **200% overhead** — every payload bit
+becomes three transmitted bits, regardless of message length.
+
+A fixed price for a fixed guarantee: one flip per triplet.
+
+---
+
+{/* _class: quote */}
+
+## The one assumption
+
+"At most one bit error per triplet."
+
+State it out loud, every time you decode by majority vote.
+
+---
+
+{/* _class: banner */}
+
+## Before Wednesday
+
+No pack to open. Be ready to decode a received triplet by hand and to
+say, out loud, the one assumption that decode depends on.
+
+Workshop: [Copying without loss](/sessions/08-error-correction/)
+
+## Text walkthrough
+
+For a reader who cannot use the deck view: a 3× repetition code sends
+each payload bit three times, so payload `1011` becomes codeword
+`111 000 111 111`; decoding takes the majority value of each received
+triplet. This corrects any single bit-flip within one triplet, because
+the majority vote resolves the disagreement in the correct bit's favour,
+but two flips inside the same triplet outvote the correct bit and the
+decoder returns a wrong value with exactly the same apparent confidence as
+a correct one — an unprotected bit that flips is simply wrong, a triplet
+with one flip self-corrects, and a triplet with two flips also
+"self-corrects," silently, to the wrong answer, having spent three times
+the bits to do it. This shows that redundancy does not remove the risk of
+a wrong-but-confident answer; it only relocates the number of simultaneous
+faults needed to produce one, and paying for a stronger code raises that
+number at a higher overhead. Overhead itself is calculable rather than a
+slogan: a 3× repetition code always carries 200% overhead, since every
+payload bit becomes three transmitted bits regardless of message length,
+which is a fixed price for a fixed guarantee — one flip per triplet, no
+more.

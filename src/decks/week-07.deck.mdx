@@ -1,0 +1,102 @@
+---
+title: When ancestry becomes hard to read
+description: A simplified replication model, its parameters, and the biology it leaves out.
+---
+
+# When ancestry becomes hard to read
+
+Week 6 built a tree from shared copying error in a handful of witnesses.
+This week asks a narrower question: what happens to that method as the
+error rate rises — inside a model simple enough to state completely.
+
+---
+
+## The model, stated completely
+
+A 24-symbol sequence, four-symbol alphabet, is the fixed ancestor.
+
+Each generation: at every position, independently, with fixed probability
+(the error rate), swap in a different symbol; otherwise leave it alone.
+
+One lineage. No branching, no death, no differential survival.
+
+---
+
+{/* _class: centered */}
+
+## Ancestor agreement
+
+The fraction of positions in generation *g* that still match
+**generation 0** — not the immediate parent.
+
+It measures how much of the original signal a reconstruction attempt
+would still have to work with.
+
+---
+
+## Three rates, three seeds — not one dramatic run
+
+Three fixed error rates. Three fixed seeds each.
+
+A single run would show a shape; it wouldn't show whether that shape is a
+property of the rate or an accident of one random sequence.
+
+Anyone can rerun `settings.json` and get the same nine sequences back.
+
+---
+
+## What a finite run can and cannot show
+
+Agreement never falls to zero — with four symbols per position, an
+**unrelated** sequence still matches by chance about a quarter of the
+time. Every curve settles toward ~0.25, not 0.
+
+A single seed can tick *up* between two generations, even while the
+three-seed mean keeps falling.
+
+---
+
+{/* _class: impact */}
+
+## What the model does not have
+
+- **Selection** — no variant is more likely to persist than another
+- **Population structure** — one lineage, no drift, no bottleneck
+
+Three rates and three seeds cannot locate a general error-rate threshold,
+in this model or any other, and say nothing about a real biological
+sequence.
+
+---
+
+{/* _class: banner */}
+
+## Before Wednesday
+
+Download the pack. Read `settings.json` before looking at the results,
+and write your prediction before opening `plot.svg`.
+
+Workshop: [When ancestry becomes hard to read](/sessions/07-ancestry/)
+
+## Text walkthrough
+
+For a reader who cannot use the deck view: this week's model copies a
+fixed 24-symbol sequence over a four-symbol alphabet forward through
+generations, where each position independently has a fixed probability of
+being replaced at each step; "ancestor agreement" is the fraction of
+positions still matching the original generation-0 ancestor, not the
+immediate parent. The pack runs this at three error rates with three
+random seeds each, which matters because a single run at a single rate
+shows a shape but cannot show whether that shape reflects the rate itself
+or one random sequence of substitutions — the three seeds at a given rate
+can disagree with each other by more than the gap between two rates' means
+at an early generation. Two things follow directly from the model and
+neither is a biological claim: agreement never reaches zero, because an
+unrelated four-symbol sequence still matches the ancestor at roughly a
+quarter of positions purely by chance, so every curve settles toward about
+0.25; and a single seed's curve is not smooth, since a substitution can
+restore a match by chance as easily as break one. What the model excludes
+— selection between variants and any population structure such as
+branching or drift — means this simulation cannot locate a general
+error-rate threshold for readable ancestry, in this model or any real one,
+and says nothing about actual biological sequences.

@@ -2,6 +2,7 @@
 title: "When ancestry becomes hard to read"
 description: "A simplified replication model, its parameters, and the biology it leaves out."
 week: 7
+slides: /decks/week-07/
 heroImage: /src/assets/images/hero-week-07.avif
 heroImageAlt: "Week 07 banner: When ancestry becomes hard to read"
 date: 2027-04-12
