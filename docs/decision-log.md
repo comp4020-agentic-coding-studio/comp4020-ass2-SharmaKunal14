@@ -1532,7 +1532,9 @@ this session did not resolve beyond documenting the tradeoff.
 
 **Commits:** decks — `cdd2f42`/`011fd9f` (weeks 07-08), `2dd5646` (weeks
 09-10), `61ec6b6` (weeks 11-12), `9ec7c71` (deck-coverage harness); reveal
-unlinking commit hash not yet created at the time this entry was written.
+unlinking — `bf9f600` (de-link session pages and week-06 deck), `39ab07f`
+(stop listing reveal answers in pack indexes), `7c7c89f`
+(harness + CLAUDE.md rule + this entry).
 
 ### Template for subsequent observed results
 
