@@ -159,7 +159,6 @@ ${(pack.trueStructure.edges as { parent: string; child: string; how: string }[])
       { name: "y.txt", what: "copy Y" },
       { name: "z.txt", what: "copy Z" },
       { name: "README.txt", what: "what is in this folder" },
-      { name: "reveal/construction-log.md", what: "the answer — open it after you have one of your own" },
     ],
   );
 

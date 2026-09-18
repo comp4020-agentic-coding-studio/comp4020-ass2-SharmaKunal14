@@ -175,7 +175,6 @@ function main(): void {
         what: `${e.item.toLowerCase()} — open only after you have committed to what it would show`,
       })),
       { name: "README.txt", what: "what is in this folder" },
-      { name: "reveal/analysis.md", what: "what actually happened — open it after your report" },
     ]);
 
   console.log(

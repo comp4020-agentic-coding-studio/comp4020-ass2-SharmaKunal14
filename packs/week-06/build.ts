@@ -178,7 +178,6 @@ ${JSON.stringify(pack.supportedStemma, null, 2)}
       { name: "witness-d.txt", what: "witness D" },
       { name: "witness-e.txt", what: "witness E" },
       { name: "README.txt", what: "what is in this folder" },
-      { name: "reveal/production-log.md", what: "the answer — open it after you have a tree" },
     ]);
 
   console.log(

@@ -169,7 +169,6 @@ function main(): void {
       { name: "stripping-log.txt", what: "the pipeline's own account of what it changed" },
       { name: "audit-worksheet.csv", what: "your field-by-field audit template" },
       { name: "README.txt", what: "what is in this folder" },
-      { name: "reveal/analysis.md", what: "the computed audit — open it after your own worksheet" },
     ]);
 
   console.log(`week-11 pack: ${rows.length} fields audited, reveal written`);

@@ -199,7 +199,6 @@ function main(): void {
       { name: "sensitivity.csv", what: "both proposals rerun after one rate is revised" },
       { name: "objection.txt", what: "one serious objection to the deep-image proposal, and a response" },
       { name: "README.txt", what: "what is in this folder" },
-      { name: "reveal/analysis.md", what: "the worked comparison — open it after your own memo" },
     ]);
 
   console.log(`week-12 pack: ${pack.proposals.length} proposals resolved at baseline and revised rates, reveal written`);

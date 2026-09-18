@@ -160,7 +160,6 @@ function main(): void {
       { name: "feature-table.csv", what: "the six named features this pack asks you to check" },
       { name: "labelled-features.txt", what: "the same six features as accessible text" },
       { name: "README.txt", what: "what is in this folder" },
-      { name: "reveal/analysis.md", what: "what the specimen omits, and a conclusion it cannot justify" },
     ]);
 
   console.log(`week-10 pack: ${model.gridSize}x${model.gridSize} grid, ${model.features.length} named features`);
