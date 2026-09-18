@@ -2,6 +2,7 @@
 title: "Hiss as a signature"
 description: "Four explanations for a shared feature, only one of which is ancestry, and what makes the difference between them."
 week: 2
+slides: /decks/week-02/
 heroImage: /src/assets/images/hero-week-02.avif
 heroImageAlt: "Week 02 banner: Hiss as a signature"
 date: 2027-03-01
