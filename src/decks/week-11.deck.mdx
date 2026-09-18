@@ -1,0 +1,104 @@
+---
+title: Chain of custody
+description: Carrying provenance with an object, and what a missing record does and does not prove.
+---
+
+# Chain of custody
+
+Week 4 found that one retained record — a transformation record that
+*named* its input, not merely listed what existed — was the one that
+resolved anything. This week: what happens to a record like that after
+the object keeps moving?
+
+---
+
+## A record is not a signature
+
+A provenance record is a set of assertions someone chose to keep.
+Writing them down does not make them true; their absence does not make
+the underlying claim false.
+
+"No record survives" and "this is fabricated" are different claims —
+the same confusion week 4 warned against with co-existence and descent.
+
+---
+
+{/* _class: centered */}
+
+## What C2PA actually guarantees
+
+Anyone with file access can edit a plain JSON manifest.
+
+C2PA binds a manifest to a signer's cryptographic key — tampering
+**after** signing is detectable.
+
+It verifies the assertions weren't altered after signing. **Not** that
+they were true when made.
+
+---
+
+## What this week's audit found
+
+Deposit manifest vs. public manifest vs. the publishing pipeline's own
+change log.
+
+The log names two operations — both check out exactly.
+
+The real diff has **two further changes the log never mentions**: a
+field renamed rather than removed, and a checksum that changed because
+the field set changed.
+
+---
+
+{/* _class: impact */}
+
+## An honest log can still be incomplete
+
+The only way to find the gap was comparing the manifests directly — not
+trusting the log as a summary of them.
+
+---
+
+## Not every absence is stripping
+
+`gpsCoordinates` and `cameraModel` are absent from **both** manifests —
+not because this operation removed them, but because Output 7 never
+retained that data at any stage (week 4).
+
+An audit treating every absence as stripping invents a suspicious
+history for data that was simply never there.
+
+---
+
+{/* _class: banner */}
+
+## Before Wednesday
+
+Download the pack. Compare the two manifests directly before reading the
+stripping log's account, so you find the gap yourself.
+
+Workshop: [Chain of custody](/sessions/11-custody/)
+
+## Text walkthrough
+
+For a reader who cannot use the deck view: a provenance record is a set
+of assertions someone chose to keep, and neither writing them down nor
+their absence changes what actually happened — confusing "no record
+survives" with "this is fabricated" repeats week 4's error about
+co-existence not being descent. The C2PA specification addresses one
+specific weakness of a plain manifest — that anyone with file access can
+edit it — by binding it to a signer's cryptographic key so that tampering
+after signing is detectable, but it only verifies that the assertions were
+not altered after signing, not that they were true when made. This week's
+audit compares a deposit manifest and a public manifest for Output 7
+against the publishing pipeline's own log of what changed between them;
+the log names two operations and both check out exactly, but the real
+difference between the manifests has two further changes the log never
+mentions — a field renamed rather than removed, and a checksum that
+changed as a result — which could only be found by comparing the
+manifests directly rather than trusting the log as a complete summary.
+Separately, two fields are absent from both manifests not because this
+particular operation removed them but because Output 7 never retained
+that data at any stage, and treating every absent field as evidence of
+stripping would invent a suspicious history for a specimen that simply
+never had the data to lose.

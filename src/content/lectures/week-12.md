@@ -2,6 +2,7 @@
 title: "The original that never was"
 description: "Choosing what survives, and pricing what you agree to lose."
 week: 12
+slides: /decks/week-12/
 heroImage: /src/assets/images/hero-week-12.avif
 heroImageAlt: "Week 12 banner: The original that never was"
 date: 2027-05-17
