@@ -56,7 +56,7 @@ describe("week 4 pack is what it publishes", () => {
     const csv = published("evidence-menu.csv");
     for (const item of pack.evidenceMenu.filter((e) => !e.available)) {
       expect(item.unavailableBecause, `${item.id} has no reason`).toBeTruthy();
-      expect(csv, `${item.id}`).toContain(`unavailable — ${item.unavailableBecause}`);
+      expect(csv, `${item.id}`).toContain(`unavailable -- ${item.unavailableBecause}`);
     }
   });
 });
