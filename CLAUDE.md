@@ -40,3 +40,9 @@ affected consumers second. Avoid copying shared rules into every phase.
   an author consistency check from a blind learner trial. Checked by
   `spec/decision-log-freshness.test.ts`, which requires a dated entry for every
   day content changed.
+- Every published lecture ships a slide deck wired via its `slides`
+  frontmatter, built only from that week's own lecture/session content, and
+  closing with a `## Text walkthrough` section so the deck view is not the
+  only way to reach the material. Checked by `spec/deck-coverage.test.ts`,
+  which requires every lecture's `slides` field to point at a deck file that
+  exists and carries that heading.
