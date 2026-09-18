@@ -1536,6 +1536,60 @@ unlinking — `bf9f600` (de-link session pages and week-06 deck), `39ab07f`
 (stop listing reveal answers in pack indexes), `7c7c89f`
 (harness + CLAUDE.md rule + this entry).
 
+## 2026-09-18 — Pack index pages redesigned, and a whole-pack zip added
+
+### Decisions and reasons
+
+- **Redesigned `packs/pack-index.ts`'s generated page.** The previous page
+  was a bare `<ul>` of file links with no styling beyond a grey `<code>`
+  background, unrevisited since it was built only to satisfy GitHub Pages'
+  lack of directory listings. Rewrote it with a brand-matching palette
+  hand-mirrored from `astro-theme-slop/slop.css` (this file is a plain Node
+  script with no Astro pipeline access, so it can't import the theme
+  package's CSS directly), bordered file rows with an extension badge per
+  file, and a prominent download action above the list.
+- **Added a `pack.zip` per pack, scoped to exactly the `files` array already
+  passed to `writePackIndex`, not the whole folder.** The reveal-unlinking
+  fix from earlier today only holds because no rendered page or index links
+  the `reveal/` answer; a zip built from "everything in the directory" would
+  have bundled that same answer back in as a single download, undoing the
+  fix. Building it from the same `files` list the index already renders
+  means the zip can never show more than the page does — one list drives
+  both, so there's nothing extra to keep in sync. Week 1's `worked-answer.md`
+  is included, matching its existing (separately noted, out-of-scope)
+  exposure via its own index link.
+- **No changes to any of the 10 `packs/week-NN/build.ts` scripts.** All of
+  them already call `writePackIndex(dir, title, intro, files)` as their last
+  line; the redesign and the zip both live entirely inside `pack-index.ts`,
+  so the entire feature is a one-file change plus regenerating the output.
+
+### Verification
+
+Regenerated all 10 packs via `mise exec -- node packs/week-NN/build.ts`
+(weeks 01-04, 06-07, 09-12); each printed its normal build summary with no
+errors. Manually unzipped `public/packs/week-04/pack.zip` and confirmed its
+contents exactly match the files listed on that pack's own `index.html`,
+with no `reveal/` file present. New `spec/pack-zip.test.ts` checks this for
+every pack, not just the one checked by hand. `mise exec -- pnpm check`
+(typecheck, full build, all specs) passed in full: 161/161 tests, including
+`spec/pack-zip.test.ts`, `spec/pack-links.test.ts`,
+`spec/reveal-unlinked.test.ts` and `spec/decision-log-freshness.test.ts`
+against this entry.
+
+### Still not established
+
+No fresh reader or actual student has looked at the redesigned page; the
+visual check so far is the author's own eyeballing of one rebuilt page plus
+a `curl` spot-check against the local preview server. The extension-badge
+approach (CSV/TXT/MD/JSON as plain uppercase text) was chosen over any icon
+set specifically because `@iconify-json/iconoir` (a devDependency) turned
+out to be unused anywhere in `src` and unusable from a plain Node script
+without extra plumbing — worth revisiting if the site ever gains a build-time
+path from `packs/` into the Astro pipeline.
+
+**Commits:** pack redesign + zip — `1cc8fac` (redesign pack-index.ts,
+regenerate all 10 packs), `8b3735e` (pack-zip harness), this entry.
+
 ### Template for subsequent observed results
 
 - What was tested and with which materials/version:

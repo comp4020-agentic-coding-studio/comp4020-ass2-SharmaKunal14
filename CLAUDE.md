@@ -13,7 +13,10 @@ affected consumers second. Avoid copying shared rules into every phase.
   practice feedback, not secure assessment-key storage. A workshop's `reveal/`
   answer is never linked from any rendered page or its own pack's index —
   sharing the reveal path after a workshop is a manual step, not a site
-  feature. Checked by `spec/reveal-unlinked.test.ts`.
+  feature. Checked by `spec/reveal-unlinked.test.ts`. Every pack ships a
+  `pack.zip` built from exactly the `files` array its own index page lists —
+  never the whole folder — so the zip can't smuggle in something the index
+  doesn't already show. Checked by `spec/pack-zip.test.ts`.
 - Follow the resource floor; add optional variants only after core acceptance.
   Parent-child edges stay within a family. Label weeks 7 and 9 results as
   simplified models with explicit omissions.
