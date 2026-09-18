@@ -2,6 +2,7 @@
 title: "The scriptorium"
 description: "How hand copying fails, and why a shared mistake carries more information than a frequent one."
 week: 5
+slides: /decks/week-05/
 heroImage: /src/assets/images/hero-week-05.avif
 heroImageAlt: "Week 05 banner: The scriptorium"
 date: 2027-03-22

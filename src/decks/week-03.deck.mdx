@@ -1,0 +1,142 @@
+---
+title: What the ear cannot hear
+description: Why a suggested cause needs a control, a stated outcome measure and everything else held fixed — and what a non-detection does and does not license.
+---
+
+# What the ear cannot hear
+
+Week 2 ended with a proposed explanation. This hour is about the
+difference between proposing one and testing it.
+
+---
+
+## Loss designed to be inaudible
+
+Perceptual coding does not try to keep the signal. It keeps the parts a
+model of the listener says will be noticed, and discards the rest.
+
+*From Jonathan Sterne,* MP3: The Meaning of a Format *(2012), chapter 1.*
+
+A codec is an argument about hearing, built into a file format.
+
+---
+
+{/* _class: quote */}
+
+## A comparison that cannot answer it
+
+> One encoding cycle at 320 kbps: deviation score 0.3.
+> Ten encoding cycles at 96 kbps: 9.8.
+> Conclusion: ten encoding cycles cause a large loss.
+
+The numbers are fine. The conclusion does not follow.
+
+---
+
+## Two things changed
+
+Cycle count: 1 → 10.
+
+Bitrate: 320 → 96.
+
+There is no way to divide the 9.5-point difference between them. This is
+not a subtle error — it is everywhere, because the two conditions were
+probably never designed as a comparison at all.
+
+---
+
+## The repair
+
+Change one thing. Hold everything else fixed.
+
+> One cycle at 128 kbps versus ten cycles at 128 kbps.
+
+Bitrate constant; only the cycle count differs. Wednesday's data: **3.2
+points** — roughly a third of what the confounded comparison implied.
+
+---
+
+{/* _class: centered */}
+
+## Four things a protocol must state
+
+- The **independent variable**
+- The **outcome measure**
+- The **control**
+- **What was held fixed**
+
+Leave any one out and a reader cannot tell what your result is about.
+
+---
+
+## The number that matters most
+
+You are reporting a *difference* between two conditions, so what governs
+you is how much that difference moves when the whole procedure repeats.
+
+For us: **0.5 points.**
+
+---
+
+## A non-detection is a finding
+
+Run the corrected comparison at 320 kbps: **0.4 points.**
+
+That is at or below repeatability — a **non-detection**, not a small
+difference. Reporting it as degradation would be reporting your own noise.
+
+"We did not detect a difference" and "there is no difference" are
+different claims. Only the first one is yours.
+
+---
+
+## Where that leaves the question
+
+At 128 kbps: detectable. At 320 kbps: not.
+
+A worse headline than "generation loss ruins everything," and a better
+answer — conditional on a stated source, score, setting, scenario. Not a
+claim about MP3 in general.
+
+---
+
+{/* _class: impact */}
+
+## The control, again
+
+Ten copy operations, no encoder: scores zero.
+
+A clean control does not prove the procedure is sound. It rules out one
+specific failure — that the procedure manufactures differences regardless
+of treatment. Run it first.
+
+---
+
+{/* _class: banner */}
+
+## Before Wednesday
+
+Read the comparison you've been handed and the measure definition. Compute
+nothing yet.
+
+Workshop: [What the ear cannot hear](/sessions/03-perceptual/)
+
+## Text walkthrough
+
+For a reader who cannot use the deck view: perceptual audio coding
+discards whatever a model of the listener predicts will go unnoticed, so a
+codec encodes a theory about hearing. A supplied comparison claims ten
+re-encoding cycles at 96 kbps cause a 9.5-point-worse score than one cycle
+at 320 kbps, but the comparison changes two variables at once — the cycle
+count and the bitrate — so the difference cannot be attributed to either
+one. Correcting it by holding the bitrate fixed at 128 kbps and varying
+only the cycle count gives a smaller, attributable difference of 3.2
+points. The repeatability of that kind of difference, re-measured, is 0.5
+points, which matters because running the same corrected comparison at 320
+kbps gives 0.4 points — a non-detection, meaning this procedure cannot
+tell whether the two conditions differ at all, not evidence that they are
+identical. A protocol has to state its independent variable, outcome
+measure, control and what was held fixed, or a reader cannot tell what the
+result is actually about; the exact-digital-copy control, run through the
+same number of operations and scoring zero, checks the apparatus rather
+than proving the procedure sound.
