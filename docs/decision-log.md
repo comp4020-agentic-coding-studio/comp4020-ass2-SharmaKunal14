@@ -1464,6 +1464,76 @@ flagged.
 **Commits:** `4be9951` preservation budget pack, `6031380` workshop, lecture
 and archive pages.
 
+## 2026-09-18 — All twelve slide decks completed, and workshop reveals unlinked from the site
+
+### Decisions and reasons
+
+- **Finished the slide deck for every remaining lecture (weeks 07-12).**
+  Each deck was written directly from that week's own lecture and, where read
+  this session, workshop content — no invented numbers or quotes — and closes
+  with a `## Text walkthrough` section so the deck view is not the only way
+  to reach the material. `spec/deck-coverage.test.ts` (new this session)
+  checks every lecture's `slides` frontmatter resolves to a deck file that
+  exists and carries that heading, closing the gap that let a lecture ship
+  with no deck, or a broken `slides` link, unnoticed.
+- **Found and fixed a real fairness problem in every workshop pack, raised by
+  the user's own read of the site.** Every workshop page's "Deposit" step
+  linked directly to its pack's `reveal/` answer file
+  (e.g. `/packs/week-09/reveal/analysis.md`), clickable from the public
+  workshop page at any time — no download, no attempt at the task required.
+  This was not merely an unlinked-file design gap; it was an active link the
+  site itself rendered.
+- **Considered and rejected a real date/auth gate.** This site is a single
+  static build with no backend, and the course's own dates are fictional
+  (2027) against the real build clock (2026) with no scheduled rebuild
+  (`.github/workflows/checks.yml` only runs on push to `main`). A literal
+  "hide reveal until the workshop date" check would hide every reveal
+  permanently, and building a working simulated course-clock was judged more
+  machinery than this problem needs.
+- **Unlinked reveals instead, and made "unlinked" a checked fact rather than
+  a one-time cleanup.** Removed the clickable reveal link from every
+  workshop's Deposit step in `src/content/sessions/`, replacing it with the
+  filename in plain code text plus an instruction to ask a tutor for the
+  link once the student's own work is done. Removed the same `reveal/...`
+  entry from every pack's own `writePackIndex` file list
+  (`packs/week-NN/build.ts`), so the pack's generated `index.html` no longer
+  links it either. The reveal files themselves are unchanged at their
+  existing paths — this is obscurity, not access control, and is stated as
+  such. New `spec/reveal-unlinked.test.ts` scans the built `dist/` for any
+  `href` into a `/reveal/` path and fails if one exists, so a future
+  workshop page cannot silently reintroduce the same link.
+
+### Verification
+
+`mise exec -- pnpm build` regenerated all nine affected pack `index.html`
+files (one `<li>` line removed from each, nothing else changed — checked via
+`git diff --stat public/packs`). The first `mise exec -- pnpm check` run
+after writing `spec/reveal-unlinked.test.ts` correctly failed: it caught a
+sixth live reveal link the session-page grep had missed, inside
+`src/decks/week-06.deck.mdx`'s own "The reveal" slide
+(`[reveal/production-log.md](/packs/week-06/reveal/production-log.md)`),
+which renders into `/decks/week-06/` and was never covered by the
+`src/content/sessions/` grep. Fixed the same way as the other six, then
+`mise exec -- pnpm check` (typecheck, full build,
+`spec/reveal-unlinked.test.ts`, and every previously-passing
+`spec/week-NN-pack.test.ts`, which reads `reveal/...` files by their
+unchanged path) passed in full: 140/140 tests, including
+`spec/decision-log-freshness.test.ts` against this entry.
+
+### Still not established
+
+No fresh reader has confirmed the reworded Deposit-step instructions
+("ask your tutor for the link") read clearly rather than confusingly, and no
+actual tutor workflow for sharing the reveal link after a workshop has been
+written down anywhere outside this log entry. Whether obscurity-only
+unlinking is an acceptable final answer for a real course, versus a
+stopgap pending real auth, remains the open question the user raised and
+this session did not resolve beyond documenting the tradeoff.
+
+**Commits:** decks — `cdd2f42`/`011fd9f` (weeks 07-08), `2dd5646` (weeks
+09-10), `61ec6b6` (weeks 11-12), `9ec7c71` (deck-coverage harness); reveal
+unlinking commit hash not yet created at the time this entry was written.
+
 ### Template for subsequent observed results
 
 - What was tested and with which materials/version:

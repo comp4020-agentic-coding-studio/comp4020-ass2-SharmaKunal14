@@ -10,7 +10,10 @@ affected consumers second. Avoid copying shared rules into every phase.
   assumptions and allow unresolved relationships and null results.
 - Make each future exercise attemptable with supplied evidence and an equivalent
   accessible route. Keep answers out of initial evidence; public reveals are
-  practice feedback, not secure assessment-key storage.
+  practice feedback, not secure assessment-key storage. A workshop's `reveal/`
+  answer is never linked from any rendered page or its own pack's index —
+  sharing the reveal path after a workshop is a manual step, not a site
+  feature. Checked by `spec/reveal-unlinked.test.ts`.
 - Follow the resource floor; add optional variants only after core acceptance.
   Parent-child edges stay within a family. Label weeks 7 and 9 results as
   simplified models with explicit omissions.
