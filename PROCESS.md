@@ -1,11 +1,12 @@
 # Process overview
 
-SLOP8350, "Generation Loss," asks two questions: are these copies
-identical, and what evidence shows one was made from another? Confusing
-those claims is the mistake the course exists to correct, so each week
-puts them to a different artefact — a photocopy, an image, a custody
-record — and counts "the evidence cannot settle this" as a full answer
-where it is argued. I replaced the starter content with this course
+SLOP8350, "Generation Loss," exists to separate two claims people run
+together: these copies are identical, and this copy was made from that
+one. Every week works from the text record of an artefact rather than the
+artefact — transcripts, collation tables, logs, manifests — because the
+inference runs on records, not media. "The evidence cannot settle
+this" counts as a full answer where it is argued. I replaced the starter
+content with this course
 ([`4b30563`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/4b30563)).
 My standard: students should be able to investigate a claim using the
 materials provided.
@@ -17,9 +18,9 @@ The tests checked the authored data, never whether a student could act. I
 published the predictions, shipped each evidence item as its own file, and replaced the claim with a record the exercise supports
 ([`d7863b6`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/d7863b6)).
 A second review found evidence marked inconclusive whose contents read
-`quality=78`, decisive between the two routes. I gave both the
-same final save setting and added checks comparing labels with the files
-students open, then reintroduced the faults to confirm the checks caught
+`quality=78`, decisive between the two routes. I gave both the same
+final save setting and added checks comparing labels with the files students
+open, then reintroduced the faults to confirm the checks caught
 them
 ([`11fa9c5`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/11fa9c5)).
 My standard now covered internal consistency and whether students had what
@@ -56,8 +57,8 @@ inactive before a prediction was locked and carried the correct path after
 [`4c83ef8`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/4c83ef8)).
 
 In a Week 6 screenshot the comparison tool sat beside the five-document
-investigation, implying it checked the students' evidence; it actually
-used three example documents. I asked for it to move beside its own
+investigation, implying it checked the students' evidence; it used three
+example documents. I asked for it to move beside its own
 example and both sections to say which documents it used, and checked the
 generated page before accepting
 ([`9896cef`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/9896cef),
