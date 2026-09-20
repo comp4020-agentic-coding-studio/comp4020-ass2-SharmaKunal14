@@ -1,7 +1,7 @@
 ---
-// Reads the prediction:<sessionSlug> localStorage records
-// src/components/PredictionCheck.astro already writes -- no reveal or
-// answer state is touched here, only whether a prediction was committed.
+// Reads the prediction:<sessionSlug> records PredictionCheck.astro writes
+// and the check:<sessionSlug> records FiveMinuteCheck.astro writes -- no
+// reveal or answer text is touched here, only whether each was submitted.
 import { getPublishedCollection } from "astro-course-university/content";
 
 const sessions = await getPublishedCollection("sessions");
@@ -11,16 +11,21 @@ const sessionData = visible.map((s) => ({ id: s.id, title: s.data.title, week: s
 
 <div class="progress-dashboard" data-sessions={JSON.stringify(sessionData)}>
   <div class="progress-dashboard__summary" hidden>
-    <p class="progress-dashboard__summary-text"></p>
+    <p class="progress-dashboard__summary-text progress-dashboard__summary-text--prediction"></p>
     <div class="progress-dashboard__track">
-      <div class="progress-dashboard__fill"></div>
+      <div class="progress-dashboard__fill progress-dashboard__fill--prediction"></div>
+    </div>
+    <p class="progress-dashboard__summary-text progress-dashboard__summary-text--check"></p>
+    <div class="progress-dashboard__track">
+      <div class="progress-dashboard__fill progress-dashboard__fill--check"></div>
     </div>
   </div>
   <ul class="progress-dashboard__grid" hidden></ul>
   <p class="progress-dashboard__unavailable" hidden>
-    Prediction progress isn't available in this browser (private browsing or
-    storage disabled). Your commitments still work normally on each
-    workshop page — see the full list of {sessionData.length} workshops below.
+    Progress tracking isn't available in this browser (private browsing or
+    storage disabled). Your predictions and checks still work normally on
+    each workshop page — see the full list of {sessionData.length} workshops
+    below.
   </p>
 </div>
 
@@ -34,9 +39,13 @@ const sessionData = visible.map((s) => ({ id: s.id, title: s.data.title, week: s
     margin-block-end: 0.4rem;
   }
 
+  .progress-dashboard__summary-text--check {
+    margin-block-start: 0.75rem;
+  }
+
   /* .progress-dashboard__grid stays static (present in the template), so
      it keeps Astro's scoped styling; everything created client-side below
-     (cards, the progress fill) must be :global -- otherwise the scoping
+     (cards, the progress fills) must be :global -- otherwise the scoping
      attribute never lands on them and rules like height/width silently
      never apply. */
   .progress-dashboard__track {
@@ -49,8 +58,15 @@ const sessionData = visible.map((s) => ({ id: s.id, title: s.data.title, week: s
   :global(.progress-dashboard__fill) {
     height: 100%;
     border-radius: 999px;
-    background: var(--at-accent);
     transition: width 0.2s ease;
+  }
+
+  :global(.progress-dashboard__fill--prediction) {
+    background: var(--at-accent);
+  }
+
+  :global(.progress-dashboard__fill--check) {
+    background: var(--at-text-secondary);
   }
 
   .progress-dashboard__grid {
@@ -72,27 +88,39 @@ const sessionData = visible.map((s) => ({ id: s.id, title: s.data.title, week: s
     background: var(--at-bg-alt);
   }
 
-  :global(.progress-dashboard__card.is-committed) {
+  :global(.progress-dashboard__card.is-committed),
+  :global(.progress-dashboard__card.is-checked) {
     border-color: var(--at-accent);
-    background: color-mix(in srgb, var(--at-accent) 12%, transparent);
+    background: color-mix(in srgb, var(--at-accent) 8%, transparent);
+  }
+
+  :global(.progress-dashboard__badges) {
+    flex: 0 0 auto;
+    display: flex;
+    gap: 0.2rem;
   }
 
   :global(.progress-dashboard__badge) {
-    flex: 0 0 auto;
-    width: 1.6rem;
-    height: 1.6rem;
+    width: 1.4rem;
+    height: 1.4rem;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     font-weight: 700;
     background: var(--at-bg);
     border: 1px solid var(--at-bg-alt);
   }
 
-  :global(.progress-dashboard__card.is-committed .progress-dashboard__badge) {
+  :global(.progress-dashboard__badge--prediction.is-done) {
     background: var(--at-accent);
+    color: var(--at-bg);
+    border-color: transparent;
+  }
+
+  :global(.progress-dashboard__badge--check.is-done) {
+    background: var(--at-text-secondary);
     color: var(--at-bg);
     border-color: transparent;
   }
@@ -103,7 +131,8 @@ const sessionData = visible.map((s) => ({ id: s.id, title: s.data.title, week: s
     opacity: 0.9;
   }
 
-  :global(.progress-dashboard__card.is-committed .progress-dashboard__label) {
+  :global(.progress-dashboard__card.is-committed .progress-dashboard__label),
+  :global(.progress-dashboard__card.is-checked .progress-dashboard__label) {
     opacity: 1;
   }
 </style>
@@ -121,8 +150,10 @@ const sessionData = visible.map((s) => ({ id: s.id, title: s.data.title, week: s
       root.dataset.initialised = "true";
 
       const summary = root.querySelector<HTMLElement>(".progress-dashboard__summary")!;
-      const summaryText = root.querySelector<HTMLElement>(".progress-dashboard__summary-text")!;
-      const fill = root.querySelector<HTMLElement>(".progress-dashboard__fill")!;
+      const predictionText = root.querySelector<HTMLElement>(".progress-dashboard__summary-text--prediction")!;
+      const checkText = root.querySelector<HTMLElement>(".progress-dashboard__summary-text--check")!;
+      const predictionFill = root.querySelector<HTMLElement>(".progress-dashboard__fill--prediction")!;
+      const checkFill = root.querySelector<HTMLElement>(".progress-dashboard__fill--check")!;
       const grid = root.querySelector<HTMLElement>(".progress-dashboard__grid")!;
       const unavailable = root.querySelector<HTMLElement>(".progress-dashboard__unavailable")!;
 
@@ -134,9 +165,13 @@ const sessionData = visible.map((s) => ({ id: s.id, title: s.data.title, week: s
       }
 
       let committedIds: Set<string>;
+      let checkedIds: Set<string>;
       try {
         committedIds = new Set(
           sessions.filter((s) => localStorage.getItem(`prediction:${s.id}`) !== null).map((s) => s.id),
+        );
+        checkedIds = new Set(
+          sessions.filter((s) => localStorage.getItem(`check:${s.id}`) !== null).map((s) => s.id),
         );
       } catch {
         unavailable.hidden = false;
@@ -144,27 +179,58 @@ const sessionData = visible.map((s) => ({ id: s.id, title: s.data.title, week: s
       }
 
       summary.hidden = false;
-      summaryText.textContent = `${committedIds.size} of ${sessions.length} workshops: prediction committed.`;
-      fill.style.width = `${sessions.length ? (committedIds.size / sessions.length) * 100 : 0}%`;
+      predictionText.textContent = `${committedIds.size} of ${sessions.length} workshops: prediction committed.`;
+      predictionFill.style.width = `${sessions.length ? (committedIds.size / sessions.length) * 100 : 0}%`;
+      checkText.textContent = `${checkedIds.size} of ${sessions.length} workshops: five-minute check submitted.`;
+      checkFill.style.width = `${sessions.length ? (checkedIds.size / sessions.length) * 100 : 0}%`;
 
       grid.hidden = false;
       grid.replaceChildren(
         ...sessions.map((s) => {
           const committed = committedIds.has(s.id);
+          const checked = checkedIds.has(s.id);
 
           const li = document.createElement("li");
-          li.className = `progress-dashboard__card${committed ? " is-committed" : ""}`;
+          li.className = [
+            "progress-dashboard__card",
+            committed ? "is-committed" : "",
+            checked ? "is-checked" : "",
+          ]
+            .filter(Boolean)
+            .join(" ");
 
-          const badge = document.createElement("span");
-          badge.className = "progress-dashboard__badge";
-          badge.textContent = committed ? "✓" : String(s.week);
-          badge.setAttribute("aria-hidden", "true");
+          const badges = document.createElement("span");
+          badges.className = "progress-dashboard__badges";
+          badges.setAttribute("aria-hidden", "true");
+
+          const predictionBadge = document.createElement("span");
+          predictionBadge.className = `progress-dashboard__badge progress-dashboard__badge--prediction${committed ? " is-done" : ""}`;
+          predictionBadge.textContent = "P";
+
+          const checkBadge = document.createElement("span");
+          checkBadge.className = `progress-dashboard__badge progress-dashboard__badge--check${checked ? " is-done" : ""}`;
+          checkBadge.textContent = "C";
+
+          badges.append(predictionBadge, checkBadge);
 
           const label = document.createElement("span");
           label.className = "progress-dashboard__label";
           label.textContent = `Week ${s.week}: ${s.title}`;
 
-          li.append(badge, label);
+          const status = document.createElement("span");
+          status.className = "visually-hidden";
+          const state =
+            committed && checked
+              ? "prediction and check done"
+              : committed
+                ? "prediction done, check not yet submitted"
+                : checked
+                  ? "check submitted, prediction not committed"
+                  : "not started";
+          status.textContent = ` (${state})`;
+          label.append(status);
+
+          li.append(badges, label);
           return li;
         }),
       );
