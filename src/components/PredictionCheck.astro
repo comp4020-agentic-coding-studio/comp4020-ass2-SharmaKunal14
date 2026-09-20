@@ -1,0 +1,160 @@
+---
+import Callout from "astro-theme-university/components/Callout.astro";
+
+export interface Props {
+  /** Unique per-session key for the localStorage record. */
+  sessionSlug: string;
+  /** What the student is asked to commit to before looking at data. */
+  prompt: string;
+  /**
+   * Pack-root path to a published, non-reveal file to fetch on request
+   * (e.g. "/packs/week-07/results.csv"). Never a path under "reveal/" —
+   * that answer stays a manual, tutor-mediated step, not a site feature.
+   */
+  revealFile?: string;
+}
+
+const { sessionSlug, prompt, revealFile } = Astro.props;
+const storageKey = `prediction:${sessionSlug}`;
+const revealHref = revealFile ? `${import.meta.env.BASE_URL}${revealFile.replace(/^\//, "")}` : undefined;
+---
+
+<Callout type="tip">
+  <div class="prediction-check" data-storage-key={storageKey} data-reveal-href={revealHref}>
+    <p><strong>Commit before you look.</strong> {prompt}</p>
+    <textarea
+      class="prediction-check__input"
+      rows="3"
+      placeholder="Write your prediction here, then lock it in."
+    ></textarea>
+    <div class="prediction-check__controls">
+      <button type="button" class="prediction-check__lock">Lock in my prediction</button>
+      <button type="button" class="prediction-check__reveal" hidden>
+        {revealFile ? "Compare against the published data" : "How to compare"}
+      </button>
+      <button type="button" class="prediction-check__clear" hidden>Clear and try again</button>
+    </div>
+    <p class="prediction-check__locked-at" hidden></p>
+    <div class="prediction-check__result" hidden></div>
+  </div>
+</Callout>
+
+<style>
+  .prediction-check__input {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 1rem;
+    margin-block: 0.5rem;
+  }
+
+  .prediction-check__controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .prediction-check__locked-at {
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+
+  .prediction-check__result pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+</style>
+
+<script>
+  function initPredictionChecks() {
+    for (const root of document.querySelectorAll<HTMLElement>(".prediction-check")) {
+      if (root.dataset.initialised === "true") continue;
+      root.dataset.initialised = "true";
+
+      const storageKey = root.dataset.storageKey!;
+      const revealHref = root.dataset.revealHref;
+      const input = root.querySelector<HTMLTextAreaElement>(".prediction-check__input")!;
+      const lockButton = root.querySelector<HTMLButtonElement>(".prediction-check__lock")!;
+      const revealButton = root.querySelector<HTMLButtonElement>(".prediction-check__reveal")!;
+      const clearButton = root.querySelector<HTMLButtonElement>(".prediction-check__clear")!;
+      const lockedAt = root.querySelector<HTMLElement>(".prediction-check__locked-at")!;
+      const result = root.querySelector<HTMLElement>(".prediction-check__result")!;
+
+      function renderLocked(text: string, at: string) {
+        input.value = text;
+        input.disabled = true;
+        lockButton.hidden = true;
+        revealButton.hidden = false;
+        clearButton.hidden = false;
+        lockedAt.hidden = false;
+        lockedAt.textContent = `Locked in ${new Date(at).toLocaleString()}.`;
+      }
+
+      function renderUnlocked() {
+        input.value = "";
+        input.disabled = false;
+        lockButton.hidden = false;
+        revealButton.hidden = true;
+        clearButton.hidden = true;
+        lockedAt.hidden = true;
+        result.hidden = true;
+        result.textContent = "";
+      }
+
+      let saved: { text: string; lockedAt: string } | null = null;
+      try {
+        const raw = localStorage.getItem(storageKey);
+        saved = raw ? JSON.parse(raw) : null;
+      } catch {
+        saved = null;
+      }
+      if (saved) {
+        renderLocked(saved.text, saved.lockedAt);
+      }
+
+      lockButton.addEventListener("click", () => {
+        const text = input.value.trim();
+        if (!text) return;
+        const record = { text, lockedAt: new Date().toISOString() };
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(record));
+        } catch {
+          // Private browsing or a full quota — the lock still applies for this
+          // page view even if it won't persist across a reload.
+        }
+        renderLocked(record.text, record.lockedAt);
+      });
+
+      clearButton.addEventListener("click", () => {
+        try {
+          localStorage.removeItem(storageKey);
+        } catch {
+          // ignore
+        }
+        renderUnlocked();
+      });
+
+      revealButton.addEventListener("click", async () => {
+        result.hidden = false;
+        if (!revealHref) {
+          result.innerHTML = "<p>Compare this once your tutor shares the reveal path for this workshop.</p>";
+          return;
+        }
+        result.textContent = "Loading…";
+        try {
+          const response = await fetch(revealHref);
+          if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
+          const text = await response.text();
+          const pre = document.createElement("pre");
+          pre.textContent = text;
+          result.replaceChildren(pre);
+        } catch (error) {
+          result.textContent = `Could not load the published data: ${error instanceof Error ? error.message : String(error)}`;
+        }
+      });
+    }
+  }
+
+  document.addEventListener("astro:page-load", initPredictionChecks);
+  initPredictionChecks();
+</script>
