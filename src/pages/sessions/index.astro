@@ -1,5 +1,6 @@
 ---
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import ProgressDashboard from "../../components/ProgressDashboard.astro";
 import SessionsGrid from "../../components/SessionsGrid.astro";
 import { sessionLabels, siteConfig } from "../../site-config";
 ---
@@ -14,5 +15,6 @@ import { sessionLabels, siteConfig } from "../../site-config";
     singular and plural names once in <code>src/site-config.ts</code> and use
     the language your course deserves everywhere readers see it.
   </p>
+  <ProgressDashboard />
   <SessionsGrid />
 </ContentLayout>

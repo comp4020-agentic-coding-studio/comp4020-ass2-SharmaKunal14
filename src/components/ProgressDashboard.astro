@@ -1,0 +1,99 @@
+---
+// Reads the prediction:<sessionSlug> localStorage records
+// src/components/PredictionCheck.astro already writes -- no reveal or
+// answer state is touched here, only whether a prediction was committed.
+import { getPublishedCollection } from "astro-course-university/content";
+
+const sessions = await getPublishedCollection("sessions");
+const visible = sessions.sort((a, b) => a.data.week - b.data.week);
+const sessionData = visible.map((s) => ({ id: s.id, title: s.data.title, week: s.data.week }));
+---
+
+<div class="progress-dashboard" data-sessions={JSON.stringify(sessionData)}>
+  <p class="progress-dashboard__summary" hidden></p>
+  <ul class="progress-dashboard__list" hidden></ul>
+  <p class="progress-dashboard__unavailable" hidden>
+    Prediction progress isn't available in this browser (private browsing or
+    storage disabled). Your commitments still work normally on each
+    workshop page — see the full list of {sessionData.length} workshops below.
+  </p>
+</div>
+
+<style>
+  .progress-dashboard__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+    gap: 0.4rem;
+    padding: 0;
+    margin-block: 1rem;
+    list-style: none;
+  }
+
+  .progress-dashboard__list li {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .progress-dashboard__list .committed::before {
+    content: "✓";
+    color: var(--at-text-secondary);
+  }
+
+  .progress-dashboard__list .not-committed::before {
+    content: "—";
+    opacity: 0.5;
+  }
+</style>
+
+<script>
+  interface SessionSummary {
+    id: string;
+    title: string;
+    week: number;
+  }
+
+  function initProgressDashboards() {
+    for (const root of document.querySelectorAll<HTMLElement>(".progress-dashboard")) {
+      if (root.dataset.initialised === "true") continue;
+      root.dataset.initialised = "true";
+
+      const summary = root.querySelector<HTMLElement>(".progress-dashboard__summary")!;
+      const list = root.querySelector<HTMLElement>(".progress-dashboard__list")!;
+      const unavailable = root.querySelector<HTMLElement>(".progress-dashboard__unavailable")!;
+
+      let sessions: SessionSummary[] = [];
+      try {
+        sessions = JSON.parse(root.dataset.sessions!);
+      } catch {
+        continue;
+      }
+
+      let committedIds: Set<string>;
+      try {
+        committedIds = new Set(
+          sessions.filter((s) => localStorage.getItem(`prediction:${s.id}`) !== null).map((s) => s.id),
+        );
+      } catch {
+        unavailable.hidden = false;
+        continue;
+      }
+
+      summary.hidden = false;
+      summary.textContent = `${committedIds.size} of ${sessions.length} workshops: prediction committed.`;
+
+      list.hidden = false;
+      list.replaceChildren(
+        ...sessions.map((s) => {
+          const li = document.createElement("li");
+          li.className = committedIds.has(s.id) ? "committed" : "not-committed";
+          li.textContent = `Week ${s.week}: ${s.title}`;
+          return li;
+        }),
+      );
+    }
+  }
+
+  document.addEventListener("astro:page-load", initProgressDashboards);
+  initProgressDashboards();
+</script>
