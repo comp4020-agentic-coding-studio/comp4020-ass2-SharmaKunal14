@@ -2492,3 +2492,56 @@ were reasoned through from the script logic and the built HTML rather
 than clicked through in a running page.
 
 **Commit:** `888ce06`.
+
+## 2026-09-21 — Resampling simulator added as a week 9 analogy
+
+**Scope:** `src/components/ResamplingSimulator.astro` (new),
+`src/pages/simulator/index.astro`, `src/content/sessions/09-recursion.mdx`.
+
+### Decisions and reasons
+
+- Fourth of the five agreed interactive elements (numbered 5 in the
+  agreed build order). Re-read `packs/week-09/build.ts` in full before
+  building this, to confirm the exact shape of its three conditions
+  rather than guess: `baseline` always redraws from the true
+  distribution; `full-recursive` re-estimates entirely from
+  `normalise(counts(labels, prev))`; the third condition draws a *fresh*
+  true-distribution sample each round and sums its per-category counts
+  with the previous round's counts before normalising — not a simpler
+  blend.
+- Deliberately does not reuse the pack's own `model.json` data or its
+  seeded `mulberry32` PRNG, per CLAUDE.md's instruction to label week 9
+  results as a simplified model with explicit omissions. Uses an
+  editable, generic `label:weight` category distribution (default
+  `A:30,B:25,C:20,D:15,E:7,F:3`) and unseeded `Math.random()`, so the
+  tool cannot be read as reproducing, or standing in for, the graded
+  dataset.
+- Renders the rarest category's share as a bar per round (the
+  pedagogically important number — the rare category thinning out or
+  vanishing under `full-recursive`), plus a plain accessible `<table>` of
+  every category's full counts per round for transparency, rather than
+  one bar chart per category per round as first sketched in the plan —
+  simpler to read at a glance without losing any information, since the
+  table already gives the complete picture.
+- Wired into `src/pages/simulator/index.astro` as a third `.tool-section`
+  (`#resampling-simulator`) with its own chooser card and "Used in"
+  backlink to week 9, and linked from `09-recursion.mdx` alongside (not
+  replacing) its existing chain-simulator link, with prose in both places
+  stating explicitly that this is an illustrative analogy of the model's
+  shape, not week 9's own dataset or seeds.
+
+### Verification and limits
+
+`mise exec -- pnpm check`: 161/161 tests, 0 accessibility violations, no
+broken links, 52 pages built. `mise exec -- pnpm astro check`: 0 errors.
+Grepped built `dist/simulator/index.html` for `id="resampling-simulator"`
+and the `rs__*` class names, and confirmed the script (inlined by Vite
+rather than split into its own chunk, since it is small) is present in
+the page; grepped `dist/sessions/09-recursion/index.html` for the new
+`/comp4020-ass2-SharmaKunal14/simulator/?from=09-recursion#resampling-simulator`
+link to confirm base-path prefixing. Not exercised in a live browser in
+this session; the round-by-round drift and the rare-category vanishing
+under `full-recursive` were reasoned through from the ported model logic
+rather than clicked through in a running page.
+
+**Commit:** `e53867b`.

@@ -201,6 +201,16 @@ corrupts every Nth character with no randomness at all, letting the same
 algorithm-vs-world distinction week 1 already teaches be switched between
 on the same text instead of only read about
 ([`888ce06`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/888ce06)).
+Fourth, a new resampling simulator ports the shape of week 9's own
+baseline/full-recursive/retained-mix model — re-read from
+`packs/week-09/build.ts` to get the third condition's exact mixing rule
+right — as an editable category distribution, deliberately using
+unseeded `Math.random()` and never the pack's own seeded data, so the
+tool cannot be mistaken for the graded artifact; it renders the rarest
+category's share thinning out under `full-recursive`, alongside a plain
+table of full counts, and is linked from both the simulator page and
+`09-recursion.mdx` as an explicit analogy of the model's shape
+([`e53867b`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/e53867b)).
 
 Every decision above, including mutation-testing tables proving each new
 contract fails when the defect is reintroduced, is recorded in
