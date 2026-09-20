@@ -2158,3 +2158,50 @@ message via `git show -s --format=%B` before writing the sentence
 describing it.
 
 **Commit:** `5cb0aba`.
+
+## 2026-09-21 — Progress dashboard now tracks five-minute checks, not just predictions
+
+**Scope:** The user asked for more interactive elements. `ProgressDashboard.astro`
+only ever reflected `prediction:<sessionSlug>` commitments, but since the
+five-minute check quiz shipped ([`9b6eb05`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/9b6eb05))
+every workshop also writes a second, independent `check:<sessionSlug>`
+record — the dashboard was reflecting half of what a student actually does.
+UI only — no `src/content` or `src/decks` change.
+
+### Decisions and reasons
+
+- Added a second summary line, progress bar and per-card badge for checks,
+  alongside the existing prediction ones, rather than merging the two into
+  one combined metric — a workshop can have one done and not the other
+  (e.g. a locked prediction with no check submitted yet), and collapsing
+  that into a single percentage would hide exactly the distinction a
+  progress view exists to show.
+- Each card now carries two small badges ("P" and "C"), each independently
+  lit once its own localStorage key is present, rather than reusing the
+  single check/week-number badge from before. The badges are
+  `aria-hidden`, since they're a compact visual shorthand; a
+  `visually-hidden` span appended to each card's label states the actual
+  state in words ("prediction and check done", "prediction done, check not
+  yet submitted", etc.) so a screen-reader user gets the same information
+  the color/fill communicates visually.
+- Both localStorage reads happen inside the same `try`/`catch` already
+  guarding the prediction read, so a blocked-storage browser still falls
+  through to the one `.progress-dashboard__unavailable` fallback message,
+  unchanged from before.
+- No change to `PredictionCheck.astro` or `FiveMinuteCheck.astro` — this
+  component only reads keys they already write, so neither widget's own
+  behavior, nor `spec/reveal-unlinked.test.ts`, is affected by construction.
+
+### Verification and limits
+
+`mise exec -- pnpm check` (typecheck + build + full `vitest run spec`):
+161/161 tests across 20 files, 0 accessibility violations, no broken links.
+Grepped built `dist/sessions/index.html` directly: both
+`progress-dashboard__badge--prediction` and `progress-dashboard__badge--check`
+markup are present, and the inline script references both the
+`prediction:` and `check:` localStorage key prefixes. Not exercised in a
+live browser in this session: the four card states (neither/prediction
+only/check only/both) were reasoned through from the code rather than set
+via devtools and visually inspected.
+
+**Commit:** `dc24cc4`, and this entry.
