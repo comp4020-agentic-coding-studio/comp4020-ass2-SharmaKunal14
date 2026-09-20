@@ -2253,3 +2253,78 @@ mismatch warning path and the live-typing update were reasoned through
 from the code rather than typed into a running page and visually checked.
 
 **Commit:** `92d807e`, and this entry.
+
+## 2026-09-21 — Link simulator tools from workshops, redesign simulator page navigation
+
+**Scope:** The user asked to link the two `/simulator/` tools (chain
+simulator, character-diff visualizer) to specific workshops where they are
+pedagogically useful, and to improve the simulator page's navigation, which
+previously showed two stacked widgets with no wayfinding or indication of
+which workshop each related to.
+
+### Decisions and reasons
+
+- The site is a fully static build with no per-request rendering, so
+  "arrive from workshop X, see workshop X's own example already loaded"
+  cannot be done with an Astro prop resolved at build time — it has to be
+  read client-side, after load. Both `GenerationLossSimulator.astro` and
+  `CharacterDiffVisualizer.astro` gained an optional `presets` prop, a map
+  from session slug to seed content, serialized into a `data-presets` JSON
+  attribute; each component's init script reads `?from=<slug>` from
+  `window.location.search` and overrides the default seed text before the
+  first render, wrapped in `try`/`catch` so a missing or malformed preset
+  silently falls back to the existing default rather than breaking the
+  widget.
+- Chose which workshops link to which tool by matching each week's own
+  task, not by forcing a link into every week: week 1 links to both (its
+  own original pairing, unchanged in spirit); week 5 links to the
+  character-diff visualizer only, since its task is classifying
+  substitutions and illegible marks, and the new link text says plainly
+  that the tool has no notion of an omission or a repetition, because
+  those change a string's length and the tool only ever compares two
+  equal-length strings; weeks 6, 7 and 9 link to the chain simulator only,
+  since their tasks are about a chain of copies or an ancestor built from
+  one.
+- Weeks 7 and 9 are written as an analogy, not an equivalent, per
+  `CLAUDE.md`'s instruction to label these two weeks as simplified models
+  with explicit omissions: week 7's own model uses a four-symbol
+  alphabet, and week 9's uses a six-category frequency distribution,
+  neither of which matches the simulator's character-substitution
+  mechanism, so both new link paragraphs say directly that the simulator
+  "cannot stand in for" that week's actual model and can only build
+  intuition for the general shape of compounding or re-estimating from a
+  prior sample.
+- Redesigned `src/pages/simulator/index.astro` around two fixes for the
+  reported lack of intuitiveness: a `.chooser` card pair at the top acting
+  as a lightweight picker/table-of-contents (one blurb per tool, linking
+  to that tool's own anchor), and a pure-CSS `.tool-section:target`
+  outline so landing via any anchor link — a chooser card or a workshop's
+  own deep link — visibly highlights the section a visitor actually
+  arrived at, with no extra JS needed since `:target` is native browser
+  behaviour tied to the URL fragment matching an element's `id`.
+- Added reciprocal "Used in:" backlink lists on the simulator page itself,
+  so a visitor who lands on the page directly (not from a workshop link)
+  can still discover which workshops use each tool, and jump to them.
+- Caught before running any checks: the first draft of the "Used in:"
+  backlinks attached `?from=${s.id}` to the hrefs pointing at session
+  pages. That query param is only meaningful on the simulator page itself,
+  where the preset-reading script runs — session pages don't render
+  either component, so the param would have been silently ignored there.
+  Corrected to plain hrefs before the first `pnpm check` run.
+
+### Verification and limits
+
+`mise exec -- pnpm check` (typecheck + build + full `vitest run spec`):
+161/161 tests across 20 files, 0 accessibility violations, no broken
+links, 52 pages built. Grepped built `dist/sessions/*/index.html` and
+`dist/simulator/index.html` directly: every new `?from=<slug>#<anchor>`
+href and every "Used in" backlink is present and correctly prefixed with
+the deployed base path (`/comp4020-ass2-SharmaKunal14/...`), not left as a
+root-absolute path that would 404 once deployed. Not exercised in a live
+browser in this session: the `:target` highlight's visual appearance and
+the actual preset-swap behaviour on arrival were reasoned through from the
+code and the built HTML/JSON attributes rather than clicked through in a
+running page.
+
+**Commit:** `cc304bd` (components and simulator page), `7504976` (workshop
+links), and this entry.

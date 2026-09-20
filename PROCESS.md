@@ -162,6 +162,19 @@ than only totalling them, with the same `:global` fix applied proactively to
 its client-created spans
 ([`92d807e`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/92d807e)).
 
+Told to link the two simulator tools to specific workshops and improve the
+simulator page's navigation, "be creative", I added a `presets` prop and a
+`?from=<slug>` query param read client-side by each component — the only
+option on a static build with no per-request rendering — then linked week 1
+to both tools, week 5 to the character-diff visualizer, and weeks 6, 7 and 9
+to the chain simulator, framing weeks 7 and 9 explicitly as an analogy since
+neither week's own model matches the simulator's character-substitution
+mechanism. The simulator page itself gained a chooser card pair, anchored
+`:target`-highlighted sections and reciprocal "used in" backlinks in place of
+two stacked widgets with no wayfinding
+([`cc304bd`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/cc304bd),
+[`7504976`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/7504976)).
+
 Every decision above, including mutation-testing tables proving each new
 contract fails when the defect is reintroduced, is recorded in
 `docs/decision-log.md` when it was made, not reconstructed afterward.
