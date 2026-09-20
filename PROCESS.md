@@ -175,6 +175,21 @@ two stacked widgets with no wayfinding
 ([`cc304bd`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/cc304bd),
 [`7504976`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/7504976)).
 
+A screenshot showed the new `:target` outline cutting across the
+paragraph beneath it — `outline-offset` draws outward with no reserved
+layout space, so an adjacent element with no margin of its own sat right
+where the ring was drawn; fixed with one `margin-block` added to the same
+rule
+([`2ab452f`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/2ab452f)).
+Asked for more interactive elements and given an explicit build order, the
+first was a confusable-character heatmap on the chain simulator: every
+mismatch between the original text and its final generation is now
+attributed to whichever of week 1's confusable groups the **original**
+character belonged to, and rendered as one bar per group, reusing the
+existing bar markup and `:global` CSS pattern rather than inventing a new
+chart type
+([`4a4f4e1`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/4a4f4e1)).
+
 Every decision above, including mutation-testing tables proving each new
 contract fails when the defect is reintroduced, is recorded in
 `docs/decision-log.md` when it was made, not reconstructed afterward.

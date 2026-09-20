@@ -2328,3 +2328,80 @@ running page.
 
 **Commit:** `cc304bd` (components and simulator page), `7504976` (workshop
 links), and this entry.
+
+## 2026-09-21 — Fixed `:target` outline overlapping adjacent text
+
+**Scope:** `src/pages/simulator/index.astro`.
+
+### Decisions and reasons
+
+- A screenshot from the user showed the `.tool-section:target` highlight
+  ring (added in the previous entry) visually cutting across the "Arriving
+  from a workshop page?" paragraph directly below the chain simulator
+  section. `outline-offset: 0.5rem` draws the ring outward from the
+  border box without reserving any layout space for it, so an element
+  immediately after with no margin of its own sits exactly where the ring
+  is drawn.
+- Fixed by adding `margin-block: 1rem;` to the same `:target` rule, so the
+  targeted section gains room for its own outline without needing to
+  touch the section's normal (non-targeted) appearance or any other
+  selector.
+
+### Verification and limits
+
+`mise exec -- pnpm check`: 161/161 tests, 0 accessibility violations, no
+broken links, 52 pages built — unchanged from before the fix, since this
+is a pure CSS change with no markup or script impact. Not exercised in a
+live browser in this session; the overlap and its fix were reasoned
+through from the CSS box model (`outline-offset` vs. `margin`) against
+the screenshot the user supplied.
+
+**Commit:** `2ab452f`.
+
+## 2026-09-21 — Confusable-character heatmap added to chain simulator
+
+**Scope:** `src/components/GenerationLossSimulator.astro`.
+
+### Decisions and reasons
+
+- Asked for further interactive elements, proposed five ideas grounded in
+  data already in the repo; the user picked all five and set the order
+  3, 4, 1, 5, 2. This entry covers the first: a confusable-character
+  heatmap on the chain simulator.
+- Added a tally, run inside the existing `render()`, over every mismatched
+  position between the original text and the final generation: each
+  mismatch is attributed to whichever of week 1's confusable groups
+  (`0O`, `1lI`, `5S`, `8B`, `2Z`, `6G`, `9g`, already parsed into
+  `confusableMap` for the corruption logic itself) the **original**
+  character belonged to — deliberately the original, not the corrupted
+  character it became, since the question this answers is "which group
+  did this run's damage land on", not "what did it turn into".
+  Characters outside every confusable group are excluded from the tally
+  rather than bucketed into an "other" group, since a bar with no
+  specific characters behind it would tell a reader nothing they could
+  act on.
+- Rendered one bar per group present at least once in the mismatches,
+  sorted by count descending, reusing the exact `.gls__bar-row` /
+  `.gls__bar-track` / `.gls__bar-fill` markup and `:global` CSS already in
+  place for the cumulative-error bars, plus a `visually-hidden <ul>`
+  fallback in the same pattern as `.gls__bars-fallback`. Added a second
+  query for `.gls__bars`/`.gls__bars-fallback` scoped with `:not(...)` so
+  the pre-existing selectors keep matching only the cumulative-error bars
+  now that a second `.gls__bars` block exists on the same page.
+- When no confusable group appears in the mismatches (an empty textarea,
+  or an arbitrary pasted sentence with no `0O1lI5S8B2Z6G9g`-family
+  characters at all), the caption and bar chart stay hidden and a plain
+  sentence explains why, rather than showing an empty chart with no
+  context.
+
+### Verification and limits
+
+`mise exec -- pnpm check`: 161/161 tests, 0 accessibility violations, no
+broken links, 52 pages built. Grepped built `dist/simulator/index.html`
+for the new class names (`confusable-bars`, `confusable-bars-fallback`,
+`confusable-caption`, `confusable-empty`) to confirm the markup shipped.
+Not exercised in a live browser in this session; the bar-fill widths and
+the hidden/empty-state toggling were reasoned through from the script
+logic and the built HTML rather than clicked through in a running page.
+
+**Commit:** `4a4f4e1`.
