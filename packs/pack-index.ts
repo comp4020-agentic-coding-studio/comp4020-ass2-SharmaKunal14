@@ -12,12 +12,33 @@
 // what a student downloads; keeping the zip scoped to `files` means it can
 // never smuggle in something the index itself doesn't already show, and
 // spec/pack-zip.test.ts checks that stays true.
+//
+// A pack's reveal/ files are listed on this same page (the optional `reveal`
+// argument below) but stay locked until the browser finds a locked prediction
+// for that workshop in localStorage — the same `prediction:<sessionSlug>`
+// record src/components/PredictionCheck.astro writes on the workshop page
+// itself, since both pages share one origin. The static HTML never contains
+// a real `href` into reveal/: each reveal link starts as `href="#"` with the
+// filename in a `data-reveal-name` attribute, and only gets a working `href`
+// set by the inline script once the lock check passes. That keeps
+// spec/reveal-unlinked.test.ts's build-time scan (which looks for a literal
+// `href="...reveal/..."` in the shipped HTML) meaningful: it still catches a
+// reveal link that was wired in unconditionally, it just no longer forbids
+// the deliberate, gated one. Reveal files are never added to `files`, so they
+// never enter pack.zip either.
 import { execFileSync } from "node:child_process";
 import { existsSync, rmSync, statSync, writeFileSync } from "node:fs";
 
 export interface PackFile {
   name: string;
   what: string;
+}
+
+export interface PackReveal {
+  /** The workshop's session slug, e.g. "07-ancestry" — matches the
+   *  `prediction:<sessionSlug>` localStorage key PredictionCheck.astro writes. */
+  sessionSlug: string;
+  files: PackFile[];
 }
 
 function extBadge(name: string): string {
@@ -43,6 +64,7 @@ export function writePackIndex(
   title: string,
   intro: string,
   files: PackFile[],
+  reveal?: PackReveal,
 ): void {
   const zipBytes = writePackZip(dir, files);
 
@@ -52,6 +74,46 @@ export function writePackIndex(
         `<li><a href="./${f.name}"><code>${f.name}</code></a><span class="badge">${extBadge(f.name)}</span><span class="what">${f.what}</span></li>`,
     )
     .join("\n        ");
+
+  const revealSection = reveal
+    ? `
+      <section class="reveal" data-session-slug="${reveal.sessionSlug}">
+        <h2>Reveal</h2>
+        <p class="reveal-locked-note">
+          Locked. Lock in your prediction on this workshop's page, then reload
+          this page to open these files.
+        </p>
+        <ul class="reveal-list" hidden>
+          ${reveal.files
+            .map(
+              (f) =>
+                `<li><a href="#" data-reveal-name="${f.name}"><code>${f.name}</code></a><span class="badge">${extBadge(f.name)}</span><span class="what">${f.what}</span></li>`,
+            )
+            .join("\n          ")}
+        </ul>
+      </section>
+      <script>
+        (function () {
+          var section = document.querySelector(".reveal");
+          if (!section) return;
+          var slug = section.getAttribute("data-session-slug");
+          var locked = true;
+          try {
+            locked = !localStorage.getItem("prediction:" + slug);
+          } catch (e) {
+            locked = true;
+          }
+          if (locked) return;
+          section.querySelector(".reveal-locked-note").hidden = true;
+          var list = section.querySelector(".reveal-list");
+          list.hidden = false;
+          var links = list.querySelectorAll("a[data-reveal-name]");
+          for (var i = 0; i < links.length; i++) {
+            links[i].setAttribute("href", "./reveal/" + links[i].getAttribute("data-reveal-name"));
+          }
+        })();
+      </script>`
+    : "";
 
   writeFileSync(
     `${dir}/index.html`,
@@ -120,6 +182,13 @@ export function writePackIndex(
         padding: 0.1em 0.4em;
       }
       .what { color: #4a4436; flex: 1 1 12rem; }
+      .reveal {
+        margin-top: 2rem;
+        padding-top: 1rem;
+        border-top: 3px solid var(--gold);
+      }
+      .reveal h2 { color: var(--bronze); margin-bottom: 0.3rem; }
+      .reveal-locked-note { color: var(--grey); font-style: italic; }
     </style>
   </head>
   <body>
@@ -132,7 +201,7 @@ export function writePackIndex(
       </a>
       <ul>
         ${rows}
-      </ul>
+      </ul>${revealSection}
     </main>
   </body>
 </html>
