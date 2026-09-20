@@ -51,10 +51,21 @@ const {
     <pre class="gls__result-text"></pre>
 
     <h2>Cumulative error, by generation</h2>
+    <p class="gls__caption">
+      <strong>G0</strong> is your original text, uncopied. <strong>G1</strong>
+      is one copy of it, <strong>G2</strong> a copy of that copy, and so on —
+      each bar is the percentage of characters that now differ from G0.
+    </p>
     <div class="gls__bars" role="img" aria-label="Cumulative error percentage per generation"></div>
     <ul class="gls__bars-fallback visually-hidden"></ul>
 
     <h2>Count (final generation vs. original)</h2>
+    <p class="gls__caption">
+      A <strong>misreading</strong> is a character swapped for a different
+      one (like <code>0</code> becoming <code>O</code>); an
+      <strong>illegible</strong> is a character replaced with{" "}
+      <code>·</code> because it could no longer be resolved at all.
+    </p>
     <dl class="gls__stats">
       <dt>Misreadings</dt>
       <dd class="gls__stat-misreadings"></dd>
@@ -89,6 +100,12 @@ const {
 
   .gls__controls input[type="range"] {
     width: 100%;
+  }
+
+  .gls__caption {
+    font-size: 0.85rem;
+    opacity: 0.75;
+    margin-block: 0.25rem 0.75rem;
   }
 
   .gls__result-text {
