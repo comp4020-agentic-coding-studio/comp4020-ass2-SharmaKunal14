@@ -160,6 +160,15 @@ ${(pack.trueStructure.edges as { parent: string; child: string; how: string }[])
       { name: "z.txt", what: "copy Z" },
       { name: "README.txt", what: "what is in this folder" },
     ],
+    {
+      sessionSlug: "02-dub",
+      files: [
+        {
+          name: "construction-log.md",
+          what: "how the source and copies were built, and the argument -- locks until you commit a prediction",
+        },
+      ],
+    },
   );
 
   console.log(`week-02 pack: ${pack.features.length} features, ${pack.copies.length} copies, reveal written`);

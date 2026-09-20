@@ -132,7 +132,16 @@ function main(): void {
       { name: "measure.txt", what: "how to compute the measure, and how much it varies" },
       { name: "protocol-template.txt", what: "the shape of what you are writing" },
       { name: "README.txt", what: "what is in this folder" },
-    ]);
+    ],
+    {
+      sessionSlug: "03-perceptual",
+      files: [
+        {
+          name: "analysis.md",
+          what: "the analysis and argument -- locks until you commit a prediction",
+        },
+      ],
+    });
 
   console.log(`week-03 pack: ${pack.conditions.length} conditions, ${shown.length} comparison published, reveal written`);
 }

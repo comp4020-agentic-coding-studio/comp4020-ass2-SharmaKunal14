@@ -63,6 +63,13 @@
         padding: 0.1em 0.4em;
       }
       .what { color: #4a4436; flex: 1 1 12rem; }
+      .reveal {
+        margin-top: 2rem;
+        padding-top: 1rem;
+        border-top: 3px solid var(--gold);
+      }
+      .reveal h2 { color: var(--bronze); margin-bottom: 0.3rem; }
+      .reveal-locked-note { color: var(--grey); font-style: italic; }
     </style>
   </head>
   <body>
@@ -83,6 +90,37 @@
         <li><a href="./z.txt"><code>z.txt</code></a><span class="badge">TXT</span><span class="what">copy Z</span></li>
         <li><a href="./README.txt"><code>README.txt</code></a><span class="badge">TXT</span><span class="what">what is in this folder</span></li>
       </ul>
+      <section class="reveal" data-session-slug="02-dub">
+        <h2>Reveal</h2>
+        <p class="reveal-locked-note">
+          Locked. Lock in your prediction on this workshop's page, then reload
+          this page to open these files.
+        </p>
+        <ul class="reveal-list" hidden>
+          <li><a href="#" data-reveal-name="construction-log.md"><code>construction-log.md</code></a><span class="badge">MD</span><span class="what">how the source and copies were built, and the argument -- locks until you commit a prediction</span></li>
+        </ul>
+      </section>
+      <script>
+        (function () {
+          var section = document.querySelector(".reveal");
+          if (!section) return;
+          var slug = section.getAttribute("data-session-slug");
+          var locked = true;
+          try {
+            locked = !localStorage.getItem("prediction:" + slug);
+          } catch (e) {
+            locked = true;
+          }
+          if (locked) return;
+          section.querySelector(".reveal-locked-note").hidden = true;
+          var list = section.querySelector(".reveal-list");
+          list.hidden = false;
+          var links = list.querySelectorAll("a[data-reveal-name]");
+          for (var i = 0; i < links.length; i++) {
+            links[i].setAttribute("href", "./reveal/" + links[i].getAttribute("data-reveal-name"));
+          }
+        })();
+      </script>
     </main>
   </body>
 </html>

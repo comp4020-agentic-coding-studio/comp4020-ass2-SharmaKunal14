@@ -178,7 +178,17 @@ ${JSON.stringify(pack.supportedStemma, null, 2)}
       { name: "witness-d.txt", what: "witness D" },
       { name: "witness-e.txt", what: "witness E" },
       { name: "README.txt", what: "what is in this folder" },
-    ]);
+    ],
+    {
+      sessionSlug: "06-stemma",
+      files: [
+        { name: "archetype.txt", what: "the reconstructed archetype -- locks until you commit a prediction" },
+        {
+          name: "production-log.md",
+          what: "how the witnesses were produced, and the argument -- locks until you commit a prediction",
+        },
+      ],
+    });
 
   console.log(
     `week-06 pack: ${pack.witnesses.length} witnesses, ${rows.length} collation points, reveal written`,

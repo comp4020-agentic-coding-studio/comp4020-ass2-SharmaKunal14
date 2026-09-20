@@ -199,7 +199,16 @@ function main(): void {
       { name: "sensitivity.csv", what: "both proposals rerun after one rate is revised" },
       { name: "objection.txt", what: "one serious objection to the deep-image proposal, and a response" },
       { name: "README.txt", what: "what is in this folder" },
-    ]);
+    ],
+    {
+      sessionSlug: "12-originals",
+      files: [
+        {
+          name: "analysis.md",
+          what: "the analysis and argument -- locks until you commit a prediction",
+        },
+      ],
+    });
 
   console.log(`week-12 pack: ${pack.proposals.length} proposals resolved at baseline and revised rates, reveal written`);
 }

@@ -225,7 +225,16 @@ function main(): void {
       { name: "plot.svg", what: "all nine runs plotted; variation across seeds is visible, not averaged away" },
       { name: "trend.txt", what: "the same trend as a table and prose -- accessible route" },
       { name: "README.txt", what: "what is in this folder" },
-    ]);
+    ],
+    {
+      sessionSlug: "09-recursion",
+      files: [
+        {
+          name: "analysis.md",
+          what: "the analysis and argument -- locks until you commit a prediction",
+        },
+      ],
+    });
 
   console.log(`week-09 pack: ${model.conditions.length} conditions x ${model.seeds.length} seeds, ${rows.length} rows`);
 }

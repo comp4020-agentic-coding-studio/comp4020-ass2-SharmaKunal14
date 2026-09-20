@@ -175,7 +175,16 @@ function main(): void {
         what: `${e.item.toLowerCase()} -- open only after you have committed to what it would show`,
       })),
       { name: "README.txt", what: "what is in this folder" },
-    ]);
+    ],
+    {
+      sessionSlug: "04-poor-image",
+      files: [
+        {
+          name: "analysis.md",
+          what: "the analysis and argument -- locks until you commit a prediction",
+        },
+      ],
+    });
 
   console.log(
     `week-04 pack: ${pack.routes.length} routes with published predictions, ` +
