@@ -1635,6 +1635,60 @@ or also true of the real GitHub Pages deployment was not checked (would
 require an actual deploy); the ASCII-content fix sidesteps the question
 either way rather than depending on the answer.
 
+## 2026-09-20 — Predict-then-reveal widget added to every workshop page
+
+**Scope:** The user said the site was "too boring" and asked for interactive
+elements on the workshop pages. Picked a predict-then-reveal interaction:
+commit to a prediction before comparing it against published data — the
+pedagogy 11 of 12 workshops already state in prose ("write down what you
+expect before you compute anything").
+
+### Decisions and reasons
+
+- Built one reusable component, `src/components/PredictionCheck.astro`: a
+  textarea plus a lock-in button that persists `{ text, lockedAt }` to
+  `localStorage` under `prediction:<sessionSlug>`, then an optional reveal
+  button that `fetch()`s one specific pack file and renders it in a `<pre>`.
+  No framework, no build-time data — pure client-side JS over already-public
+  files, wrapped in the existing `Callout` component for visual consistency
+  with the archive page.
+- The one hard constraint: `spec/reveal-unlinked.test.ts` and this file's own
+  rule say a workshop's `reveal/` answer is never linked or fetched from any
+  rendered page. Checked every `public/packs/week-*/` listing before picking
+  a reveal target. Only 4 of 12 weeks have a genuinely safe, already-public,
+  non-`reveal/` file whose own week already frames it as the thing to check
+  against a prediction: week 4 (`evidence-menu.csv`), week 7
+  (`results.csv`), week 11 (`manifest-after.json`), week 12
+  (`objection.txt`). Those four get a `revealFile`; the other eight get
+  commit-only mode, with the reveal button showing "Compare this once your
+  tutor shares the reveal path for this workshop" instead of fetching
+  anything — reinforcing the existing manual-reveal policy rather than
+  working around it.
+- Added one untyped `predictionCheck: { prompt, revealFile? }` frontmatter
+  field per session file rather than extending `courseNodeSchema`, following
+  the existing `.loose()` passthrough convention already used for
+  `archiveDeposit`, `accessibleRoute`, etc.
+- Wired it into `src/pages/sessions/[slug].astro` between `<Content />` and
+  `<SpecList>`, rendered only when a session declares `predictionCheck`.
+
+### Verification
+
+`mise exec -- pnpm build`: no accessibility violations, no broken links,
+`spec/reveal-unlinked.test.ts` still passes (0 `href="...reveal/..."`
+matches in `dist/`, confirmed independently with a direct grep). Started
+`astro preview` and manually exercised `/sessions/07-ancestry/`: typed a
+prediction, locked it in, clicked reveal, confirmed `results.csv` loaded
+through the base-path-prefixed fetch URL and rendered; reloaded the page and
+confirmed the locked prediction persisted from `localStorage`.
+`mise exec -- pnpm check` passed in full: 161/161 tests.
+
+### Remaining uncertainty
+
+Weeks 5 and 8 have no natural "predict X" moment beyond the generic rubric
+line every week already carries ("state the week's question in your own
+words before you start"), so their prompt is that generic line rather than
+something week-specific — a lower-fidelity fit than the other ten weeks.
+
 ### Template for subsequent observed results
 
 - What was tested and with which materials/version:
