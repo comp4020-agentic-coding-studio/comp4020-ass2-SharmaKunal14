@@ -103,19 +103,22 @@ const {
     gap: 0.2rem;
   }
 
-  .gls__bar-row {
+  /* Bar rows are created client-side via document.createElement, so they
+     never receive Astro's scoping attribute -- these rules must be :global
+     or they silently never match, and the bars render at zero height. */
+  :global(.gls__bar-row) {
     display: flex;
     align-items: center;
     gap: 0.5rem;
   }
 
-  .gls__bar-label {
+  :global(.gls__bar-label) {
     flex: 0 0 2.5rem;
     font-size: 0.8rem;
     opacity: 0.75;
   }
 
-  .gls__bar-track {
+  :global(.gls__bar-track) {
     flex: 1 1 auto;
     background: var(--at-bg-alt);
     border-radius: 4px;
@@ -123,7 +126,7 @@ const {
     height: 0.75rem;
   }
 
-  .gls__bar-fill {
+  :global(.gls__bar-fill) {
     height: 100%;
     background: var(--at-text-secondary);
   }
