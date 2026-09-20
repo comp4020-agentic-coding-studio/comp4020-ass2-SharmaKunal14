@@ -1968,3 +1968,39 @@ introduced (today's `## 2026-09-21` entries already cover it), so
 for legibility of process.
 
 **Commits:** 099f4d9 (spec bullets, weeks 5–12), and this entry.
+
+## 2026-09-21 — Homepage timetable
+
+**Scope:** Added a 12-row timetable to the homepage (`CourseTimetable.astro`)
+showing each week's lecture, workshop, recurring Generation Check and any
+assessment due that week.
+
+### Decisions and reasons
+
+- An assessment's `week:` frontmatter names the week it is **introduced**,
+  not the week it is **due** — `the-stemma` is introduced week 6 but due
+  2027-04-30, which lands after week 9's own session date. Placing it on
+  week 6 would have misrepresented the actual deadline the student faces.
+  The component instead computes, per assessment, the latest session whose
+  date is on or before the assessment's `due` timestamp, and places the due
+  badge there. `the-lossless-argument`'s due date (2027-06-07) falls after
+  every session date, so it lands on week 12, the last available row.
+- Generation Checks recurs every workshop (`series: weekly`), so it is shown
+  as a standing column on every row rather than tied to one week.
+- Hrefs use `withBase()` from `astro-theme-university/url`, matching this
+  project's own established fix for the same class of bug (a hand-written
+  root-absolute href skips base-path handling and 404s once deployed under
+  the repo's base path).
+
+### Verification and limits
+
+`mise exec -- pnpm check` passed after the change: 161/161 tests, 0
+accessibility violations, all links respect base, no broken links. Checked
+the built `dist/index.html` directly to confirm `the-chain` (due 2027-03-26)
+lands on week 5, `the-stemma` (due 2027-04-30) lands on week 9 — matching
+week 9's own page text, "The Stemma is due this Friday, 2027-04-30" — and
+`the-lossless-argument` lands on week 12. This is UI, not `src/content` or
+`src/decks`, so `spec/decision-log-freshness.test.ts` required no new dated
+entry; this one is for legibility of process only.
+
+**Commits:** c428041 (homepage timetable), and this entry.
