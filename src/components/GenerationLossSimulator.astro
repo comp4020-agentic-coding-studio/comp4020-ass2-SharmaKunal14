@@ -68,6 +68,21 @@ const {
     <div class="gls__bars" role="img" aria-label="Cumulative error percentage per generation"></div>
     <ul class="gls__bars-fallback visually-hidden"></ul>
 
+    <h2>Which confusable characters this run affected</h2>
+    <p class="gls__caption gls__confusable-caption" hidden>
+      Week 1's card was built from characters that look like one another —{" "}
+      <code>0O</code>, <code>1lI</code>, <code>5S</code>, <code>8B</code>,{" "}
+      <code>2Z</code>, <code>6G</code>, <code>9g</code>. Each bar is how many
+      times a character from that group was misread or went illegible in
+      this run.
+    </p>
+    <div class="gls__bars gls__confusable-bars" role="img" aria-label="Misreadings and illegibles per confusable group"></div>
+    <ul class="gls__bars-fallback gls__confusable-bars-fallback visually-hidden"></ul>
+    <p class="gls__confusable-empty" hidden>
+      None of this text's characters belong to week 1's confusable set, so
+      there is nothing to break down here — try the sample text above.
+    </p>
+
     <h2>Count (final generation vs. original)</h2>
     <p class="gls__caption">
       A <strong>misreading</strong> is a character swapped for a different
@@ -181,9 +196,12 @@ const {
       const ILLEGIBLE = "·";
       const confusableGroups = root.dataset.confusableChars!.split(" ").map((g) => g.split(""));
       const confusableMap = new Map<string, string[]>();
+      const confusableGroupLabel = new Map<string, string>();
       for (const group of confusableGroups) {
+        const label = group.join("");
         for (const ch of group) {
           confusableMap.set(ch, group.filter((c) => c !== ch));
+          confusableGroupLabel.set(ch, label);
         }
       }
 
@@ -195,8 +213,12 @@ const {
       const rerollButton = root.querySelector<HTMLButtonElement>(".gls__reroll")!;
       const resultHeading = root.querySelector<HTMLElement>(".gls__result-heading")!;
       const resultText = root.querySelector<HTMLElement>(".gls__result-text")!;
-      const barsContainer = root.querySelector<HTMLElement>(".gls__bars")!;
-      const barsFallback = root.querySelector<HTMLElement>(".gls__bars-fallback")!;
+      const barsContainer = root.querySelector<HTMLElement>(".gls__bars:not(.gls__confusable-bars)")!;
+      const barsFallback = root.querySelector<HTMLElement>(".gls__bars-fallback:not(.gls__confusable-bars-fallback)")!;
+      const confusableCaption = root.querySelector<HTMLElement>(".gls__confusable-caption")!;
+      const confusableBars = root.querySelector<HTMLElement>(".gls__confusable-bars")!;
+      const confusableBarsFallback = root.querySelector<HTMLElement>(".gls__confusable-bars-fallback")!;
+      const confusableEmpty = root.querySelector<HTMLElement>(".gls__confusable-empty")!;
       const statMisreadings = root.querySelector<HTMLElement>(".gls__stat-misreadings")!;
       const statIllegibles = root.querySelector<HTMLElement>(".gls__stat-illegibles")!;
       const statTotal = root.querySelector<HTMLElement>(".gls__stat-total")!;
@@ -256,6 +278,21 @@ const {
         return { misreadings, illegibles, total: misreadings + illegibles };
       }
 
+      // Tally each mismatched position by which confusable group the
+      // ORIGINAL character belonged to (not the corrupted character it
+      // became) -- this answers "which of week 1's confusable groups did
+      // this run's damage land on", not "what did it turn into".
+      function confusableTally(original: string, finalText: string): Map<string, number> {
+        const tally = new Map<string, number>();
+        for (let i = 0; i < original.length; i++) {
+          if (original[i] === finalText[i]) continue;
+          const label = confusableGroupLabel.get(original[i].toUpperCase());
+          if (!label) continue;
+          tally.set(label, (tally.get(label) ?? 0) + 1);
+        }
+        return tally;
+      }
+
       function cumulativeErrorSeries(original: string, history: string[]): number[] {
         return history.map((text) => {
           if (!original.length) return 0;
@@ -300,16 +337,45 @@ const {
           barsFallback.appendChild(li);
         });
 
+        confusableBars.replaceChildren();
+        confusableBarsFallback.replaceChildren();
         if (!original.length) {
           statMisreadings.textContent = "0";
           statIllegibles.textContent = "0";
           statTotal.textContent = "0";
+          confusableCaption.hidden = true;
+          confusableEmpty.hidden = true;
           return;
         }
         const { misreadings, illegibles, total } = countErrors(original, final);
         statMisreadings.textContent = String(misreadings);
         statIllegibles.textContent = String(illegibles);
         statTotal.textContent = String(total);
+
+        const tally = confusableTally(original, final);
+        const entries = [...tally.entries()].sort((a, b) => b[1] - a[1]);
+        confusableCaption.hidden = entries.length === 0;
+        confusableEmpty.hidden = entries.length !== 0;
+        const maxCount = entries.length ? entries[0][1] : 0;
+        for (const [label, count] of entries) {
+          const row = document.createElement("div");
+          row.className = "gls__bar-row";
+          const barLabel = document.createElement("span");
+          barLabel.className = "gls__bar-label";
+          barLabel.textContent = label;
+          const track = document.createElement("div");
+          track.className = "gls__bar-track";
+          const fill = document.createElement("div");
+          fill.className = "gls__bar-fill";
+          fill.style.width = `${((count / maxCount) * 100).toFixed(1)}%`;
+          track.appendChild(fill);
+          row.append(barLabel, track);
+          confusableBars.appendChild(row);
+
+          const li = document.createElement("li");
+          li.textContent = `${label}: ${count} misreading${count === 1 ? "" : "s"} or illegibles`;
+          confusableBarsFallback.appendChild(li);
+        }
       }
 
       input.addEventListener("input", render);
