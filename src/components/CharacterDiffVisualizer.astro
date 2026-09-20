@@ -11,15 +11,28 @@ export interface Props {
   original?: string;
   /** Seed text for the "copy" field on first load. */
   copy?: string;
+  /**
+   * Workshop-specific seed pairs, keyed by session slug. When the page
+   * loads with a `?from=<slug>` query param matching a key here, that pair
+   * replaces `original`/`copy` on first render -- lets a workshop page link
+   * in with its own example already loaded, instead of a generic default.
+   */
+  presets?: Record<string, { original: string; copy: string }>;
 }
 
 const {
   original = "The quick brown fox jumps over the lazy dog.",
   copy = "The qUick br0wn f0x jumps over the la·y dog.",
+  presets,
 } = Astro.props;
 ---
 
-<div class="cdv" data-original={original} data-copy={copy}>
+<div
+  class="cdv"
+  data-original={original}
+  data-copy={copy}
+  data-presets={presets ? JSON.stringify(presets) : undefined}
+>
   <div class="cdv__fields">
     <label class="cdv__field">
       Original
@@ -223,6 +236,24 @@ const {
 
       originalInput.addEventListener("input", render);
       copyInput.addEventListener("input", render);
+
+      // A workshop page can link in as e.g. /simulator/?from=05-scriptorium
+      // so this loads with that week's own example already in both fields,
+      // instead of the generic default -- best-effort, silently ignored if
+      // `from` doesn't match a preset this instance was given.
+      try {
+        const presets: Record<string, { original: string; copy: string }> = root.dataset.presets
+          ? JSON.parse(root.dataset.presets)
+          : {};
+        const from = new URLSearchParams(window.location.search).get("from");
+        if (from && presets[from]) {
+          originalInput.value = presets[from].original;
+          copyInput.value = presets[from].copy;
+        }
+      } catch {
+        // Malformed presets or an unavailable URLSearchParams: fall back
+        // to the sample text already in the textareas.
+      }
 
       render();
     }

@@ -3,10 +3,52 @@ import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
 import GenerationLossSimulator from "../../components/GenerationLossSimulator.astro";
 import CharacterDiffVisualizer from "../../components/CharacterDiffVisualizer.astro";
 import { siteConfig } from "../../site-config";
+import { withBase } from "astro-theme-university/url";
 
 // Root-absolute hrefs written by hand in an .astro file skip Astro base
 // handling: they work on localhost and 404 on the deployed path.
-const week1Href = `${import.meta.env.BASE_URL}sessions/01-photocopy/`;
+function sessionHref(id: string) {
+  return withBase(`/sessions/${id}/`);
+}
+
+// Keyed by session slug so a workshop page can link straight in with
+// `?from=<slug>` and land on that week's own example already loaded --
+// see GenerationLossSimulator.astro / CharacterDiffVisualizer.astro for how
+// the `from` param is read. Kept here, next to the sessions that use them,
+// rather than duplicated per-component.
+const chainPresets = {
+  "01-photocopy": "The quick brown fox jumps over the lazy dog. 0O1lI5S8B2Z6G9g",
+  "06-stemma":
+    "Copy this line forward, generation after generation, the way each scribe in the scriptorium copied only the previous copy.",
+  "07-ancestry":
+    "Copy this sentence forward across many generations, the way week 7's synthetic ancestor is copied forward across many generations.",
+  "09-recursion":
+    "Copy this sentence from its own last copy, again and again, the way week 9's recursive condition re-estimates from its own last sample.",
+};
+
+const diffPresets = {
+  "01-photocopy": {
+    original: "The quick brown fox jumps over the lazy dog.",
+    copy: "The qUick br0wn f0x jumps over the la·y dog.",
+  },
+  "05-scriptorium": {
+    original: "The ordinance governs every copy made within these walls.",
+    copy: "The ordinance g0verns every copy made within these ·alls.",
+  },
+};
+
+const usedBy = {
+  chain: [
+    { id: "01-photocopy", label: "Week 1: The office that ate itself" },
+    { id: "06-stemma", label: "Week 6: Reading the damage backwards" },
+    { id: "07-ancestry", label: "Week 7: When ancestry becomes hard to read" },
+    { id: "09-recursion", label: "Week 9: The curse of recursion" },
+  ],
+  diff: [
+    { id: "01-photocopy", label: "Week 1: The office that ate itself" },
+    { id: "05-scriptorium", label: "Week 5: The scriptorium" },
+  ],
+};
 ---
 
 <ContentLayout
@@ -18,29 +60,75 @@ const week1Href = `${import.meta.env.BASE_URL}sessions/01-photocopy/`;
     Week 1 asked you to count how a copy becomes harder to read, and drew a
     careful line between three claims: the counting rule is deterministic,
     your own repeatability is something you can check, and two readers still
-    disagree because resolving a damaged mark is an interpretation. This page
-    runs the same rule on text instead of a scanned card, so you can watch
-    generation loss compound in real time, and re-run the same settings to
-    see that the <em>outcome</em> is not deterministic even though the
-    <em>counting</em> is.
+    disagree because resolving a damaged mark is an interpretation. Two small
+    tools below run that same rule on text instead of a scanned card. Several
+    other weeks reuse them too, as an analogy rather than the same data —
+    see each tool's own "used in" list.
   </p>
 
-  <GenerationLossSimulator />
+  <ul class="chooser">
+    <li class="chooser__card">
+      <a class="chooser__link" href="#chain-simulator">Chain simulator</a>
+      <p class="chooser__blurb">
+        Type anything, then watch it get copied from itself, generation
+        after generation. Shows the compounding effect and the
+        cumulative-error chart.
+      </p>
+    </li>
+    <li class="chooser__card">
+      <a class="chooser__link" href="#character-diff">Character-diff visualizer</a>
+      <p class="chooser__blurb">
+        Paste two equal-length strings and see every position marked as a
+        match, a misreading or an illegible mark — the counting rule shown
+        inline over the text.
+      </p>
+    </li>
+  </ul>
 
-  <h2>Compare two strings directly</h2>
-  <p class="lede">
-    The simulator above always compares your original text against its own
-    generated output. Paste any two equal-length strings here instead — your
-    own original and a chosen generation from above, for instance — to see
-    week 1's counting rule marked inline over the text itself, character by
-    character.
+  <section id="chain-simulator" class="tool-section">
+    <h2>Chain simulator</h2>
+    <p class="tool-section__used-in">
+      Used in:{" "}
+      {usedBy.chain.map((s, i) => (
+        <>
+          {i > 0 && ", "}
+          <a href={sessionHref(s.id)}>{s.label}</a>
+        </>
+      ))}
+    </p>
+    <GenerationLossSimulator presets={chainPresets} />
+  </section>
+
+  <section id="character-diff" class="tool-section">
+    <h2>Character-diff visualizer</h2>
+    <p class="tool-section__used-in">
+      Used in:{" "}
+      {usedBy.diff.map((s, i) => (
+        <>
+          {i > 0 && ", "}
+          <a href={sessionHref(s.id)}>{s.label}</a>
+        </>
+      ))}
+    </p>
+    <p class="lede">
+      The chain simulator above always compares your original text against
+      its own generated output. Paste any two equal-length strings here
+      instead — your own original and a chosen generation from above, for
+      instance — to see week 1's counting rule marked inline over the text
+      itself, character by character.
+    </p>
+    <CharacterDiffVisualizer presets={diffPresets} />
+  </section>
+
+  <p class="arrival-note">
+    Arriving from a workshop page? The tool above may already show that
+    week's own example — look for the highlighted section, and change the
+    text freely, nothing here is graded or saved.
   </p>
-
-  <CharacterDiffVisualizer />
 
   <p>
-    See <a href={week1Href}>Week 1: The office that ate itself</a>{" "}
-    for the graded activity this page supplements — it does not replace the
+    See <a href={sessionHref("01-photocopy")}>Week 1: The office that ate itself</a>{" "}
+    for the graded activity these tools supplement — they do not replace the
     pack, the worksheet or the worked answer.
   </p>
 </ContentLayout>
@@ -49,5 +137,59 @@ const week1Href = `${import.meta.env.BASE_URL}sessions/01-photocopy/`;
   .lede {
     font-size: 1.1rem;
     line-height: 1.5;
+  }
+
+  .chooser {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 0.75rem;
+    margin: 0 0 2rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .chooser__card {
+    padding: 1rem;
+    border: 1px solid var(--at-border, #ccc);
+    border-radius: 0.5rem;
+    background: var(--at-bg-alt);
+  }
+
+  .chooser__link {
+    font-weight: 700;
+    font-size: 1.05rem;
+  }
+
+  .chooser__blurb {
+    margin: 0.4rem 0 0;
+    font-size: 0.9rem;
+    color: var(--at-text-secondary);
+  }
+
+  .tool-section {
+    padding-block: 1.5rem;
+    border-block-start: 1px solid var(--at-border, #ccc);
+    scroll-margin-block-start: 1rem;
+  }
+
+  /* Landing on a tool via its own anchor (a workshop link, or one of the
+     chooser cards above) gets a visible "you're here" ring for a moment of
+     orientation -- otherwise a page with two nearly-identical-looking tools
+     gives no feedback that the jump actually landed on the right one. */
+  .tool-section:target {
+    outline: 3px solid var(--at-accent);
+    outline-offset: 0.5rem;
+    border-radius: 0.5rem;
+  }
+
+  .tool-section__used-in {
+    font-size: 0.85rem;
+    color: var(--at-text-secondary);
+    margin-block: 0 1rem;
+  }
+
+  .arrival-note {
+    font-size: 0.9rem;
+    color: var(--at-text-secondary);
   }
 </style>

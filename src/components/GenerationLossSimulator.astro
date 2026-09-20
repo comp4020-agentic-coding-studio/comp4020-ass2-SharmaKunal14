@@ -13,12 +13,20 @@ export interface Props {
   defaultGenerations?: number;
   /** Default per-generation error rate, 1-20 (percent). */
   defaultErrorRate?: number;
+  /**
+   * Workshop-specific seed text, keyed by session slug. When the page loads
+   * with a `?from=<slug>` query param matching a key here, that text
+   * replaces `sampleText` on first render -- lets a workshop page link in
+   * with its own example already loaded, instead of a generic default.
+   */
+  presets?: Record<string, string>;
 }
 
 const {
   sampleText = "The quick brown fox jumps over the lazy dog. 0O1lI5S8B2Z6G9g",
   defaultGenerations = 8,
   defaultErrorRate = 6,
+  presets,
 } = Astro.props;
 ---
 
@@ -28,6 +36,7 @@ const {
   data-default-generations={defaultGenerations}
   data-default-error-rate={defaultErrorRate}
   data-confusable-chars="0O 1lI 5S 8B 2Z 6G 9g"
+  data-presets={presets ? JSON.stringify(presets) : undefined}
 >
   <label class="gls__field">
     Text to copy
@@ -307,6 +316,21 @@ const {
       generationsSlider.addEventListener("input", render);
       rateSlider.addEventListener("input", render);
       rerollButton.addEventListener("click", render);
+
+      // A workshop page can link in as e.g. /simulator/?from=06-stemma so
+      // this loads with that week's own example already in the textarea,
+      // instead of the generic default -- best-effort, silently ignored if
+      // `from` doesn't match a preset this instance was given.
+      try {
+        const presets: Record<string, string> = root.dataset.presets ? JSON.parse(root.dataset.presets) : {};
+        const from = new URLSearchParams(window.location.search).get("from");
+        if (from && presets[from]) {
+          input.value = presets[from];
+        }
+      } catch {
+        // Malformed presets or an unavailable URLSearchParams: fall back
+        // to the sample text already in the textarea.
+      }
 
       render();
     }
