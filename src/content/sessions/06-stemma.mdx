@@ -33,6 +33,7 @@ spec:
 ---
 import PredictionCheck from "../../components/PredictionCheck.astro";
 import FiveMinuteCheck from "../../components/FiveMinuteCheck.astro";
+import StemmaEdgeChecker from "../../components/StemmaEdgeChecker.astro";
 
 > Which family tree does the evidence support, and what remains unknown?
 
@@ -101,6 +102,21 @@ does it need a common immediate source? Group witnesses that share an
 implausible-to-repeat error under one hypothesised ancestor. Draw the
 nesting — which groups sit inside which — as a tree, or as an edge list if
 drawing is not available to you.
+
+Before you commit an edge to your tree, check it against the check-stage
+table below: pick the two witnesses and see which points they share and how
+strong each one is. This reports evidence strength only — it never tells you
+whether the edge is in the real tree, since that answer is still locked
+behind `reveal/`.
+
+<StemmaEdgeChecker
+  points={[
+    { id: 1, type: "substitution", carriers: ["A"] },
+    { id: 2, type: "haplography", carriers: ["B", "C"] },
+    { id: 3, type: "substitution", carriers: ["A", "C"] },
+  ]}
+  witnesses={["A", "B", "C"]}
+/>
 
 **Justify and challenge selected edges (10 minutes).** For every edge you
 drew, write the one shared feature it rests on. Then pick your least certain

@@ -1,0 +1,158 @@
+---
+// Gives live feedback on evidence STRENGTH for a proposed edge between two
+// witnesses -- the same haplography/homoeoteleuton/omission/repetition
+// (strong) vs. substitution (weak) rule week 5 already teaches -- without
+// ever checking a proposed edge against the real tree. That tree is this
+// workshop's own locked answer, so this tool never touches or references
+// `reveal/`: spec/reveal-unlinked.test.ts and spec/pack-zip.test.ts are
+// unaffected by construction, not by special-casing this component.
+export interface Point {
+  id: number;
+  type: string;
+  carriers: string[];
+}
+
+export interface Props {
+  points: Point[];
+  witnesses: string[];
+}
+
+const { points, witnesses } = Astro.props;
+---
+
+<div class="sec" data-points={JSON.stringify(points)} data-witnesses={JSON.stringify(witnesses)}>
+  <div class="sec__pickers">
+    <label class="sec__field">
+      Witness A
+      <select class="sec__witness-a"></select>
+    </label>
+    <label class="sec__field">
+      Witness B
+      <select class="sec__witness-b"></select>
+    </label>
+    <button type="button" class="sec__check">Check this edge</button>
+  </div>
+
+  <div class="sec__result" hidden>
+    <p class="sec__summary"></p>
+    <ul class="sec__points"></ul>
+    <p class="sec__caveat">
+      This only reports how strong the evidence for a shared ancestor
+      would be, using week 5's classification rule. It does not tell you
+      whether this edge is in the real tree — that answer stays in
+      <code>reveal/</code> until you have made your own prediction.
+    </p>
+  </div>
+</div>
+
+<style>
+  .sec__pickers {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 1rem;
+  }
+
+  .sec__field {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9rem;
+    gap: 0.25rem;
+  }
+
+  .sec__result {
+    margin-block-start: 1rem;
+    padding: 0.75rem;
+    border: 1px solid var(--at-border, #ccc);
+    border-radius: 0.5rem;
+  }
+
+  .sec__summary {
+    font-weight: 700;
+    margin-block: 0 0.5rem;
+  }
+
+  .sec__points {
+    margin: 0 0 0.75rem;
+    padding-inline-start: 1.25rem;
+  }
+
+  .sec__caveat {
+    font-size: 0.85rem;
+    opacity: 0.8;
+    margin: 0;
+  }
+</style>
+
+<script>
+  const STRONG_TYPES = new Set(["haplography", "homoeoteleuton", "omission", "repetition"]);
+
+  interface Point {
+    id: number;
+    type: string;
+    carriers: string[];
+  }
+
+  function initStemmaEdgeCheckers() {
+    for (const root of document.querySelectorAll<HTMLElement>(".sec")) {
+      if (root.dataset.initialised === "true") continue;
+      root.dataset.initialised = "true";
+
+      const points: Point[] = JSON.parse(root.dataset.points ?? "[]");
+      const witnesses: string[] = JSON.parse(root.dataset.witnesses ?? "[]");
+
+      const witnessA = root.querySelector<HTMLSelectElement>(".sec__witness-a")!;
+      const witnessB = root.querySelector<HTMLSelectElement>(".sec__witness-b")!;
+      const checkButton = root.querySelector<HTMLButtonElement>(".sec__check")!;
+      const result = root.querySelector<HTMLElement>(".sec__result")!;
+      const summary = root.querySelector<HTMLElement>(".sec__summary")!;
+      const pointsList = root.querySelector<HTMLElement>(".sec__points")!;
+
+      for (const select of [witnessA, witnessB]) {
+        select.replaceChildren(
+          ...witnesses.map((w) => {
+            const option = document.createElement("option");
+            option.value = w;
+            option.textContent = w;
+            return option;
+          }),
+        );
+      }
+      if (witnesses.length > 1) witnessB.selectedIndex = 1;
+
+      function checkEdge() {
+        const a = witnessA.value;
+        const b = witnessB.value;
+        result.hidden = false;
+        pointsList.replaceChildren();
+
+        if (a === b) {
+          summary.textContent = "Pick two different witnesses to check an edge between them.";
+          return;
+        }
+
+        const shared = points.filter((p) => p.carriers.includes(a) && p.carriers.includes(b));
+
+        if (shared.length === 0) {
+          summary.textContent = `${a} and ${b} share no point in this table — nothing here supports a direct edge between them.`;
+          return;
+        }
+
+        const strongCount = shared.filter((p) => STRONG_TYPES.has(p.type)).length;
+        summary.textContent = `${a} and ${b} share ${shared.length} point${shared.length === 1 ? "" : "s"} (${strongCount} strong, ${shared.length - strongCount} weak).`;
+
+        for (const point of shared) {
+          const strong = STRONG_TYPES.has(point.type);
+          const li = document.createElement("li");
+          li.textContent = `Point ${point.id} (${point.type}) — ${strong ? "strong" : "weak"} evidence for a shared ancestor`;
+          pointsList.appendChild(li);
+        }
+      }
+
+      checkButton.addEventListener("click", checkEdge);
+    }
+  }
+
+  document.addEventListener("astro:page-load", initStemmaEdgeCheckers);
+  initStemmaEdgeCheckers();
+</script>
