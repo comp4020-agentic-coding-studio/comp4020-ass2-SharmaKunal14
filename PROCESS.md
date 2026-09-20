@@ -229,6 +229,21 @@ directly after the Check-stage table it actually uses, with prose at both
 locations rewritten to make the distinction explicit
 ([`9896cef`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/9896cef)).
 
+The user then asked for the resampling simulator specifically to be made
+more legible and more visually distinctive, since on its own it gave no
+sense of what it was demonstrating. It now opens with a plain-language
+statement of the question it answers, gives each condition a short
+mechanism sentence instead of a clinical description, computes a
+per-render takeaway sentence from that run's own numbers (naming the
+model-collapse analogy for the fully-recursive case), and replaces the
+plain full-count table with a coloured stacked-bar chart per round and a
+true-share tick mark on the rarest-category trend, while keeping the
+plain table as the exact data source. The simulator page also gained a
+fixed right-hand navigation list that appears via `IntersectionObserver`
+once the card-grid chooser scrolls out of view, additive to — not a
+replacement for — that card grid
+([`11d34a9`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/11d34a9)).
+
 Every decision above, including mutation-testing tables proving each new
 contract fails when the defect is reintroduced, is recorded in
 `docs/decision-log.md` when it was made, not reconstructed afterward.

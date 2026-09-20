@@ -2616,3 +2616,57 @@ broken links, 52 pages built. Confirmed in built
 precedes the "Receive" heading rather than following "Investigate".
 
 **Commit:** `9896cef`.
+
+## 2026-09-21 — Resampling simulator rewritten for legibility, and a scroll-aware simulator nav
+
+**Scope:** `src/components/ResamplingSimulator.astro`,
+`src/pages/simulator/index.astro`.
+
+### Decisions and reasons
+
+- **The user reported that the resampling simulator's own layout gave no
+  sense of what it was teaching** — it looked like the same plain
+  form-plus-bar-chart-plus-table pattern shared by the other tools, with
+  the pedagogical point (a rare category drifting or vanishing under
+  recursive re-estimation) legible only in the surrounding page prose,
+  not the tool itself. Two changes, both self-contained to the component
+  so the fix does not depend on any page's own framing text:
+  - Added a leading `.rs__pitch` paragraph stating the question the toy
+    answers in plain language, and rewrote each condition's label into a
+    short mechanism sentence ("a copy of a copy", "reality keeps a foot
+    in the door") rather than the previous clinical description.
+  - Added a dynamic `.rs__takeaway` sentence, computed per render from
+    the actual simulated numbers (round-0 share, final-round share, true
+    share, and whether the rare category actually hit zero), phrased
+    differently per condition and — for fully recursive — explicitly
+    naming the model-collapse analogy the simulator is illustrating. This
+    is generated from the run's own output, not authored findings text,
+    so it carries no risk of inventing a result.
+- **Redesigned the layout** into a two-column setup/results grid (stacking
+  on narrow viewports), replaced the plain full-distribution table with a
+  coloured stacked-bar chart per round plus a colour legend, and added a
+  true-share tick mark on each rarest-category trend bar so the gap
+  between what turned up and what should turn up is visible without
+  reading numbers. The plain table is kept, inside a `<details open>`, as
+  the exact, colour-independent data source — nothing that was
+  accessible before is now hidden behind only colour.
+- **On the simulator page**, added a fixed right-hand `<nav class="side-nav">`
+  list, hidden by default and shown via `IntersectionObserver` once the
+  `.chooser` card grid scrolls out of view, with the currently-visible
+  tool section highlighted via a second observer over each
+  `.tool-section`. The card grid stays the primary, always-visible
+  navigation; the side nav is an additive convenience, hidden entirely
+  under `max-width: 75rem` (no room for a floating column without
+  overlapping the prose) and no-oped if `IntersectionObserver` is
+  unavailable, rather than breaking the page.
+
+### Verification and limits
+
+`mise exec -- pnpm check`: 161/161 tests, 0 accessibility violations, no
+broken links, 52 pages built. Confirmed `dist/simulator/index.html`
+contains the new `.side-nav` markup and its three links. No fresh reader
+has looked at the redesigned layout; "more legible" and "more creative"
+are the user's own stated goals for this change, not an independently
+verified usability result.
+
+**Commit:** `11d34a9`.
