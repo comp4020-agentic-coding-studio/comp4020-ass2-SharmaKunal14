@@ -148,6 +148,20 @@ one title per week, three short role pills pointing at the three pages that
 title actually names
 ([`ebb9c58`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/ebb9c58)).
 
+Asked what further interactive elements to add, I recommended two grounded in
+existing code rather than new dependencies: extending the progress dashboard
+to also track five-minute-check submissions, and a character-diff visualizer
+reusing the simulator's own counting rule. Told to build both, the dashboard
+gained a second bar, badge and `visually-hidden` status per card for the
+`check:<sessionSlug>` records `FiveMinuteCheck.astro` already wrote, entirely
+from existing data
+([`dc24cc4`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/dc24cc4)).
+The visualizer ports `countErrors` a second time into its own component,
+marking any two pasted equal-length strings character by character rather
+than only totalling them, with the same `:global` fix applied proactively to
+its client-created spans
+([`92d807e`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/92d807e)).
+
 Every decision above, including mutation-testing tables proving each new
 contract fails when the defect is reintroduced, is recorded in
 `docs/decision-log.md` when it was made, not reconstructed afterward.

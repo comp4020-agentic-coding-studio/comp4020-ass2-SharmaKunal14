@@ -2205,3 +2205,51 @@ only/check only/both) were reasoned through from the code rather than set
 via devtools and visually inspected.
 
 **Commit:** `dc24cc4`, and this entry.
+
+## 2026-09-21 — Character-diff visualizer added to the simulator page
+
+**Scope:** `src/components/CharacterDiffVisualizer.astro` (new),
+`src/pages/simulator/index.astro`. Second half of the "add more interactive
+elements" request the progress-dashboard update above started; UI only, no
+`src/content` or `src/decks` change.
+
+### Decisions and reasons
+
+- Ported `countErrors` a second time rather than importing it from
+  `GenerationLossSimulator.astro`: each component is a separate
+  `<script>` tag with its own module scope, and the function is eight
+  lines with no shared state, so a small duplicated port stayed simpler
+  than introducing a shared client-side module just for this.
+- Compares two independent textareas (`original`, `copy`) rather than
+  hooking into the simulator's own generation history, so a student can
+  paste any two strings — including their own text from outside this page
+  entirely — not only a generation the simulator itself produced.
+- Equal-length is a hard precondition of the counting rule (same as
+  `GenerationLossSimulator.astro`), so a length mismatch shows one
+  explanatory message and hides the result entirely, rather than silently
+  truncating or padding one string, which would misreport a discrepancy
+  the student didn't introduce.
+- Each character is rendered as its own `<span>`, colored via two
+  `:global(...)` CSS classes (`.cdv__char--misreading`,
+  `.cdv__char--illegible`) — the same fix already made once for the
+  simulator's error bars (commit `0488aed`) applied here proactively,
+  since these spans are also created with `document.createElement` and
+  never receive Astro's scoping attribute.
+- The marked text is `aria-hidden`, since color is the only signal it adds
+  over the plain copy text already visible in the textarea; a
+  `visually-hidden` paragraph states the same information as words per
+  character (`[misread "X" as "Y"]`, `[illegible, was "X"]`) so a
+  screen-reader user gets the same per-position detail a sighted user
+  reads from color.
+
+### Verification and limits
+
+`mise exec -- pnpm check` (typecheck + build + full `vitest run spec`):
+161/161 tests across 20 files, 0 accessibility violations, no broken links.
+Grepped built `dist/simulator/index.html` directly: `cdv__char--misreading`,
+`cdv__char--illegible` and the `cdv__marked-fallback` markup are all
+present. Not exercised in a live browser in this session: the length-
+mismatch warning path and the live-typing update were reasoned through
+from the code rather than typed into a running page and visually checked.
+
+**Commit:** `92d807e`, and this entry.
