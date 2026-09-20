@@ -2080,3 +2080,41 @@ links (previous entry) depend on the same anchors and the heading markup was
 untouched by this edit.
 
 **Commit:** `9b6eb05`.
+
+## 2026-09-21 — Timetable redesigned as week cards
+
+**Scope:** Redesigned the homepage timetable's presentation after feedback
+that it repeated itself too much. UI only — no `src/content` or
+`src/decks` change.
+
+### Decisions and reasons
+
+- A lecture and its own workshop always share the same title (confirmed for
+  all 12 weeks: `src/content/lectures/week-NN.md` and the matching
+  `src/content/sessions/*.mdx` carry an identical `title:`), so the old
+  table's separate Lecture and Workshop columns printed the same title
+  twice, every row. Replaced the five-column table with one card per week:
+  the title appears once, followed by short "Lecture" / "Workshop" / "Check"
+  pill-links pointing at the same three destinations the old columns did.
+- The "Weekly check" column previously repeated one of two fixed phrases
+  ("The five-minute check" or "Check — 5 minutes") down all 12 rows — visual
+  noise from column position, not new information. Shortened every row's
+  link to the single word "Check" and moved the full label into a `title`
+  attribute plus one explanatory sentence below the list, so the meaning is
+  stated once instead of retyped 12 times.
+- Kept every underlying link the previous version had: lecture page,
+  workshop (session) page, that week's own check anchor, and any due
+  assessments. No route, anchor or href changed — only how the same
+  information is grouped and labelled.
+- Chose a card list (`<ol><li>`) over a second table shape because the
+  content is now one heading plus a small set of links per week, not a grid
+  of independent cells — a table was fighting the actual shape of the data.
+
+### Verification and limits
+
+`mise exec -- pnpm check` green: 161/161 tests, 0 accessibility violations,
+no broken links. Checked the built `dist/index.html` directly: 12 week
+cards, one title each, and the check-link count matches 12 rows plus the
+explanatory sentence's own link.
+
+**Commit:** `ebb9c58`.
