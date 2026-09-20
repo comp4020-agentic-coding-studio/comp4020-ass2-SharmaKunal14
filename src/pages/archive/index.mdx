@@ -5,25 +5,58 @@ description:
   model studies, with what is known about each kept separate from what is inferred.
 ---
 
+import Callout from "astro-theme-university/components/Callout.astro";
+import Card from "astro-theme-university/components/Card.astro";
+import CardGrid from "astro-theme-university/components/CardGrid.astro";
+
 # Class Copy Archive
 
-Everything this course argues about comes from here. Each workshop deposits a
-result into one of these collections, and later weeks reuse what earlier weeks
-left behind.
+This is the shared evidence library the workshops read from and write to.
+Every workshop deposits a result into one of the collections below, and later
+weeks reuse what earlier weeks left behind — so the same specimens keep
+recurring across the course instead of each week inventing its own.
+
+<CardGrid columns={3}>
+  <Card headingLevel="h2" title="Print" href="#print">
+    A copy-room test card and a branching hand-copied text. Weeks 1, 5, 6.
+  </Card>
+  <Card headingLevel="h2" title="Audio" href="#audio">
+    One source recording and four dubbed copies, evidenced as a feature table.
+    Weeks 2, 3.
+  </Card>
+  <Card headingLevel="h2" title="Image" href="#image">
+    A source image and an output whose route is only partly established.
+    Weeks 4, 10, 11.
+  </Card>
+  <Card headingLevel="h2" title="Preservation budget" href="#cross-family-a-preservation-budget">
+    A resourcing comparison across all three collections above. Week 12.
+  </Card>
+  <Card headingLevel="h2" title="Model studies" href="#model-studies">
+    Three simplified synthetic models, each declaring what it leaves out.
+    Weeks 7, 8, 9.
+  </Card>
+  <Card headingLevel="h2" title="What a record holds" href="#what-a-record-holds">
+    The schema every specimen record follows, and what stays separate.
+  </Card>
+</CardGrid>
 
 Two rules govern the archive, and they are the same two rules the course is
 about.
 
-**Ancestry stays inside a collection.** A recording is not descended from a
-typed page because the two were studied in consecutive weeks. Relationships
-between collections are **comparisons**, and are labelled as such: week 7
-compares the limits of ancestry inference with week 6's text reconstruction.
-It does not claim a sequence descended from a manuscript.
+<Callout type="tip">
+  **Ancestry stays inside a collection.** A recording is not descended from a
+  typed page because the two were studied in consecutive weeks. Relationships
+  between collections are **comparisons**, and are labelled as such: week 7
+  compares the limits of ancestry inference with week 6's text reconstruction.
+  It does not claim a sequence descended from a manuscript.
+</Callout>
 
-**Known and inferred are recorded separately.** A parent we logged when we made
-the copy is a fact about the archive. A parent we worked out from shared
-features is a conclusion, and it carries the evidence and the uncertainty that
-produced it.
+<Callout type="tip">
+  **Known and inferred are recorded separately.** A parent we logged when we
+  made the copy is a fact about the archive. A parent we worked out from
+  shared features is a conclusion, and it carries the evidence and the
+  uncertainty that produced it.
+</Callout>
 
 ## Recurring collections
 
