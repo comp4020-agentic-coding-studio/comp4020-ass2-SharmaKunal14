@@ -9,67 +9,68 @@ in front of a student actually answer that?
 [`4b30563`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/4b30563)
 replaced the starter content with this course.
 
-That question became a standing test of my own work, not just the
-students'. Week 4's first build passed 75 green tests and was still
-unusable: it withheld a prediction no formula could derive, pointed at
-evidence with no file behind it, and asserted a forensic technique the
-literature says may not apply. The tests had only checked that authored
-data agreed with the authored answer, never whether a student could act
-on it. I rewrote the contracts to ask that second question
-([`d7863b6`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/d7863b6));
-a second review then found a test that checked an evidence item's label,
-not its actual content — the label said `discriminates: false` while a
-route's own JSON gave it away. I fixed the bug structurally, added a
-contract comparing declared values against real file content, and put
-the original fault back in to confirm the new suite actually catches it
-before reverting
+That question became a test of my own work too. Week 4's first build
+passed 75 green tests and was still unusable: it withheld a prediction no
+formula could derive, pointed at evidence with no file behind it, and
+asserted a forensic technique the literature says may not apply. I
+rewrote those contracts
+([`d7863b6`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/d7863b6)).
+A later review then found why that class of bug survived: evidence item
+E2 was declared non-discriminating, but the excerpt a student actually
+opens read `quality=78`, which matched one route's final save and
+contradicted the other's. The tests had read the declaration and never
+the file. I made both routes end with the same save, added a contract
+checking declared values against real file content, then put the original
+fault back to confirm the new suite caught it before reverting
 ([`11fa9c5`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/11fa9c5)).
-Every `spec/` contract since has had to answer "can a student act on
-this," not just "is this internally consistent."
+That gave me a second acceptance question for evidence contracts since:
+not only "is this internally consistent," but "can a student act on it."
 
-I read another course's syllabus for the same reason: two of its
-readings resolved but weren't retrievable, so I added a rule that every
-citation needs a locator plus a link or an original summary
-([`7d0a745`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/7d0a745)),
-later backed by a check once I noticed the rule itself had no enforcement
+The brief's example courses informed the harness in both directions. From
+Calling Bullshit I took reachability as an obligation — it links nearly
+every required reading to a retrievable copy, and gives chapters where it
+cannot. My own policy already said a resolving URL is not proof of a
+claim, which governs verification but left the opposite failure open: a
+correctly cited reading a student cannot get to. That became a
+`CLAUDE.md` rule — every reading carries a locator plus a link or an
+original summary — alongside a second requiring each week to name its
+specimen concretely
+([`7d0a745`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/7d0a745)).
+From CS 007 I refused the deck as sole artefact: it works for a
+guest-speaker course, but here a week's content is its evidence pack, so
+a week reduced to a slide link is unattemptable. Both new rules stayed
+editorial until I harnessed them with checks
 ([`ca7cbb2`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/ca7cbb2)).
-The same review rejected that course's deck-only delivery: here, a
-week's evidence pack is its content, not its slides.
 
-A second rule came from a bug the tests couldn't see: several workshops'
-Deposit steps linked straight to their own answer file, live and
-ungated. I unlinked every reveal and wrote `spec/reveal-unlinked.test.ts`
-to scan the built site for any stray link
+Another rule came from a bug the tests could not see: several
+workshops' Deposit steps linked straight to their own answer file, live
+and ungated. I unlinked every reveal and wrote
+`spec/reveal-unlinked.test.ts` to scan the built site
 ([`bf9f600`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/bf9f600),
 [`7c7c89f`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/7c7c89f)).
-That was safe but wasted pedagogy the course argues for elsewhere —
-predict, then check — so rather than reverting the unlink, I gated it: an
-answer link only activates once a student's own locked prediction exists
-in `localStorage` — a learning nudge, not access control, so the shipped
-HTML still never carries a working reveal href either way
+That was safe but wasted the predict-then-check pedagogy the course
+argues for, so rather than reverting I gated it: an answer link only
+activates once a student's own locked prediction exists in
+`localStorage` — a learning nudge, not access control, so the shipped
+HTML still never carries a working reveal href
 ([`671776e`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/671776e),
 [`08195f5`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/08195f5)),
-later generalised to week 1's standalone `worked-answer.md`
+later generalised to week 1's `worked-answer.md`
 ([`9b257b5`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/9b257b5)).
 
-The same discipline governs every later illustrative tool: never let it
-be mistaken for the graded artefact. The resampling simulator ports the
-shape of week 9's model but with unseeded randomness on invented data
-([`e53867b`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/e53867b)),
-and the week-6 stemma checker scores evidence strength without ever
-comparing a proposed edge to the real tree, so `reveal/` stays untouched
-by construction
+The same discipline governs the illustrative tools: never let one be
+mistaken for the graded artefact. The resampling simulator ports week 9's
+shape with unseeded randomness on invented data
+([`e53867b`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/e53867b));
+the week-6 stemma checker scores evidence strength without comparing a
+proposed edge against the real tree
 ([`2cb8ed4`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/2cb8ed4)).
 
-Response to the brief got its own correction: weeks 5-12 originally
-shared identical `spec:` bullets, exactly the "starter with the nouns
-swapped" pattern the brief marks down. Each week's bullets now name that
-week's own artefact and judgement call
-([`099f4d9`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/099f4d9)).
-
-What I left out, deliberately: no invented "what you should find" text
-for the seven weeks that don't publish one — the prediction-replay
-widget only ever echoes findings a week already states publicly
+What I declined to write matters too: no "what you should find" text for
+the seven weeks that publish none, so the prediction-replay widget only
+echoes findings a week already states publicly
 ([`0718709`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/0718709)).
-`docs/decision-log.md` records every choice and check as made, not
-reconstructed afterward.
+And what I have not established: nobody but their author has attempted
+these activities, so "a student can now do this" stays a reasoned claim,
+not an observed result. `docs/decision-log.md` carries the supporting
+detail, including that limit.

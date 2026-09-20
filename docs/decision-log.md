@@ -2788,3 +2788,73 @@ accessibility violations, no broken links, 52 pages built.
 
 **Commit:** this entry lands in the same commit as the `PROCESS.md`
 change it describes; `627f238` is the prior state it revises.
+
+## 2026-09-21 — A fabricated detail in PROCESS.md, found by review and corrected
+
+**Scope:** `PROCESS.md`. This entry records an error I introduced, because
+the rule it broke is one of this repo's own.
+
+### What went wrong
+
+The revision above added a paragraph on the reference review. It claimed
+that another course had "two of its readings resolved but weren't
+retrievable," and then attributed deck-only delivery to that same course.
+Neither is supported. Checked against `7d0a745` and the 2026-09-16
+Reference review entry: the review read **two** courses, and the finding
+ran the other way.
+
+- **Calling Bullshit** was the *positive* model — it links nearly every
+  required reading to a retrievable copy and gives chapters for books. It
+  was adopted, not faulted. The gap it exposed was in *this course's own*
+  policy, which said a resolving URL is not proof of a claim — a rule
+  about verification that left reachability unaddressed.
+- **CS 007** was the course whose deck-only delivery was refused.
+
+So the paragraph converted an adopted practice into a discovered failure
+and merged two sources into one. That is precisely what `CLAUDE.md`
+forbids ("Do not invent ... failures, citations"), and `check:evidence`
+did not catch it: that script verifies a cited hash resolves, not that
+the sentence around it is true. The gap between "citation exists" and
+"claim is supported" is the course's own subject, which makes the error
+worth recording rather than quietly fixing.
+
+### Corrections made
+
+- Rewrote the paragraph to name both courses and the actual direction of
+  each decision, and to name the resulting `CLAUDE.md` rules (locator
+  plus link or original summary; concretely named specimen), keeping
+  `ca7cbb2` as the later harnessing of those editorial rules.
+- Replaced "a route's own JSON gave it away" with the specific
+  discrepancy from `11fa9c5`: item E2 was declared non-discriminating
+  while the excerpt a student opens read `quality=78`, matching one
+  route's final save and contradicting the other's. Preserves the
+  declaration-versus-student-facing-file distinction that is the point.
+- Narrowed two overstatements. "Every `spec/` contract since" became a
+  second acceptance question applied to evidence contracts — several
+  checks (`deck-coverage`, `teaching-schedule`, `decision-log-freshness`)
+  legitimately test structure, not student-actionability. "Records every
+  choice as made, not reconstructed afterward" became "carries the
+  supporting detail," since the reference review was itself a skipped
+  Phase 0 row done late.
+- Added the limitation that no one but the author has attempted these
+  activities, so usability is a reasoned claim, not an observed result.
+- Cut the weekly `spec:`-bullet paragraph (`099f4d9`) to fund the above.
+  Fixing generic wording is worth doing but does not by itself evidence a
+  distinctive curriculum, which the site demonstrates directly.
+
+### Verification and limits
+
+`wc -w PROCESS.md`: 595 words, inside 400-600. `check:evidence`: 13 cited
+commits resolve. Each citation additionally checked with `git merge-base
+--is-ancestor <sha> HEAD`, which is stronger — it confirms the commit is
+reachable on `main` and so will resolve on GitHub for a marker, not
+merely that the object exists in the local repository. `mise exec -- pnpm
+check`: 161/161 tests, 0 accessibility violations, no broken links, 52
+pages built.
+
+**Noted, not fixed:** the 2026-09-16 Reference review entry above cites
+`03f8d03`, which is a pre-rebase hash no longer reachable from `main`
+(the live commit is `7d0a745`). Other historical entries may carry the
+same staleness. Left alone for now — it is a bare hash in the internal
+log rather than a link in the graded document, and rewriting historical
+entries wholesale close to a deadline risks more than it fixes.
