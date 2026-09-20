@@ -2709,3 +2709,42 @@ in fact simpler is the user's own judgement call from reading the
 rewritten text, not an independently measured readability result.
 
 **Commit:** `7d5de50`.
+
+## 2026-09-21 — PROCESS.md condensed to the assignment's 400-600 word band
+
+**Scope:** `PROCESS.md` only. No course pages, datasets or application code
+changed.
+
+### Decisions and reasons
+
+- Checked the live Assignment 2 brief and found `PROCESS.md` is specified as
+  400-600 words, one narrative, citing commits — and that this assignment has
+  no separate reflection document. The file had grown to 2132 words as a
+  chronological per-commit changelog, which the brief explicitly marks down
+  ("the starter with the nouns swapped" territory for process, and the brief
+  states corroboration — a commit list — is the floor of the HD band, not
+  the top of it).
+- Rewrote it from scratch around a spine instead of a chronology: what the
+  course's central distinction is (exact copy vs. derived-from), which
+  judgement calls became a standing rule or a `spec/` check (the "can a
+  student act on this" test rewrite after week 4's false-green build; the
+  reveal-unlink rule and its later localStorage gating rather than a
+  revert; every illustrative tool's discipline against touching graded
+  data or the real answer), and what was deliberately left out (no
+  reflection doc, no invented findings for weeks with none published).
+  Every cited commit was cross-checked against `git cat-file -e` against
+  the real history before inclusion, per the standing "do not invent
+  commit hashes" rule.
+- Kept `docs/decision-log.md` as the fuller, chronological record; this
+  entry is intentionally short because `PROCESS.md` itself is the graded
+  artefact and already carries the detail.
+
+### Verification and limits
+
+`wc -w PROCESS.md`: 503 words, inside the required 400-600 band.
+`mise exec -- pnpm check:evidence`: all 12 cited commits resolve, no
+reflection file required for this assignment. `mise exec -- pnpm check`:
+161/161 tests, 0 accessibility violations, no broken links, 52 pages built.
+The rewrite is a judgement call about which decisions best represent the
+whole project in ~500 words — a different author could reasonably pick a
+different subset of commits as the spine.
