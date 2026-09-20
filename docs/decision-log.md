@@ -1870,3 +1870,66 @@ unmodified in logic.
 - Verification after the change:
 - Remaining uncertainty and reviewer limitations:
 - Commit hash once it exists:
+
+## 2026-09-21 — Generation-loss simulator and a workshop progress dashboard
+
+**Scope:** With the deadline explicitly set aside, the user asked for more
+interactive elements and, from a brainstorm grounded in the site's actual
+inventory (no JS framework, no charting library — every interactive bit is
+vanilla JS in an `.astro` `<script>` tag), picked two: a live text-based
+generation-loss simulator, and a dashboard reading the prediction-commit
+records the site already writes across all twelve workshops.
+
+### Decisions and reasons
+
+- The simulator's `runChain` corrupts each generation's **previous output**,
+  not the original, every step — real compounding loss rather than
+  independent per-generation noise, since compounding is the course's
+  point, not a cosmetic detail.
+- `countErrors` is an exact client-side port of week 1's own counting rule
+  (`packs/week-01/build.ts`): position-by-position diff of two equal-length
+  strings, split into misreadings versus the `·` illegible marker. Reusing
+  the identical rule, rather than inventing a similar one, keeps the page a
+  supplement to week 1 rather than a competing algorithm.
+- "Re-roll" reruns the same settings rather than reseeding a fixed sequence,
+  so a student can watch the same generations/error-rate produce a
+  different result each press — deliberately dramatizing the distinction
+  week 1's worked answer draws between a deterministic counting rule and a
+  non-deterministic copying process.
+- The per-generation error chart is plain `<div>` bars with inline
+  `width: X%`, not canvas or a charting library (none is installed), with a
+  `visually-hidden` fallback `<ul>` carrying the same numbers as text so the
+  chart is not the only way to read the data.
+- `ProgressDashboard.astro` only ever reads the existing
+  `prediction:<sessionSlug>` localStorage keys `PredictionCheck.astro`
+  already writes. It adds no new state and never touches `reveal/`
+  gating, so `spec/reveal-unlinked.test.ts` and this week's reveal-gate
+  work are unaffected by construction.
+- Two known-shaped build failures recurred while implementing this, both
+  already documented as risk classes in this log and in the approved plan:
+  a heading-order accessibility violation from the simulator's three
+  `<h3>` output sections having no preceding `<h2>` on `/simulator/` (fixed
+  by using `<h2>` throughout, matching `src/pages/index.astro`'s own
+  section headings), and a base-path link-checker failure from a
+  hand-written `href="/sessions/01-photocopy/"` literal in
+  `simulator/index.astro` skipping Astro's base rewriting (fixed with the
+  same `` `${import.meta.env.BASE_URL}...` `` pattern already used for
+  `archiveHref` in `src/pages/index.astro`). Nav-array links and MDX
+  markdown links both turned out not to need this treatment — only
+  hand-written `.astro` hrefs do.
+
+### Verification and limits
+
+`mise exec -- pnpm check` (typecheck + build + full `vitest run spec`) was
+run and passed after each of the four commits below: 161/161 tests across
+20 files, 0 accessibility violations, all internal links respect base, no
+broken links. No existing spec's contract changed and no new `/packs/` or
+`reveal/` path was introduced. Manually confirmed neither `dist/simulator/`
+nor `dist/sessions/` output references any `reveal/` path. Not verified in
+a live browser in this session: slider/textarea interaction, the re-roll
+button's visible non-determinism, and the dashboard's three localStorage
+states (clean profile, populated profile, blocked storage) were reasoned
+through from the code rather than exercised in `astro dev`/`astro preview`.
+
+**Commits:** 4715c81 (simulator page + component), dbb2f1f (nav link + week
+1 cross-link), 118474c (progress dashboard), and this entry.
