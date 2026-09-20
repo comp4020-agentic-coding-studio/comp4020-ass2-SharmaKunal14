@@ -1804,3 +1804,69 @@ matches. Confirmed each `pack.zip` (`unzip -Z1`) still excludes every
 - Verification after the change:
 - Remaining uncertainty and reviewer limitations:
 - Commit hash once it exists:
+
+## 2026-09-21 — Week 1's worked-answer.md brought under the same prediction gate
+
+The previous entry above deliberately left week 1 out, since its
+`worked-answer.md` sits at the pack root rather than under a `reveal/`
+folder and was an older, separately-documented exception. The user then
+asked directly: "does week 1 need the same treatment too?" Week 1 already
+has a `PredictionCheck` widget (`sessionSlug="01-photocopy"`) on its
+workshop page, and its own worksheet already tells the student to open
+`worked-answer.md` "after your own table" — an honor-system instruction
+never technically enforced. Bringing it under the same gate costs no new
+session-page work, only pack wiring, so it was done for consistency.
+
+### Decisions and reasons
+
+- `packs/pack-index.ts`'s `PackReveal`/`PackFile` reveal-entry shape changed
+  from `{ name, what }` to `{ path, what }`, where `path` is the file's
+  location relative to the pack directory (e.g. `"reveal/analysis.md"` for
+  the 9 existing weeks, or `"worked-answer.md"` for week 1) rather than a
+  bare filename with an assumed `reveal/` prefix. The displayed filename
+  (badge, `<code>` text) is derived from `path` via a new `basename()`
+  helper, so the rendered listing looks identical to before. The inline
+  `<script>`'s link-unlock logic changed from hardcoding
+  `"./reveal/" + name` to just `"./" + path`, since `path` now already
+  carries whatever prefix (or none) is correct for that file. The 9
+  existing weeks' `build.ts` calls were updated to pass
+  `path: "reveal/<filename>"` instead of `name: "<filename>"`, preserving
+  their exact previous behavior.
+- `packs/week-01/build.ts` moved `worked-answer.md` out of the unconditional
+  `files` array (where it was zipped and linked with no lock) into the same
+  gated `reveal: { sessionSlug: "01-photocopy", files: [...] }` argument the
+  other 9 weeks use, with `path: "worked-answer.md"` (no `reveal/` prefix,
+  since the file has no such subfolder on disk).
+- `CLAUDE.md`'s rule was reworded from referring specifically to a
+  workshop's "`reveal/` files" to a workshop's "answer file(s) — a `reveal/`
+  subfolder, or (week 1 only) a top-level `worked-answer.md`" — the
+  behavior described was already general, only the wording was narrower
+  than the implementation now is.
+
+### Verification
+
+Regenerated all 10 affected packs via `mise exec -- node packs/week-NN/build.ts`
+(01, 02, 03, 04, 06, 07, 09, 10, 11, 12). Grepped
+`public/packs/week-01/index.html`: the reveal link renders as
+`<a href="#" data-reveal-path="worked-answer.md">`, and `worked-answer.md`
+is confirmed absent from `public/packs/week-01/pack.zip` (`unzip -l`).
+Grepped `public/packs/week-04/index.html` to confirm the 9 existing weeks'
+behavior is unchanged: `data-reveal-path="reveal/analysis.md"`. Ran the
+built inline `<script>` through a small Node.js DOM-shim simulation for
+week 1 specifically, for both lock states: locked leaves the list hidden
+with no `href` set; unlocked unhides the list and sets
+`href="./worked-answer.md"` — the correct pack-root path, not the 9-week
+`reveal/`-prefixed one. `mise exec -- pnpm check` (typecheck + build + full
+`vitest run spec`): 161/161 tests green across 20 files, 0 typecheck
+errors, including `spec/reveal-unlinked.test.ts` and `spec/pack-zip.test.ts`
+unmodified in logic.
+
+### Template for subsequent observed results
+
+- What was tested and with which materials/version:
+- What confused or failed (or what passed):
+- Actual elapsed time, where measured:
+- What changed and why it is more defensible:
+- Verification after the change:
+- Remaining uncertainty and reviewer limitations:
+- Commit hash once it exists:
