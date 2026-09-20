@@ -43,14 +43,37 @@ const {
     <textarea class="gls__input" rows="3">{sampleText}</textarea>
   </label>
 
+  <fieldset class="gls__model">
+    <legend>Corruption model</legend>
+    <p class="gls__caption">
+      A copier's error either follows the world's own randomness, or it
+      follows a fixed rule — the same distinction week 1's worked answer
+      draws between the algorithm and the world it measures. Switch
+      between them on the same text to see how differently each one
+      degrades it.
+    </p>
+    <label class="gls__radio">
+      <input type="radio" name="gls__model-choice" class="gls__model-random" value="random" checked />
+      Random (rate-based) — each character has an independent chance of damage
+    </label>
+    <label class="gls__radio">
+      <input type="radio" name="gls__model-choice" class="gls__model-fixed" value="fixed" />
+      Fixed rule (every Nth character) — no randomness at all
+    </label>
+  </fieldset>
+
   <div class="gls__controls">
     <label class="gls__field">
       Generations: <output class="gls__generations-value">{defaultGenerations}</output>
       <input type="range" class="gls__generations" min="0" max="20" step="1" value={defaultGenerations} />
     </label>
-    <label class="gls__field">
+    <label class="gls__field gls__rate-field">
       Error rate per generation: <output class="gls__rate-value">{defaultErrorRate}%</output>
       <input type="range" class="gls__rate" min="1" max="20" step="1" value={defaultErrorRate} />
+    </label>
+    <label class="gls__field gls__n-field" hidden>
+      Corrupt every Nth character: <output class="gls__n-value">5</output>
+      <input type="range" class="gls__n" min="2" max="20" step="1" value="5" />
     </label>
     <button type="button" class="gls__reroll">Re-roll (same settings, new randomness)</button>
   </div>
@@ -113,6 +136,19 @@ const {
     font-family: inherit;
     font-size: 1rem;
     margin-block-start: 0.3rem;
+  }
+
+  .gls__model {
+    margin-block: 0.75rem;
+    padding: 0.75rem;
+    border: 1px solid var(--at-border, #ccc);
+    border-radius: 0.5rem;
+  }
+
+  .gls__radio {
+    display: block;
+    font-size: 0.9rem;
+    margin-block: 0.3rem;
   }
 
   .gls__controls {
@@ -208,8 +244,14 @@ const {
       const input = root.querySelector<HTMLTextAreaElement>(".gls__input")!;
       const generationsSlider = root.querySelector<HTMLInputElement>(".gls__generations")!;
       const rateSlider = root.querySelector<HTMLInputElement>(".gls__rate")!;
+      const nSlider = root.querySelector<HTMLInputElement>(".gls__n")!;
       const generationsValue = root.querySelector<HTMLElement>(".gls__generations-value")!;
       const rateValue = root.querySelector<HTMLElement>(".gls__rate-value")!;
+      const nValue = root.querySelector<HTMLElement>(".gls__n-value")!;
+      const rateField = root.querySelector<HTMLElement>(".gls__rate-field")!;
+      const nField = root.querySelector<HTMLElement>(".gls__n-field")!;
+      const modelRandom = root.querySelector<HTMLInputElement>(".gls__model-random")!;
+      const modelFixed = root.querySelector<HTMLInputElement>(".gls__model-fixed")!;
       const rerollButton = root.querySelector<HTMLButtonElement>(".gls__reroll")!;
       const resultHeading = root.querySelector<HTMLElement>(".gls__result-heading")!;
       const resultText = root.querySelector<HTMLElement>(".gls__result-text")!;
@@ -248,14 +290,49 @@ const {
         return out;
       }
 
+      // The fixed-rule counterpart to degradeOnce: no Math.random() at all.
+      // Every character at a position that is a multiple of `n` is
+      // corrupted, always with the SAME neighbour (the first one listed for
+      // its confusable group) or ILLEGIBLE if it has none -- the same input
+      // and the same n always produce the same output, dramatizing the
+      // algorithm-vs-world distinction as something you can switch between
+      // rather than only read about.
+      function degradeOnceFixed(text: string, n: number): string {
+        let out = "";
+        let position = 0;
+        for (const ch of text) {
+          position++;
+          if (position % n === 0) {
+            const neighbours = confusableMap.get(ch.toUpperCase());
+            if (neighbours && neighbours.length) {
+              const pick = neighbours[0];
+              out += ch === ch.toUpperCase() ? pick : pick.toLowerCase();
+            } else if (/[a-zA-Z0-9]/.test(ch)) {
+              out += ILLEGIBLE;
+            } else {
+              out += ch;
+            }
+          } else {
+            out += ch;
+          }
+        }
+        return out;
+      }
+
       // Each step corrupts the PREVIOUS output, not the original -- true
       // compounding generation loss, not independent per-generation noise.
-      function runChain(original: string, generations: number, ratePercent: number): string[] {
+      function runChain(
+        original: string,
+        generations: number,
+        ratePercent: number,
+        model: "random" | "fixed",
+        n: number,
+      ): string[] {
         const rate = ratePercent / 100;
         const history = [original];
         let current = original;
         for (let g = 1; g <= generations; g++) {
-          current = degradeOnce(current, rate);
+          current = model === "fixed" ? degradeOnceFixed(current, n) : degradeOnce(current, rate);
           history.push(current);
         }
         return history;
@@ -305,10 +382,17 @@ const {
         const original = input.value;
         const generations = Number(generationsSlider.value);
         const ratePercent = Number(rateSlider.value);
+        const n = Number(nSlider.value);
+        const model: "random" | "fixed" = modelFixed.checked ? "fixed" : "random";
         generationsValue.textContent = String(generations);
         rateValue.textContent = `${ratePercent}%`;
+        nValue.textContent = String(n);
+        rateField.hidden = model === "fixed";
+        nField.hidden = model === "random";
+        rerollButton.disabled = model === "fixed";
+        rerollButton.title = model === "fixed" ? "The fixed rule has no randomness to re-roll." : "";
 
-        const history = runChain(original, generations, ratePercent);
+        const history = runChain(original, generations, ratePercent, model, n);
         const final = history[history.length - 1];
         const series = cumulativeErrorSeries(original, history);
 
@@ -381,6 +465,9 @@ const {
       input.addEventListener("input", render);
       generationsSlider.addEventListener("input", render);
       rateSlider.addEventListener("input", render);
+      nSlider.addEventListener("input", render);
+      modelRandom.addEventListener("change", render);
+      modelFixed.addEventListener("change", render);
       rerollButton.addEventListener("click", render);
 
       // A workshop page can link in as e.g. /simulator/?from=06-stemma so
