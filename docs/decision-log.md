@@ -2858,3 +2858,69 @@ pages built.
 same staleness. Left alone for now — it is a bare hash in the internal
 log rather than a link in the graded document, and rewriting historical
 entries wholesale close to a deadline risks more than it fixes.
+
+## 2026-09-21 — PROCESS.md: a second unsupported claim corrected, and stronger evidence substituted
+
+**Scope:** `PROCESS.md`.
+
+### The claim that did not hold
+
+The previous revision said both rules from the reference review "stayed
+editorial until I harnessed them with checks (`ca7cbb2`)." Checked the
+diff: `ca7cbb2` adds `spec/reading-citations.test.ts` and
+`spec/decision-log-freshness.test.ts`, and appends a "Checked by" clause
+to exactly two `CLAUDE.md` bullets — the citation rule and the
+decision-log rule. The **specimen-naming** rule is untouched in that
+diff and still carries no check. So "both" was wrong twice over: the
+second harnessed rule was decision-log freshness, which did not come from
+the reference review at all.
+
+Same failure mode as the entry above — a gap filled from memory while
+compressing rather than from the diff. Recording it a second time because
+one instance is a slip and two is a pattern worth naming: **when
+condensing, every clause that asserts a relationship between two commits
+must be re-read against both.**
+
+### Corrections and substitutions
+
+- Rewrote that sentence to say only the citation rule became a check, and
+  stated what the check actually establishes. Read
+  `spec/reading-citations.test.ts`: it regex-matches a locator
+  (`chapter|introduction|page|pp\.|§|…`) and a link-or-summary marker
+  inside `*From ` blocks. It tests citation *form*, not that a URL
+  resolves or that a summary is adequate. Said so, and said that
+  specimen-naming stayed editorial because no failure worth a red build
+  could be defined for it.
+- Replaced the illustrative-tools paragraph, which described
+  implementation, with the week-6 edge-checker relocation (`9896cef`).
+  That entry records a stronger and fully corroborated chain: reviewing a
+  screenshot, the checker was spotted sitting under Investigate while its
+  `A`/`B`/`C` witnesses are the Check-stage toy table, implying it tested
+  the student's own five witnesses; it was moved beside the table it
+  actually uses and both sections reworded. It is also the clearest
+  recorded instance of human review catching what no test could, since
+  the defect was a position on a page, not a value in a file.
+- Scoped the reveal verification accurately. `spec/reveal-unlinked.test.ts`
+  establishes only that no unconditional href ships. The interactive
+  behaviour was checked separately, for week 1, by running the built
+  inline script through a Node DOM shim in both lock states — recorded in
+  the 2026-09-20 entry. Cited that rather than implying the static test
+  covers the unlock path.
+- Dropped the resampling-simulator and original edge-checker citations to
+  stay inside the word band. The scope-discipline point they carried is
+  made better by `9896cef`, which shows the same rule being enforced after
+  it was broken.
+
+### Verification and limits
+
+`wc -w PROCESS.md`: 593 words. `check:evidence`: 12 cited commits resolve;
+each additionally confirmed reachable from `main` with `git merge-base
+--is-ancestor`. `mise exec -- pnpm check`: 161/161 tests, 0 accessibility
+violations, no broken links, 52 pages built.
+
+**Limit.** This document now makes narrower claims than the previous
+draft, which is the point, but the narrowing is my own reading of what
+each check establishes. No independent party has confirmed that
+`reading-citations.test.ts` cannot be satisfied by a well-formed citation
+to an unreachable source — on the contrary, by construction it can be,
+which is why the rule is described as editorial in part.
