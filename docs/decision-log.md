@@ -2670,3 +2670,42 @@ are the user's own stated goals for this change, not an independently
 verified usability result.
 
 **Commit:** `11d34a9`.
+
+## 2026-09-21 — Resampling simulator copy simplified, with a worked example
+
+**Scope:** `src/components/ResamplingSimulator.astro`,
+`src/pages/simulator/index.astro`.
+
+### Decisions and reasons
+
+- The user reported the simulator's own prose was too dense to explain
+  itself even after the legibility rewrite above, and asked for simpler
+  English with examples. Reframed every sentence around one consistent,
+  concrete analogy — a jar of coloured marbles being redrawn each round —
+  used in the pitch, the field label, the three condition descriptions,
+  the rare-category caption, the stacked-bar caption and every per-round
+  takeaway sentence, replacing clause-heavy phrasing (e.g. "each round
+  estimates its odds entirely from the previous round's own sample") with
+  one-clause sentences (e.g. "each round only looks at what the last
+  round drew — like a photocopy of a photocopy").
+- Added a new `.rs__example` box with a fully worked, concrete example
+  (a coffee shop's decaf orders drifting from 5% real demand to an
+  assumed 0% over a few weeks of self-referential re-ordering) and named
+  "model collapse" explicitly as the phenomenon this illustrates. This
+  example is invented illustrative scaffolding for a generic point about
+  resampling, not a claim about week 9's actual dataset or any real
+  measured result, so it does not fall under the "do not invent
+  findings" rule, which governs claims about this course's own studies.
+- Left all simulation logic, the `Props` interface and every CSS class
+  name untouched — this was a copy-only change, verified by diffing that
+  only string literals and label text moved.
+
+### Verification and limits
+
+`mise exec -- pnpm check`: 161/161 tests, 0 accessibility violations, no
+broken links, 52 pages built — unchanged from the prior baseline, since
+no test asserts on this component's prose. Whether the new phrasing is
+in fact simpler is the user's own judgement call from reading the
+rewritten text, not an independently measured readability result.
+
+**Commit:** `7d5de50`.

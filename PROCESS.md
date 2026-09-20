@@ -244,6 +244,15 @@ once the card-grid chooser scrolls out of view, additive to — not a
 replacement for — that card grid
 ([`11d34a9`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/11d34a9)).
 
+Even after that rewrite the user still found the simulator's own
+sentences too dense, so every piece of its copy was rewritten around one
+consistent, concrete analogy — a jar of marbles being redrawn each round
+— replacing clause-heavy descriptions with one-clause plain-English
+sentences, and a fully worked example (a coffee shop's decaf orders
+drifting to zero) was added to make the "model collapse" idea concrete
+rather than only named
+([`7d5de50`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/7d5de50)).
+
 Every decision above, including mutation-testing tables proving each new
 contract fails when the defect is reintroduced, is recorded in
 `docs/decision-log.md` when it was made, not reconstructed afterward.
