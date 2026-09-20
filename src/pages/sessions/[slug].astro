@@ -4,7 +4,6 @@ import { getPublishedCollection } from "astro-course-university/content";
 import RelatedContent from "astro-course-university/components/RelatedContent.astro";
 import SpecList from "astro-course-university/components/SpecList.astro";
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
-import PredictionCheck from "../../components/PredictionCheck.astro";
 import TeachingTeam from "../../components/TeachingTeam.astro";
 import { formatCourseDate } from "../../lib/dates";
 import { graphCollections, sessionLabels, siteConfig } from "../../site-config";
@@ -16,9 +15,6 @@ export async function getStaticPaths() {
 
 const { session } = Astro.props;
 const { Content } = await render(session);
-const predictionCheck = session.data.predictionCheck as
-  | { prompt: string; revealFile?: string }
-  | undefined;
 ---
 
 <ContentLayout
@@ -30,13 +26,6 @@ const predictionCheck = session.data.predictionCheck as
 >
   <p><strong>{formatCourseDate(session.data.date)}</strong></p>
   <Content />
-  {predictionCheck && (
-    <PredictionCheck
-      sessionSlug={session.id}
-      prompt={predictionCheck.prompt}
-      revealFile={predictionCheck.revealFile}
-    />
-  )}
   <SpecList spec={session.data.spec}>
     What you bring to the session. Written so a reader can tell whether it has
     been met without asking you.
