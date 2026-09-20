@@ -1739,6 +1739,62 @@ never an `href`; exactly one `<details>` block and two
 `prediction-check`-class matches (button label + script hook) per page for
 weeks with a widget.
 
+## 2026-09-21 — Gate each pack's reveal/ files behind a locked prediction, instead of hiding them entirely
+
+**Scope:** The user asked whether each week's downloadable pack already
+included the answers referenced as a workshop's `reveal/` folder, or whether
+that stayed separate as CLAUDE.md's existing rule required. After the
+tradeoff was explained (reveal sat on disk but was excluded from both
+`pack.zip` and every rendered link, enforced by `spec/reveal-unlinked.test.ts`
+and `spec/pack-zip.test.ts`), the user chose a middle path over the fully
+manual status quo: "keep the reveal in each week pack and the student should
+be able to open it only when he/she has locked their prediction for the
+workshop... shown in each week starter pack but don't include that in the
+zip download."
+
+### Decisions and reasons
+
+- This is a deliberate loosening of the absolute "never linked" rule, not a
+  suppressed test failure — CLAUDE.md's own principle ("correct a mistaken
+  test with a documented reason; do not suppress a valid failure") required
+  writing down why the promise changed rather than just editing the test
+  until it passed. The old rule existed to stop reveal from being a one-click
+  open with zero workshop attempted; the new design keeps that exact
+  property (nothing opens without a locked prediction) while adding the
+  visibility and convenience the user asked for.
+- Implemented in `packs/pack-index.ts`: `writePackIndex()` gained an optional
+  `reveal: { sessionSlug, files }` parameter. When present, the pack's own
+  `index.html` gets a "Reveal" section listing those files, each rendered as
+  `<a href="#" data-reveal-name="...">` — never a real `href` into
+  `reveal/`. An inline `<script>` checks
+  `localStorage.getItem('prediction:<sessionSlug>')` (the same key
+  `PredictionCheck.astro` writes on the workshop page, shared by origin) and,
+  only if it's set, unhides the list and rewrites each link's `href` to
+  `./reveal/<name>`. The static HTML shipped to `dist/` therefore never
+  contains an unconditional reveal link — `spec/reveal-unlinked.test.ts`'s
+  existing scan needed no logic change, only a comment update explaining the
+  narrower (but still real) thing it now guards against.
+- Reveal files are passed as a separate argument, never appended to the
+  existing `files` array `writePackZip()` and the index's file list are built
+  from — so `pack.zip` continues to exclude them by construction, and
+  `spec/pack-zip.test.ts` needed no change at all.
+- Wired the 9 packs that actually have a `reveal/` folder on disk
+  (weeks 02, 03, 04, 06, 07, 09, 10, 11, 12) with their real filenames and
+  session slugs. Week 1 was left alone: it has no `reveal/` folder at all —
+  `worked-answer.md` sits at its pack root and was already an accepted,
+  separately-documented exception (unconditionally listed and zipped) from
+  before this change, so it is out of scope here. Weeks 5 and 8 have no pack
+  to begin with.
+
+### Verification
+
+`mise exec -- pnpm check` (build + `vitest run spec`): all tests green,
+including `spec/reveal-unlinked.test.ts` and `spec/pack-zip.test.ts`
+unmodified in logic. Grepped built `dist/packs/week-*/index.html` directly
+for `href="[^"]*reveal[^"]*"` matching anything other than `href="#"`: zero
+matches. Confirmed each `pack.zip` (`unzip -Z1`) still excludes every
+`reveal/*` filename.
+
 ### Template for subsequent observed results
 
 - What was tested and with which materials/version:
