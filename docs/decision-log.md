@@ -2586,3 +2586,33 @@ reasoned through from the script logic and the built HTML rather than
 clicked through in a running page.
 
 **Commit:** `2cb8ed4`.
+
+## 2026-09-21 — Stemma edge-checker repositioned to the Check section
+
+**Scope:** `src/content/sessions/06-stemma.mdx`.
+
+### Decisions and reasons
+
+- The user, reviewing a screenshot, flagged that placing the checker in
+  Investigate was misleading: its `A`/`B`/`C` witnesses are the three-
+  witness toy table from the Check section, not the five real witnesses
+  (`A` through `E`) the workshop's actual evidence table uses from
+  Investigate onward. Sitting in Investigate, next to instructions about
+  the student's own tree, implied the tool operated on that real data,
+  which it never did — a labelling problem, not just a cosmetic one.
+- Moved `<StemmaEdgeChecker>` to directly follow the Check-stage table
+  and its `FiveMinuteCheck` answer, where its witness set actually
+  matches the table on the page. Reworded the prose at both the old and
+  new locations: the Check section now frames it as practice on the
+  worked example ("nothing here... has anything to say about the five
+  real witnesses"), and Investigate now only says to apply the same rule
+  to the real table by hand, with no tool claiming to check it.
+
+### Verification and limits
+
+`mise exec -- pnpm check`: 161/161 tests, 0 accessibility violations, no
+broken links, 52 pages built. Confirmed in built
+`dist/sessions/06-stemma/index.html` that the checker's markup now
+precedes the "Receive" heading rather than following "Investigate".
+
+**Commit:** `9896cef`.

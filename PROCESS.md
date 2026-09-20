@@ -221,6 +221,13 @@ stays untouched by construction, confirmed by re-running
 `spec/reveal-unlinked.test.ts` and `spec/pack-zip.test.ts` standalone
 after the change
 ([`2cb8ed4`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/2cb8ed4)).
+A screenshot review then caught that the checker's `A`/`B`/`C` witnesses
+were the three-witness toy table from Check, not the five real witnesses
+students actually build a tree from in Investigate — placing it in
+Investigate implied it operated on that real data, so it was moved to sit
+directly after the Check-stage table it actually uses, with prose at both
+locations rewritten to make the distinction explicit
+([`9896cef`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/9896cef)).
 
 Every decision above, including mutation-testing tables proving each new
 contract fails when the defect is reintroduced, is recorded in
