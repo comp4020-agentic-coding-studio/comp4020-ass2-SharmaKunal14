@@ -2004,3 +2004,79 @@ week 9's own page text, "The Stemma is due this Friday, 2027-04-30" — and
 entry; this one is for legibility of process only.
 
 **Commits:** c428041 (homepage timetable), and this entry.
+
+## 2026-09-21 — Timetable header contrast and per-week check links
+
+**Scope:** Fixed the homepage timetable's illegible `<thead>` text and made
+the "Weekly check" column link to each week's own Generation Check section
+instead of repeating the same overview link on every row.
+
+### Decisions and reasons
+
+- The `.timetable th, .timetable td` rule had no `color`, so header text
+  inherited a dark value against the theme's own dark header background.
+  Added an explicit `color: var(--at-text);` rather than styling `thead`
+  separately, since body cells were legible already and only the header
+  background made the missing color visible.
+- Every row's "Weekly check" cell linked to `/assessments/generation-checks/`,
+  identically, even though each session page already has its own "Check"
+  heading with real, week-specific evidence and a question. Added
+  `checkAnchorFor(week)` in `CourseTimetable.astro`, which maps week to the
+  anchor and label the built markdown actually produces: weeks 1–4 titled
+  the heading "The five-minute check" (`id="the-five-minute-check"`), weeks
+  5–12 retitled it "Check — 5 minutes" (`id="check--5-minutes"`). Each row
+  now links to `/sessions/<id>/#<anchor>` instead.
+- Confirmed both anchor slugs by grepping the built `dist/sessions/*/index.html`
+  output rather than assuming the markdown-to-HTML pipeline's slug rules.
+
+### Verification and limits
+
+`mise exec -- pnpm check` green: 161/161 tests, 0 accessibility violations,
+no broken links. Checked the built site directly: all 12 rows' hrefs resolve
+to the correct week's anchor and carry the correct label for their week
+range.
+
+**Commit:** `67a00ad`.
+
+## 2026-09-21 — Five-minute check turned into a submit-then-reveal quiz
+
+**Scope:** Replaced each of the 12 session pages' `<details>` disclosure for
+the five-minute check (which showed the indicative answer to anyone who
+expanded it, with no requirement to answer first) with a new
+`FiveMinuteCheck.astro` component: a textarea and submit button, which only
+reveals the same indicative-answer content once the student has typed and
+submitted their own answer.
+
+### Decisions and reasons
+
+- Built as a component with a default `<slot />` for the indicative-answer
+  body, rather than passing it as a string prop, so the existing bold,
+  italic, code-span and (week 6) table formatting in each week's answer
+  transfers unchanged. No answer content was rewritten; every week's
+  existing indicative answer moved verbatim from inside `<details>` to
+  inside `<FiveMinuteCheck>`.
+- Followed `PredictionCheck.astro`'s established pattern: a scoped `<script>`
+  using `document.addEventListener("astro:page-load", init)` plus an
+  immediate call, a `dataset.initialised` guard, and a try/catch-wrapped
+  `localStorage` write so a full quota or private browsing degrades to an
+  in-page-only submission rather than a broken widget.
+- Used a distinct localStorage key, `check:<sessionSlug>`, rather than reusing
+  `PredictionCheck`'s `prediction:<sessionSlug>`, since several session pages
+  carry both components and a shared key would let one overwrite the other's
+  record.
+- This does not touch the `reveal/` gating rule in `CLAUDE.md` and checked by
+  `spec/reveal-unlinked.test.ts`: the indicative answer was never a
+  `reveal/`-path file, it was always inline shipped HTML behind a native
+  `<details>` toggle. The change only alters the disclosure mechanism
+  (submit-to-reveal instead of click-to-expand), not what data ships or when.
+
+### Verification and limits
+
+`mise exec -- pnpm check` green: 161/161 tests, 0 accessibility violations,
+no broken links. Re-confirmed both anchor slugs (`the-five-minute-check` for
+weeks 1–4, `check--5-minutes` for weeks 5–12) against the built
+`dist/sessions/*/index.html` output after this change, since the timetable's
+links (previous entry) depend on the same anchors and the heading markup was
+untouched by this edit.
+
+**Commit:** `9b6eb05`.
