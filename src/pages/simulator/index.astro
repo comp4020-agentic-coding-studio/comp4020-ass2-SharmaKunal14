@@ -88,10 +88,10 @@ const usedBy = {
     <li class="chooser__card">
       <a class="chooser__link" href="#resampling-simulator">Resampling simulator</a>
       <p class="chooser__blurb">
-        Edit a small category distribution and watch what happens across
-        rounds when each round re-estimates from the previous round's own
-        sample instead of the true distribution — an illustrative analogy
-        of week 9's shape, not its dataset or seeds.
+        Set up a small "jar" of categories and watch what happens over
+        several rounds when each round trusts only its own last guess
+        instead of checking back with reality — an illustrative analogy of
+        week 9's shape, not its dataset or seeds.
       </p>
     </li>
   </ul>
@@ -152,11 +152,11 @@ const usedBy = {
       ))}
     </p>
     <p class="lede">
-      Week 9's pack draws its own categories from its own seeded model — this
-      tool is a separate, editable illustration of the same shape, not that
-      dataset or those seeds. Try shrinking one category's weight to a
-      couple of percent, then compare the "fully recursive" condition
-      against "baseline" over several rounds.
+      Week 9's pack uses its own real dataset and a seeded random generator
+      — this tool is a separate, editable illustration of the same idea,
+      not that data or those seeds. Try setting one category really low
+      (say 2-3%), then compare the "fully recursive" mode against
+      "baseline" over several rounds and watch what happens to it.
     </p>
     <ResamplingSimulator />
   </section>

@@ -29,19 +29,38 @@ const {
   data-round-size={roundSize}
 >
   <p class="rs__pitch">
-    Every round below draws {roundSize} samples. The question this toy
-    answers is: <strong>where does each round get its odds from?</strong>
-    Keep re-estimating them from your own last sample — never checking back
-    against reality — and a category that started rare can quietly drift
-    to zero and never come back. That drift, not any single round, is the
-    thing to watch for.
+    Every round below draws {roundSize} samples, like drawing {roundSize}
+    marbles from a jar. The question this toy asks is simple:{" "}
+    <strong>does each round check the real jar, or does it just trust the
+    last handful it drew?</strong> If a round only trusts the last handful,
+    and that handful happened to be a bit short on one colour, the next
+    round assumes that colour is rarer than it really is — and draws even
+    less of it. Do that enough times and a colour that was always in the
+    jar can vanish from your guesses completely, even though it never left
+    the real jar.
+  </p>
+
+  <p class="rs__example">
+    <strong>A concrete example:</strong> say 5% of your customers really do
+    order decaf coffee. One week, by pure chance, your small sample of
+    orders only has 3% decaf. If next week's ordering guess is built only
+    from that one sample (no re-checking with real customers), you'll
+    stock even less decaf. That makes next week's sample even lower —
+    maybe 1%. Repeat this for a few weeks and your system can end up
+    "deciding" nobody orders decaf, even though 5% of customers always
+    did. This is the same problem behind{" "}
+    <strong>"model collapse"</strong>: an AI that keeps training on its
+    own past guesses, instead of real data, can quietly forget the rare
+    things it once knew — try the "Fully recursive" option below to watch
+    it happen.
   </p>
 
   <div class="rs__layout">
     <div class="rs__panel rs__panel--setup">
       <h3 class="rs__panel-title">1. Set up the world</h3>
       <label class="rs__field">
-        Category distribution (label:weight pairs, comma-separated)
+        What's in the jar? (write it as label:weight, comma-separated —
+        e.g. "Cats:70,Dogs:25,Birds:5")
         <input type="text" class="rs__categories" value={defaultCategories} />
       </label>
 
@@ -51,24 +70,24 @@ const {
           <input type="radio" name="rs__condition" class="rs__condition-baseline" value="baseline" checked />
           <span class="rs__option-body">
             <strong>Baseline</strong>
-            <span class="rs__option-desc">Every round draws straight from the true distribution. Nothing ever compounds.</span>
+            <span class="rs__option-desc">Every round checks the real jar directly, like re-polling actual customers each time. Nothing from a past round ever carries forward, so there is nothing to pile up.</span>
           </span>
         </label>
         <label class="rs__option">
           <input type="radio" name="rs__condition" class="rs__condition-full" value="full-recursive" />
           <span class="rs__option-body">
             <strong>Fully recursive</strong>
-            <span class="rs__option-desc">Each round estimates its odds entirely from the previous round's own sample — a copy of a copy.</span>
+            <span class="rs__option-desc">Each round only looks at what the last round drew — like a photocopy of a photocopy. It never checks the real jar again, so any small mistake gets copied forward and can grow.</span>
           </span>
         </label>
         <label class="rs__option">
           <input type="radio" name="rs__condition" class="rs__condition-retained" value="retained-mix" />
           <span class="rs__option-body">
             <strong>Retained mix</strong>
-            <span class="rs__option-desc">Each round blends the previous sample with one fresh draw from the truth — reality keeps a foot in the door.</span>
+            <span class="rs__option-desc">Each round takes what the last round drew, then also takes one fresh peek at the real jar. Reality gets a say every time, so it cannot drift as far.</span>
           </span>
         </label>
-        <p class="rs__caption">Round 0 always draws from the true distribution in every condition; the conditions only diverge from round 1 on.</p>
+        <p class="rs__caption">Round 0 always checks the real jar in every mode — the three modes only start behaving differently from round 1 onwards.</p>
       </fieldset>
 
       <div class="rs__controls">
@@ -93,10 +112,11 @@ const {
       <details class="rs__detail" open>
         <summary>Full distribution, round by round</summary>
         <p class="rs__caption">
-          One stacked bar per round: each segment is a category's share of
-          that round's {roundSize} draws — not week 9's own dataset or
-          seeds, and not re-run automatically when you change the
-          condition; use "Re-roll" to draw again.
+          Think of each row as a jar of {roundSize} marbles for that round —
+          every coloured stripe is one category's share of that round's
+          draws. This is not week 9's own dataset or seeds. Changing the
+          mode above doesn't redraw on its own; press "Re-roll" to draw a
+          fresh set.
         </p>
         <ul class="rs__legend"></ul>
         <div class="rs__stacks"></div>
@@ -117,11 +137,21 @@ const {
   .rs__pitch {
     font-size: 1.05rem;
     line-height: 1.5;
-    margin: 0 0 1.25rem;
+    margin: 0 0 0.75rem;
     padding: 0.9rem 1.1rem;
     border-inline-start: 4px solid var(--at-accent);
     background: var(--at-bg-alt);
     border-radius: 0 0.5rem 0.5rem 0;
+  }
+
+  .rs__example {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    margin: 0 0 1.25rem;
+    padding: 0.9rem 1.1rem;
+    background: var(--at-bg-alt);
+    border: 1px dashed var(--at-border, #ccc);
+    border-radius: 0.5rem;
   }
 
   .rs__layout {
@@ -478,11 +508,11 @@ const {
         rounds: number,
       ) {
         if (condition === "baseline") {
-          takeaway.textContent = `Baseline never leaves the truth: "${rareLabel}"'s share stays anchored near its true ${trueRarePct.toFixed(1)}% no matter how many rounds you add — round 0 gave ${round0Pct.toFixed(1)}%, round ${rounds} gave ${finalPct.toFixed(1)}%.`;
+          takeaway.textContent = `Baseline keeps checking the real jar every round, so "${rareLabel}" stays close to its real ${trueRarePct.toFixed(1)}% no matter how many rounds pass: it was ${round0Pct.toFixed(1)}% in round 0 and still ${finalPct.toFixed(1)}% by round ${rounds}. Nothing here compounds, because nothing carries over from one round to the next.`;
         } else if (condition === "full-recursive") {
-          takeaway.textContent = `Fully recursive re-estimates only from its own last sample. "${rareLabel}" started at ${round0Pct.toFixed(1)}% (round 0, drawn from the true ${trueRarePct.toFixed(1)}%) and reached ${finalPct.toFixed(1)}% by round ${rounds}${finalCount === 0 ? " — it has already vanished from the sample, and once a category hits zero here it can never be drawn again" : ", drifting away from the truth a little more each round"}. This is the same shape as "model collapse": a model trained on its own outputs slowly forgets the rare tail of the real world.`;
+          takeaway.textContent = `Fully recursive never checks the real jar again after round 0 — each round only trusts what the last round drew. "${rareLabel}" started at ${round0Pct.toFixed(1)}% in round 0 (drawn from its real ${trueRarePct.toFixed(1)}%), and by round ${rounds} it had dropped to ${finalPct.toFixed(1)}%${finalCount === 0 ? " — it has completely disappeared from the sample, and once that happens here it can never be drawn again" : ", drifting further away every round"}. This is the same problem as "model collapse": an AI that keeps learning from its own past outputs, instead of real data, can quietly forget rare things it once knew.`;
         } else {
-          takeaway.textContent = `Retained mix keeps one foot in reality: "${rareLabel}" drifted from ${round0Pct.toFixed(1)}% (round 0) to ${finalPct.toFixed(1)}% (round ${rounds}) — its true share is ${trueRarePct.toFixed(1)}%. Gentler erosion than fully recursive, because every round still mixes in a fresh true-distribution draw, but still not anchored the way baseline is.`;
+          takeaway.textContent = `Retained mix takes a fresh peek at the real jar every round too, so the drift is much gentler. "${rareLabel}" moved from ${round0Pct.toFixed(1)}% (round 0) to ${finalPct.toFixed(1)}% (round ${rounds}) — its real share is ${trueRarePct.toFixed(1)}%. It's not as steady as baseline, but nowhere near as risky as fully recursive, because reality still gets a vote each round.`;
         }
       }
 
@@ -512,7 +542,7 @@ const {
             ? "retained-mix"
             : "baseline";
 
-        rareCaption.textContent = `Category "${rareLabel}" has the smallest true share (${(probs[rareIndex] * 100).toFixed(1)}%). The grey tick on each bar marks that true share; the filled bar is what actually turned up that round.`;
+        rareCaption.textContent = `"${rareLabel}" is the rarest category in real life — only ${(probs[rareIndex] * 100).toFixed(1)}% of the time. Watch it closely: the grey tick on each bar shows where it should be; the coloured bar shows where it actually landed that round.`;
 
         const samples = simulateRun(labels, probs, condition, rounds);
         const roundCounts = samples.map((sample) => counts(labels, sample));
@@ -544,7 +574,7 @@ const {
           trendContainer.appendChild(row);
 
           const li = document.createElement("li");
-          li.textContent = `Round ${r}: category ${rareLabel} was ${rareCount} of ${roundSize} draws (${pct.toFixed(1)}%); its true share is ${truthPct.toFixed(1)}%`;
+          li.textContent = `Round ${r}: "${rareLabel}" made up ${rareCount} of ${roundSize} draws (${pct.toFixed(1)}%); its real share is ${truthPct.toFixed(1)}%`;
           trendFallback.appendChild(li);
         });
 
