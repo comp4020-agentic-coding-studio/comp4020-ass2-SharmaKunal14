@@ -1,0 +1,233 @@
+---
+// Lets a student paste any two equal-length strings -- typically the
+// simulator's own "original" and "generation N" text above -- and see week
+// 1's counting rule (packs/week-01/build.ts, also ported in
+// GenerationLossSimulator.astro) applied character by character: which
+// positions match, which are misreadings, which are illegibles. This is the
+// same countErrors rule, just shown inline over the text instead of as a
+// final tally.
+export interface Props {
+  /** Seed text for the "original" field on first load. */
+  original?: string;
+  /** Seed text for the "copy" field on first load. */
+  copy?: string;
+}
+
+const {
+  original = "The quick brown fox jumps over the lazy dog.",
+  copy = "The qUick br0wn f0x jumps over the la·y dog.",
+} = Astro.props;
+---
+
+<div class="cdv" data-original={original} data-copy={copy}>
+  <div class="cdv__fields">
+    <label class="cdv__field">
+      Original
+      <textarea class="cdv__original" rows="3">{original}</textarea>
+    </label>
+    <label class="cdv__field">
+      Copy
+      <textarea class="cdv__copy" rows="3">{copy}</textarea>
+    </label>
+  </div>
+
+  <p class="cdv__length-warning" role="alert" hidden>
+    These two strings are different lengths, so they can't be compared
+    position by position. Week 1's counting rule only applies when a copy
+    keeps every original character's place -- pad or trim one field so both
+    are the same length.
+  </p>
+
+  <div class="cdv__result">
+    <h2>Character by character</h2>
+    <p class="cdv__caption">
+      <span class="cdv__key cdv__key--match">match</span>{" "}
+      <span class="cdv__key cdv__key--misreading">misreading</span>{" "}
+      <span class="cdv__key cdv__key--illegible">illegible</span>
+    </p>
+    <pre class="cdv__marked" aria-hidden="true"></pre>
+    <p class="cdv__marked-fallback visually-hidden"></p>
+
+    <dl class="cdv__stats">
+      <dt>Misreadings</dt>
+      <dd class="cdv__stat-misreadings"></dd>
+      <dt>Illegibles</dt>
+      <dd class="cdv__stat-illegibles"></dd>
+      <dt>Total</dt>
+      <dd class="cdv__stat-total"></dd>
+    </dl>
+  </div>
+</div>
+
+<style>
+  .cdv__fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .cdv__field {
+    flex: 1 1 16rem;
+    display: block;
+    margin-block: 0.75rem;
+  }
+
+  .cdv__original,
+  .cdv__copy {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 1rem;
+    margin-block-start: 0.3rem;
+  }
+
+  .cdv__length-warning {
+    color: var(--at-accent);
+    font-weight: 600;
+  }
+
+  .cdv__caption {
+    font-size: 0.85rem;
+    margin-block: 0.25rem 0.75rem;
+  }
+
+  .cdv__key {
+    padding: 0.05rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+  }
+
+  .cdv__key--match {
+    background: var(--at-bg-alt);
+  }
+
+  .cdv__key--misreading {
+    background: color-mix(in srgb, var(--at-accent) 30%, transparent);
+  }
+
+  .cdv__key--illegible {
+    background: var(--at-text-secondary);
+    color: var(--at-bg);
+  }
+
+  .cdv__marked {
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+
+  /* Character spans are created client-side via document.createElement, so
+     (same as GenerationLossSimulator's bars) these rules need :global or
+     Astro's scoping attribute never lands on them and the highlight colors
+     silently never apply. */
+  :global(.cdv__char--misreading) {
+    background: color-mix(in srgb, var(--at-accent) 30%, transparent);
+    border-radius: 2px;
+  }
+
+  :global(.cdv__char--illegible) {
+    background: var(--at-text-secondary);
+    color: var(--at-bg);
+    border-radius: 2px;
+  }
+
+  .cdv__stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+  }
+
+  .cdv__stats dt {
+    font-weight: 600;
+  }
+
+  .cdv__stats dd {
+    margin: 0;
+  }
+</style>
+
+<script>
+  function initCharacterDiffVisualizers() {
+    for (const root of document.querySelectorAll<HTMLElement>(".cdv")) {
+      if (root.dataset.initialised === "true") continue;
+      root.dataset.initialised = "true";
+
+      const ILLEGIBLE = "·";
+
+      const originalInput = root.querySelector<HTMLTextAreaElement>(".cdv__original")!;
+      const copyInput = root.querySelector<HTMLTextAreaElement>(".cdv__copy")!;
+      const lengthWarning = root.querySelector<HTMLElement>(".cdv__length-warning")!;
+      const result = root.querySelector<HTMLElement>(".cdv__result")!;
+      const marked = root.querySelector<HTMLElement>(".cdv__marked")!;
+      const markedFallback = root.querySelector<HTMLElement>(".cdv__marked-fallback")!;
+      const statMisreadings = root.querySelector<HTMLElement>(".cdv__stat-misreadings")!;
+      const statIllegibles = root.querySelector<HTMLElement>(".cdv__stat-illegibles")!;
+      const statTotal = root.querySelector<HTMLElement>(".cdv__stat-total")!;
+
+      // Exact port of packs/week-01/build.ts's countErrors, same as
+      // GenerationLossSimulator.astro: position-by-position diff of two
+      // equal-length strings, split into misreadings (any other mismatch)
+      // and illegibles (the ILLEGIBLE marker).
+      function countErrors(original: string, copy: string) {
+        if (original.length !== copy.length) {
+          throw new Error("lengths differ, rule cannot apply");
+        }
+        let misreadings = 0;
+        let illegibles = 0;
+        for (let i = 0; i < original.length; i++) {
+          if (original[i] === copy[i]) continue;
+          if (copy[i] === ILLEGIBLE) illegibles++;
+          else misreadings++;
+        }
+        return { misreadings, illegibles, total: misreadings + illegibles };
+      }
+
+      function render() {
+        const original = originalInput.value;
+        const copy = copyInput.value;
+
+        if (original.length !== copy.length) {
+          lengthWarning.hidden = false;
+          result.hidden = true;
+          return;
+        }
+        lengthWarning.hidden = true;
+        result.hidden = false;
+
+        marked.replaceChildren();
+        const fallbackParts: string[] = [];
+        for (let i = 0; i < original.length; i++) {
+          const originalChar = original[i];
+          const copyChar = copy[i];
+          const span = document.createElement("span");
+          span.textContent = copyChar;
+          if (originalChar === copyChar) {
+            fallbackParts.push(copyChar);
+          } else if (copyChar === ILLEGIBLE) {
+            span.className = "cdv__char--illegible";
+            fallbackParts.push(`[illegible, was "${originalChar}"]`);
+          } else {
+            span.className = "cdv__char--misreading";
+            fallbackParts.push(`[misread "${originalChar}" as "${copyChar}"]`);
+          }
+          marked.appendChild(span);
+        }
+        markedFallback.textContent = fallbackParts.join("");
+
+        const { misreadings, illegibles, total } = countErrors(original, copy);
+        statMisreadings.textContent = String(misreadings);
+        statIllegibles.textContent = String(illegibles);
+        statTotal.textContent = String(total);
+      }
+
+      originalInput.addEventListener("input", render);
+      copyInput.addEventListener("input", render);
+
+      render();
+    }
+  }
+
+  document.addEventListener("astro:page-load", initCharacterDiffVisualizers);
+  initCharacterDiffVisualizers();
+</script>
