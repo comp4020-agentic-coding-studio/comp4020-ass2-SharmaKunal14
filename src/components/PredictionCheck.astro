@@ -12,15 +12,28 @@ export interface Props {
    * that answer stays a manual, tutor-mediated step, not a site feature.
    */
   revealFile?: string;
+  /**
+   * A short (1-2 sentence) quote of this session's own already-published
+   * "What you should find" section, always verbatim or near-verbatim of
+   * text already public on this same page -- never new findings text.
+   * When set, a locked prediction gets an always-visible "your prediction
+   * vs. what the workshop found" comparison, additive to `revealFile`.
+   */
+  whatYouShouldFind?: string;
 }
 
-const { sessionSlug, prompt, revealFile } = Astro.props;
+const { sessionSlug, prompt, revealFile, whatYouShouldFind } = Astro.props;
 const storageKey = `prediction:${sessionSlug}`;
 const revealHref = revealFile ? `${import.meta.env.BASE_URL}${revealFile.replace(/^\//, "")}` : undefined;
 ---
 
 <Callout type="tip">
-  <div class="prediction-check" data-storage-key={storageKey} data-reveal-href={revealHref}>
+  <div
+    class="prediction-check"
+    data-storage-key={storageKey}
+    data-reveal-href={revealHref}
+    data-what-you-should-find={whatYouShouldFind}
+  >
     <p><strong>Commit before you look.</strong> {prompt}</p>
     <textarea
       class="prediction-check__input"
@@ -35,6 +48,18 @@ const revealHref = revealFile ? `${import.meta.env.BASE_URL}${revealFile.replace
       <button type="button" class="prediction-check__clear" hidden>Clear and try again</button>
     </div>
     <p class="prediction-check__locked-at" hidden></p>
+    {whatYouShouldFind && (
+      <div class="prediction-check__replay" hidden>
+        <div class="prediction-check__replay-col">
+          <h3>Your prediction</h3>
+          <p class="prediction-check__replay-yours"></p>
+        </div>
+        <div class="prediction-check__replay-col">
+          <h3>What the workshop found</h3>
+          <p class="prediction-check__replay-found">{whatYouShouldFind}</p>
+        </div>
+      </div>
+    )}
     <div class="prediction-check__result" hidden></div>
   </div>
 </Callout>
@@ -63,6 +88,25 @@ const revealHref = revealFile ? `${import.meta.env.BASE_URL}${revealFile.replace
     white-space: pre-wrap;
     word-break: break-word;
   }
+
+  .prediction-check__replay {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: 0.75rem 1.5rem;
+    margin-block: 0.75rem;
+    padding-block-start: 0.75rem;
+    border-block-start: 1px solid var(--at-border, #ccc);
+  }
+
+  .prediction-check__replay h3 {
+    margin: 0 0 0.25rem;
+    font-size: 0.9rem;
+  }
+
+  .prediction-check__replay p {
+    margin: 0;
+    font-size: 0.9rem;
+  }
 </style>
 
 <script>
@@ -79,6 +123,8 @@ const revealHref = revealFile ? `${import.meta.env.BASE_URL}${revealFile.replace
       const clearButton = root.querySelector<HTMLButtonElement>(".prediction-check__clear")!;
       const lockedAt = root.querySelector<HTMLElement>(".prediction-check__locked-at")!;
       const result = root.querySelector<HTMLElement>(".prediction-check__result")!;
+      const replay = root.querySelector<HTMLElement>(".prediction-check__replay");
+      const replayYours = root.querySelector<HTMLElement>(".prediction-check__replay-yours");
 
       function renderLocked(text: string, at: string) {
         input.value = text;
@@ -88,6 +134,10 @@ const revealHref = revealFile ? `${import.meta.env.BASE_URL}${revealFile.replace
         clearButton.hidden = false;
         lockedAt.hidden = false;
         lockedAt.textContent = `Locked in ${new Date(at).toLocaleString()}.`;
+        if (replay && replayYours) {
+          replayYours.textContent = text;
+          replay.hidden = false;
+        }
       }
 
       function renderUnlocked() {
@@ -99,6 +149,7 @@ const revealHref = revealFile ? `${import.meta.env.BASE_URL}${revealFile.replace
         lockedAt.hidden = true;
         result.hidden = true;
         result.textContent = "";
+        if (replay) replay.hidden = true;
       }
 
       let saved: { text: string; lockedAt: string } | null = null;
