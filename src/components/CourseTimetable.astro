@@ -35,12 +35,24 @@ for (const assessment of oneOff) {
   dueByWeek.set(week, list);
 }
 
+// Every workshop opens with its own five-minute Generation Check — real,
+// week-specific evidence and a question, already written into that week's
+// session page under a "Check" heading. Weeks 1–4 titled that heading "The
+// five-minute check"; weeks 5–12 retitled it "Check — 5 minutes". Point each
+// row at its own week's section instead of the shared assessment overview.
+function checkAnchorFor(week: number): { id: string; label: string } {
+  return week <= 4
+    ? { id: "the-five-minute-check", label: "The five-minute check" }
+    : { id: "check--5-minutes", label: "Check — 5 minutes" };
+}
+
 const rows = sessions.map((session) => ({
   week: session.data.week,
   date: session.data.date,
   session,
   lecture: lectureByWeek.get(session.data.week),
   due: dueByWeek.get(session.data.week) ?? [],
+  check: checkAnchorFor(session.data.week),
 }));
 ---
 
@@ -52,7 +64,13 @@ const rows = sessions.map((session) => ({
         <th scope="col">Week</th>
         <th scope="col">Lecture</th>
         <th scope="col">Workshop</th>
-        <th scope="col">Weekly check</th>
+        <th scope="col">
+          {weeklyChecks.length > 0 ? (
+            <a href={withBase(`/assessments/${weeklyChecks[0].id}/`)}>Weekly check</a>
+          ) : (
+            "Weekly check"
+          )}
+        </th>
         <th scope="col">Also due</th>
       </tr>
     </thead>
@@ -76,11 +94,7 @@ const rows = sessions.map((session) => ({
               <a href={withBase(`/sessions/${row.session.id}/`)}>{row.session.data.title}</a>
             </td>
             <td>
-              {weeklyChecks.length > 0 ? (
-                <a href={withBase(`/assessments/${weeklyChecks[0].id}/`)}>{weeklyChecks[0].data.title}</a>
-              ) : (
-                <span class="none">—</span>
-              )}
+              <a href={withBase(`/sessions/${row.session.id}/#${row.check.id}`)}>{row.check.label}</a>
             </td>
             <td>
               {row.due.length > 0 ? (
@@ -130,6 +144,7 @@ const rows = sessions.map((session) => ({
     text-align: left;
     vertical-align: top;
     font-size: 0.95rem;
+    color: var(--at-text);
   }
 
   .timetable thead th {
