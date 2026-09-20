@@ -3003,3 +3003,72 @@ from the CSS rather than observed: no `min-width` above 2px exists in any
 built stylesheet or inline style, and every bar fill is a percentage, so
 there is no fixed dimension to strand — but "no measured width in the
 source" is a weaker claim than "watched it reflow".
+
+## 2026-09-21 — Marker walkthrough of the twelve weeks, and two cohesion fixes
+
+**Scope:** `src/content/sessions/05-scriptorium.mdx`,
+`src/content/sessions/10-enhance.mdx`.
+
+### What was checked
+
+The brief's marker spends about ten minutes treating the site as a
+prospective student would, sampling non-adjacent weeks, and marks down a
+course whose "twelve weeks repeat one another" or that reads as "the
+starter with the nouns swapped". So the site was read that way — two
+non-adjacent pairs (2 and 10, then 5 and 11), an assessment, the
+policies page — alongside a mechanical spec sweep.
+
+**Mechanical results.** Course code `SLOP8350`; twelve dated teaching
+weeks, 2027-02-24 to 2027-05-19, with a mid-semester break before week 7;
+all twelve lectures wire a deck; assessment weights 40 + 10 + 30 + 20 =
+100, and each brief's internal criteria also sum to 100. Across the
+twelve weeks there are 36 `spec:` bullets and **36 of them are distinct**,
+with twelve distinct `learningTarget`s and twelve distinct
+`archiveDeposit`s. That is the direct counter-evidence to the
+repeat-one-another red flag, and it confirms `099f4d9` did what it
+claimed.
+
+### Two defects found and fixed
+
+- **Week 5 answered its own question.** Its Evaluate stage said "answer
+  directly: why might two witnesses agreeing on a spelling correction be
+  weak evidence...?" and then supplied the reasoning in the next
+  sentence. Week 11's Evaluate asks the parallel question and withholds.
+  A student reading top to bottom got the answer before forming one,
+  which contradicts the predict-then-check discipline every other part of
+  this course enforces. The explanation is worth keeping, so it moved
+  behind a `<details>` disclosure with the instruction to write an answer
+  first. This is practice feedback, not secured storage — the same
+  standing that `CLAUDE.md` already gives public reveals — and it is
+  deliberately weaker than the `localStorage` gate used for workshop
+  answers, because this is a consolidation question, not a pack answer.
+  First use of `<details>` in course content.
+- **Week 10 was promised but never reciprocated.** Week 4 tells students
+  "week 10 asks whether a restoration of this output matches the
+  original", and week 3 points forward too, but week 10's body named no
+  other week — the connection existed only in `related:` frontmatter.
+  A marker sampling week 10 cold therefore got no signal it is the payoff
+  of a thread laid six weeks earlier. Added a "Where this comes from"
+  section naming week 4 and Output 7, and stating the inversion: week 4
+  asks which history made an output, week 10 asks whether putting the
+  detail back recovers the source.
+
+### Deliberately not changed
+
+Stage timings (5/15/40/30/30) repeat across weeks. Read cold that can
+look templated, but a fixed workshop shape is a real pedagogical choice
+and the investigation sub-splits do vary. Changing twelve weeks' timings
+hours before a deadline would be churn, not improvement. Week 8 makes no
+cross-week reference in either direction; it is the one week nothing
+later depends on, which is defensible for a deliberate change of pace
+("the only tool required is counting by hand") and was left alone.
+
+### Verification and limits
+
+`mise exec -- pnpm check`: 0 type errors, 161/161 tests, 0 accessibility
+violations, no broken links, 52 pages built. Confirmed in `dist/` that
+the `<details>` renders on week 5 and that week 10's new link resolves
+with the base path applied. The distinctiveness judgement is a reading,
+not a measurement: the bullet and target counts are objective, but
+whether the twelve weeks *feel* distinct to a marker is not something
+this repo can check.
