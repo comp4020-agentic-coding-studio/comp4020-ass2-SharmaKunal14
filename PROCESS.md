@@ -211,6 +211,16 @@ category's share thinning out under `full-recursive`, alongside a plain
 table of full counts, and is linked from both the simulator page and
 `09-recursion.mdx` as an explicit analogy of the model's shape
 ([`e53867b`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/e53867b)).
+Fifth and last, week 6 gained a stemma evidence-strength edge-checker,
+embedded directly in its Investigate section: pick two witnesses from the
+same check-stage evidence table already printed on the page, and it
+reports which points they share and whether each is strong or weak
+evidence for a common ancestor, using week 5's own classification rule —
+it never compares a proposed edge against the real tree, so `reveal/`
+stays untouched by construction, confirmed by re-running
+`spec/reveal-unlinked.test.ts` and `spec/pack-zip.test.ts` standalone
+after the change
+([`2cb8ed4`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/2cb8ed4)).
 
 Every decision above, including mutation-testing tables proving each new
 contract fails when the defect is reintroduced, is recorded in

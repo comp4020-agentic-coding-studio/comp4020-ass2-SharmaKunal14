@@ -2545,3 +2545,44 @@ under `full-recursive` were reasoned through from the ported model logic
 rather than clicked through in a running page.
 
 **Commit:** `e53867b`.
+
+## 2026-09-21 — Stemma evidence-strength edge-checker added to week 6
+
+**Scope:** `src/components/StemmaEdgeChecker.astro` (new),
+`src/content/sessions/06-stemma.mdx`.
+
+### Decisions and reasons
+
+- Fifth and last of the five agreed interactive elements. Embedded
+  directly in `06-stemma.mdx`'s Investigate section, not the simulator
+  page, since it is tied to this workshop's own specific evidence table
+  rather than a generic tool.
+- Props (`points`, `witnesses`) are authored in the `.mdx` frontmatter
+  directly from the same three-point check-stage table already printed
+  in the page's Markdown (Point 1 substitution/A, Point 2
+  haplography/B,C, Point 3 substitution/A,C) — the same numbers passed
+  once as structured data instead of duplicated as new invented data.
+- The tool only classifies evidence *strength* for a shared point
+  (haplography/homoeoteleuton/omission/repetition = strong,
+  substitution = weak — week 5's own rule) between two chosen witnesses.
+  It never compares a proposed edge against the real tree, which is this
+  workshop's own locked answer, so `reveal/` is never touched or even
+  referenced by anything other than the existing caveat prose (which was
+  already on the page's pattern for other components) — `reveal/` stays
+  untouched by construction, not by special-casing this component.
+
+### Verification and limits
+
+`mise exec -- pnpm check`: 161/161 tests, 0 accessibility violations, no
+broken links, 52 pages built. `mise exec -- pnpm astro check`: 0 errors.
+Re-ran `spec/reveal-unlinked.test.ts` and `spec/pack-zip.test.ts`
+standalone (23/23 passing) since this change touches a session page,
+confirming no live `href` into a reveal path was introduced. Grepped
+built `dist/sessions/06-stemma/index.html` for `class="sec"` and the
+serialised `data-points`/`data-witnesses` JSON to confirm the check-stage
+table shipped correctly and unmodified. Not exercised in a live browser
+in this session; the dropdown population and shared-point lookup were
+reasoned through from the script logic and the built HTML rather than
+clicked through in a running page.
+
+**Commit:** `2cb8ed4`.
