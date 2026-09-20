@@ -2748,3 +2748,43 @@ reflection file required for this assignment. `mise exec -- pnpm check`:
 The rewrite is a judgement call about which decisions best represent the
 whole project in ~500 words — a different author could reasonably pick a
 different subset of commits as the spine.
+
+## 2026-09-21 — PROCESS.md revised after checking external review against the repo
+
+**Scope:** `PROCESS.md` only.
+
+### Decisions and reasons
+
+- Received review feedback on the condensed `PROCESS.md`. Verified every
+  factual claim against the repo before acting on any of it (`git
+  cat-file -e` on each cited commit, `git show --stat` to check diff
+  scope, direct reads of the CLAUDE.md and decision-log lines cited).
+- Accepted: the document had no evidence of course-design research
+  informing the harness, despite `7d0a745` (reading-citations rule,
+  adopted from an external syllabus) and `ca7cbb2` (its enforcing test)
+  existing and being exactly the kind of reference-to-rule chain the
+  brief asks for. Added both. Accepted that "every workshop's Deposit
+  step" overstated `bf9f600`'s diff, which touches six session files and
+  one deck, not all twelve weeks — changed to "several workshops."
+  Accepted that localStorage gating needed an explicit "learning nudge,
+  not access control" caveat, since the static test only proves the HTML
+  has no plain href, not that the client-side gate is unbypassable.
+  Accepted that `11fa9c5`'s mutation-and-revert was stronger evidence
+  than "added a contract" and restored that detail.
+- Rejected outright: nothing — every specific, checkable claim in the
+  feedback held up against the repo. Treated the feedback's paraphrased
+  rubric-descriptor table as unverified without re-fetching the brief,
+  since only the 45/20/35 weights were independently confirmed earlier.
+- To fit the added material in 400-600 words, cut the sentence
+  explaining why no separate reflection file exists (a compliance note,
+  not a design decision) and merged the two illustrative-tool sentences
+  into one.
+
+### Verification and limits
+
+`wc -w PROCESS.md`: 569 words. `mise exec -- pnpm check:evidence`: 14
+cited commits all resolve. `mise exec -- pnpm check`: 161/161 tests, 0
+accessibility violations, no broken links, 52 pages built.
+
+**Commit:** this entry lands in the same commit as the `PROCESS.md`
+change it describes; `627f238` is the prior state it revises.

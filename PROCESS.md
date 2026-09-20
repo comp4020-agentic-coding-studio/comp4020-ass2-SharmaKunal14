@@ -18,38 +18,47 @@ data agreed with the authored answer, never whether a student could act
 on it. I rewrote the contracts to ask that second question
 ([`d7863b6`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/d7863b6));
 a second review then found a test that checked an evidence item's label,
-not its actual content, so I fixed the bug structurally and added a
-contract comparing declared values against real file content
+not its actual content — the label said `discriminates: false` while a
+route's own JSON gave it away. I fixed the bug structurally, added a
+contract comparing declared values against real file content, and put
+the original fault back in to confirm the new suite actually catches it
+before reverting
 ([`11fa9c5`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/11fa9c5)).
 Every `spec/` contract since has had to answer "can a student act on
 this," not just "is this internally consistent."
 
-The second rule came from a bug the tests couldn't see: every workshop's
-Deposit step linked straight to its own answer file, live and ungated. I
-unlinked every reveal and wrote `spec/reveal-unlinked.test.ts` to scan
-the built site for any stray link
+I read another course's syllabus for the same reason: two of its
+readings resolved but weren't retrievable, so I added a rule that every
+citation needs a locator plus a link or an original summary
+([`7d0a745`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/7d0a745)),
+later backed by a check once I noticed the rule itself had no enforcement
+([`ca7cbb2`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/ca7cbb2)).
+The same review rejected that course's deck-only delivery: here, a
+week's evidence pack is its content, not its slides.
+
+A second rule came from a bug the tests couldn't see: several workshops'
+Deposit steps linked straight to their own answer file, live and
+ungated. I unlinked every reveal and wrote `spec/reveal-unlinked.test.ts`
+to scan the built site for any stray link
 ([`bf9f600`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/bf9f600),
 [`7c7c89f`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/7c7c89f)).
 That was safe but wasted pedagogy the course argues for elsewhere —
 predict, then check — so rather than reverting the unlink, I gated it: an
 answer link only activates once a student's own locked prediction exists
-in `localStorage`
+in `localStorage` — a learning nudge, not access control, so the shipped
+HTML still never carries a working reveal href either way
 ([`671776e`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/671776e),
 [`08195f5`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/08195f5)),
-later generalised to week 1's standalone `worked-answer.md` so the rule
-covered the mechanism, not one file
+later generalised to week 1's standalone `worked-answer.md`
 ([`9b257b5`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/9b257b5)).
-The shipped HTML never carries a working reveal href either way, so the
-original test still means what it says.
 
 The same discipline governs every later illustrative tool: never let it
 be mistaken for the graded artefact. The resampling simulator ports the
-shape of week 9's model with an editable distribution and unseeded
-randomness, deliberately never touching the pack's own seeded data
-([`e53867b`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/e53867b)).
-The stemma edge-checker in week 6 reports evidence strength between two
-witnesses but never compares a proposed edge against the real tree, so
-`reveal/` stays untouched by construction
+shape of week 9's model but with unseeded randomness on invented data
+([`e53867b`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/e53867b)),
+and the week-6 stemma checker scores evidence strength without ever
+comparing a proposed edge to the real tree, so `reveal/` stays untouched
+by construction
 ([`2cb8ed4`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/2cb8ed4)).
 
 Response to the brief got its own correction: weeks 5-12 originally
@@ -58,10 +67,9 @@ swapped" pattern the brief marks down. Each week's bullets now name that
 week's own artefact and judgement call
 ([`099f4d9`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/099f4d9)).
 
-What I left out, deliberately: no separate reflection document, since
-this assignment specifies none; and no invented "what you should find"
-text for the seven weeks that don't publish one — the prediction-replay
+What I left out, deliberately: no invented "what you should find" text
+for the seven weeks that don't publish one — the prediction-replay
 widget only ever echoes findings a week already states publicly
 ([`0718709`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/0718709)).
-`docs/decision-log.md` records every choice and check as it was made, not
+`docs/decision-log.md` records every choice and check as made, not
 reconstructed afterward.
