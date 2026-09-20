@@ -32,6 +32,7 @@ spec:
   - your trend prediction is written before you open results.csv or plot.svg
 ---
 import PredictionCheck from "../../components/PredictionCheck.astro";
+import FiveMinuteCheck from "../../components/FiveMinuteCheck.astro";
 
 > What happens to ancestry inference as copying errors increase?
 
@@ -61,16 +62,13 @@ Read `trend.txt`'s low-rate paragraph only, without opening `plot.svg` or
 from low to high, will ancestor agreement at generation 40 rise, fall, or stay
 about the same?
 
-<details>
-<summary>View answer and reasoning</summary>
-
+<FiveMinuteCheck sessionSlug="07-ancestry">
 *Check answer.* Agreement at generation 40 falls as the error rate rises, from
 low through medium to high. It does not fall to zero at any rate: with four
 possible symbols per position, a sequence with no relation at all to the
 ancestor still matches it at about a quarter of positions by chance, so every
 mean here is settling toward roughly 0.25, not toward 0.
-
-</details>
+</FiveMinuteCheck>
 
 ## Receive — 15 minutes
 

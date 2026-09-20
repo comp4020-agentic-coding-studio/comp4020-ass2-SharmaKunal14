@@ -32,6 +32,7 @@ spec:
   - you name one property of a real trained model this six-category toy has no analogue for
 ---
 import PredictionCheck from "../../components/PredictionCheck.astro";
+import FiveMinuteCheck from "../../components/FiveMinuteCheck.astro";
 
 > Under what conditions can recursive sampling lose rare cases?
 
@@ -69,16 +70,13 @@ seed 47 — 0, 0, 0. Does this table support the claim "recursive resampling
 always loses rare categories by round 5"? State your answer and why in one
 sentence.
 
-<details>
-<summary>View answer and reasoning</summary>
-
+<FiveMinuteCheck sessionSlug="09-recursion">
 *Indicative answer.* No — two of the three seeds show category F's count
 recovering, not shrinking, by round 5. Only one seed (47) lost it, and once
 it reached zero it stayed at zero. The supported claim is narrower: recursive
 resampling **can** permanently lose a rare category, not that it reliably
 does on every run.
-
-</details>
+</FiveMinuteCheck>
 
 ## Receive — 15 minutes
 

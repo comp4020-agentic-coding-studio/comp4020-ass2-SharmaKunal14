@@ -32,6 +32,7 @@ spec:
   - your costing line states what the redundancy buys, not that it removes the risk entirely
 ---
 import PredictionCheck from "../../components/PredictionCheck.astro";
+import FiveMinuteCheck from "../../components/FiveMinuteCheck.astro";
 
 > What resources can protect a message from a specified error pattern?
 
@@ -62,16 +63,13 @@ Received: `101 000 111 111`. Decode each triplet by majority vote and write
 the recovered 4-bit payload. Then state, in one sentence, the assumption
 under which your decoded answer is reliable.
 
-<details>
-<summary>View answer and reasoning</summary>
-
+<FiveMinuteCheck sessionSlug="08-error-correction">
 *Indicative answer.* `101`→majority `1`; the rest match the codeword exactly.
 Recovered payload: `1011` — correct, despite the single flipped bit in the
 first triplet. The assumption: **at most one bit error per triplet.** Feedback
 below (Evaluate) supplies a received block where that assumption fails and the
 majority vote is confidently wrong.
-
-</details>
+</FiveMinuteCheck>
 
 ## Receive — 15 minutes
 

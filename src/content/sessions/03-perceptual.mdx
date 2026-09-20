@@ -33,6 +33,7 @@ spec:
   - your conclusion is limited to the source, settings and measure you actually used
 ---
 import PredictionCheck from "../../components/PredictionCheck.astro";
+import FiveMinuteCheck from "../../components/FiveMinuteCheck.astro";
 
 > How would we test whether repeated re-encoding caused a measured change?
 
@@ -166,9 +167,7 @@ A comparison changes both the bitrate and the number of encoding cycles.
 Identify the confound, specify one corrected comparison, and state its remaining
 limit.
 
-<details>
-<summary>View answer and reasoning</summary>
-
+<FiveMinuteCheck sessionSlug="03-perceptual">
 *Indicative answer.* Two variables move together, so the difference cannot be
 attributed to either. Correct it by holding the bitrate fixed and varying only
 the cycle count. The remaining limit is that the result then applies to that
@@ -177,8 +176,7 @@ about another.
 
 The mark is for the design. Naming the codec, or guessing which condition came
 first, earns nothing here.
-
-</details>
+</FiveMinuteCheck>
 
 ## Assessment
 

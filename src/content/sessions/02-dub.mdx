@@ -33,6 +33,7 @@ spec:
   - you test one alternative explanation and say why you rejected it
 ---
 import PredictionCheck from "../../components/PredictionCheck.astro";
+import FiveMinuteCheck from "../../components/FiveMinuteCheck.astro";
 
 > Which shared features are useful evidence of a common intermediate copy?
 
@@ -149,16 +150,13 @@ A fresh feature table. One pair of copies shares a local dropout; another pair
 shares a raised noise floor. Which better supports a proposed relationship, and
 why?
 
-<details>
-<summary>View answer and reasoning</summary>
-
+<FiveMinuteCheck sessionSlug="02-dub">
 *Indicative answer.* The dropout, because it is a one-off event at a fixed
 location, and independent occurrence in two copies would be a coincidence.
 Raised noise is what dubbing does, so it is expected everywhere. Independent
 introduction of the dropout is still possible — it is less likely, not ruled out,
 and an answer that says so scores the limitation point.
-
-</details>
+</FiveMinuteCheck>
 
 ## Assessment
 

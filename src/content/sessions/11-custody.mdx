@@ -35,6 +35,7 @@ spec:
   - you name one proportionate logging improvement and say what it would still not catch
 ---
 import PredictionCheck from "../../components/PredictionCheck.astro";
+import FiveMinuteCheck from "../../components/FiveMinuteCheck.astro";
 
 > What does a provenance record establish, and what can it omit?
 
@@ -69,15 +70,12 @@ The stripping log names two operations: removing `contributorId` and removing
 `depositTimestamp`. Comparing the two manifests directly, name one field that
 changed between them that the log does not mention.
 
-<details>
-<summary>View answer and reasoning</summary>
-
+<FiveMinuteCheck sessionSlug="11-custody">
 *Indicative answer.* Either is acceptable: the `software` field was renamed to
 `creationTool` (its value survived, only the key changed), or the metadata
 checksum differs (because it is computed over the whole field set, and that
 set changed). The log's two listed operations do not account for either.
-
-</details>
+</FiveMinuteCheck>
 
 ## Receive — 15 minutes
 
