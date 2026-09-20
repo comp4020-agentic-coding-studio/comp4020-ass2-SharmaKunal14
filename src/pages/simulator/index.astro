@@ -96,6 +96,15 @@ const usedBy = {
     </li>
   </ul>
 
+  <nav class="side-nav" aria-label="Jump to a tool" hidden>
+    <p class="side-nav__title">Tools</p>
+    <ul class="side-nav__list">
+      <li><a class="side-nav__link" data-target="chain-simulator" href="#chain-simulator">Chain simulator</a></li>
+      <li><a class="side-nav__link" data-target="character-diff" href="#character-diff">Character-diff visualizer</a></li>
+      <li><a class="side-nav__link" data-target="resampling-simulator" href="#resampling-simulator">Resampling simulator</a></li>
+    </ul>
+  </nav>
+
   <section id="chain-simulator" class="tool-section">
     <h2>Chain simulator</h2>
     <p class="tool-section__used-in">
@@ -165,6 +174,53 @@ const usedBy = {
   </p>
 </ContentLayout>
 
+<script>
+  // The card grid is the primary way to navigate; this floating list is a
+  // convenience for once it has scrolled out of view, so it fails silently
+  // (stays hidden) rather than breaking the page if IntersectionObserver is
+  // unavailable, or if either element is missing on a page that reuses
+  // this script without the same markup.
+  function initSideNav() {
+    const chooser = document.querySelector<HTMLElement>(".chooser");
+    const sideNav = document.querySelector<HTMLElement>(".side-nav");
+    if (!chooser || !sideNav || !("IntersectionObserver" in window)) return;
+    if (sideNav.dataset.initialised === "true") return;
+    sideNav.dataset.initialised = "true";
+
+    const chooserObserver = new IntersectionObserver(
+      ([entry]) => {
+        sideNav.hidden = entry.isIntersecting;
+      },
+      { threshold: 0 },
+    );
+    chooserObserver.observe(chooser);
+
+    const links = new Map(
+      Array.from(sideNav.querySelectorAll<HTMLAnchorElement>(".side-nav__link")).map((link) => [
+        link.dataset.target,
+        link,
+      ]),
+    );
+
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const link = links.get(entry.target.id);
+          if (!link) continue;
+          link.classList.toggle("side-nav__link--active", entry.isIntersecting);
+        }
+      },
+      { rootMargin: "-40% 0px -40% 0px" },
+    );
+    for (const section of document.querySelectorAll<HTMLElement>(".tool-section")) {
+      sectionObserver.observe(section);
+    }
+  }
+
+  document.addEventListener("astro:page-load", initSideNav);
+  initSideNav();
+</script>
+
 <style>
   .lede {
     font-size: 1.1rem;
@@ -224,5 +280,60 @@ const usedBy = {
   .arrival-note {
     font-size: 0.9rem;
     color: var(--at-text-secondary);
+  }
+
+  /* Fixed rather than sticky: the whole point is to appear once the card
+     grid has scrolled past, independent of where in the document flow the
+     rest of the page currently sits. Hidden below a width where there is
+     no side gutter to float it in without overlapping the prose column. */
+  .side-nav {
+    position: fixed;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    width: 12rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--at-border, #ccc);
+    border-radius: 0.75rem;
+    background: var(--at-bg-alt);
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.25);
+    z-index: 10;
+  }
+
+  @media (max-width: 75rem) {
+    .side-nav {
+      display: none;
+    }
+  }
+
+  .side-nav__title {
+    margin: 0 0 0.5rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--at-text-secondary);
+  }
+
+  .side-nav__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .side-nav__link {
+    display: block;
+    padding: 0.35rem 0.55rem;
+    border-radius: 0.4rem;
+    font-size: 0.88rem;
+    border-inline-start: 3px solid transparent;
+  }
+
+  .side-nav__link--active {
+    border-inline-start-color: var(--at-accent);
+    background: var(--at-bg);
+    font-weight: 700;
   }
 </style>
