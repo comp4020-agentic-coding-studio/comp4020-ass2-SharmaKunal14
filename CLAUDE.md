@@ -11,12 +11,16 @@ affected consumers second. Avoid copying shared rules into every phase.
 - Make each future exercise attemptable with supplied evidence and an equivalent
   accessible route. Keep answers out of initial evidence; public reveals are
   practice feedback, not secure assessment-key storage. A workshop's `reveal/`
-  answer is never linked from any rendered page or its own pack's index —
-  sharing the reveal path after a workshop is a manual step, not a site
-  feature. Checked by `spec/reveal-unlinked.test.ts`. Every pack ships a
-  `pack.zip` built from exactly the `files` array its own index page lists —
-  never the whole folder — so the zip can't smuggle in something the index
-  doesn't already show. Checked by `spec/pack-zip.test.ts`.
+  files may be listed on that workshop's own pack index page, but stay locked
+  behind having committed a prediction for that workshop first: the pack page
+  checks the same `prediction:<sessionSlug>` localStorage record the
+  workshop's `PredictionCheck` widget writes, and only wires up a working link
+  once it finds one. The shipped HTML never contains a plain, unconditional
+  `href` into `reveal/` — an unlocked reveal link is a bug, not a feature.
+  Checked by `spec/reveal-unlinked.test.ts`. Reveal files are never added to a
+  pack's `files` list, so `pack.zip` — built from exactly that `files` array,
+  never the whole folder — never contains them either. Checked by
+  `spec/pack-zip.test.ts`.
 - Follow the resource floor; add optional variants only after core acceptance.
   Parent-child edges stay within a family. Label weeks 7 and 9 results as
   simplified models with explicit omissions.
