@@ -2450,3 +2450,45 @@ through from the script logic rather than clicked through in a running
 page.
 
 **Commit:** `0718709`.
+
+## 2026-09-21 — Fixed-rule vs. random-rate corruption model added to chain simulator
+
+**Scope:** `src/components/GenerationLossSimulator.astro`.
+
+### Decisions and reasons
+
+- Third of the five agreed interactive elements. Added a "Corruption
+  model" `<fieldset>` with two radio options: the existing random,
+  rate-based `degradeOnce` (default, unchanged), and a new
+  `degradeOnceFixed(text, n)` that corrupts every Nth character
+  deterministically — always the first confusable neighbour for that
+  character, or `ILLEGIBLE` if it has none — with no `Math.random()`
+  anywhere in that path.
+- `runChain` now takes the active model and `n`, and picks between the
+  two per-generation functions. Chose to add the model/`n` parameters to
+  `runChain` itself rather than branch inside `render()`, so the compound-
+  ing behaviour (each generation corrupts the previous output) stays in
+  one place regardless of which model is active.
+- The rate slider and a new N slider (2-20, default 5) swap visibility
+  based on the active radio, and the re-roll button is disabled with an
+  explanatory `title` under the fixed rule, since a deterministic
+  function of the same input has nothing left to re-roll — re-running it
+  would just repeat the same output, which would read as a bug rather
+  than the intended behaviour if the button stayed live.
+- This directly dramatizes the same algorithm-vs-world distinction week
+  1's worked answer already draws (a deterministic counting rule applied
+  to a world that varies) as something switchable on the same text,
+  rather than only read about in prose.
+
+### Verification and limits
+
+`mise exec -- pnpm check`: 161/161 tests, 0 accessibility violations, no
+broken links, 52 pages built. Grepped built `dist/simulator/index.html`
+for the new class names (`gls__model`, `gls__model-random`,
+`gls__model-fixed`, `gls__n`, `gls__n-field`, `gls__n-value`) to confirm
+the fieldset and slider shipped. Not exercised in a live browser in this
+session; the field-visibility toggling and the disabled re-roll state
+were reasoned through from the script logic and the built HTML rather
+than clicked through in a running page.
+
+**Commit:** `888ce06`.

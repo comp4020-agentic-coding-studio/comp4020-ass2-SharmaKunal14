@@ -195,6 +195,12 @@ published findings — but a survey first found only 5 of 12 weeks actually
 publish a "What you should find" section, so the prop is wired into only
 those five rather than invented for the rest
 ([`0718709`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/0718709)).
+Third, the chain simulator gained a "Corruption model" toggle between the
+existing random rate-based corruption and a new deterministic rule that
+corrupts every Nth character with no randomness at all, letting the same
+algorithm-vs-world distinction week 1 already teaches be switched between
+on the same text instead of only read about
+([`888ce06`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/888ce06)).
 
 Every decision above, including mutation-testing tables proving each new
 contract fails when the defect is reintroduced, is recorded in
