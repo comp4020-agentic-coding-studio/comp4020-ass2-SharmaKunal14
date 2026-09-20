@@ -1,10 +1,10 @@
 # Process overview
 
-SLOP8350, "Generation Loss," asks two different questions: are these copies
+SLOP8350, "Generation Loss," asks two questions: are these copies
 identical, and what evidence shows one was made from another? Each week
-applies them to one named specimen: a legibility card, the *Ordinance of
-the Copy-House*, the manifests behind Output 7. I replaced the starter
-content with this course
+asks them about something specific: a legibility card, five copies of the
+*Ordinance of the Copy-House*, the file records for Output 7. I replaced
+the starter content with this course
 ([`4b30563`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/4b30563)).
 My standard was that students should be able to investigate a claim using
 the materials provided.
