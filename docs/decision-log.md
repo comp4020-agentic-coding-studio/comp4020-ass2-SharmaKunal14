@@ -1689,6 +1689,56 @@ line every week already carries ("state the week's question in your own
 words before you start"), so their prompt is that generic line rather than
 something week-specific — a lower-fidelity fit than the other ten weeks.
 
+## 2026-09-20 — Reposition the prediction widget inline; make Check answers a toggle
+
+**Scope:** The user asked for the prediction widget back "in the same place
+as it was before" (its originally designed inline position, not the bottom
+of the page) and for each workshop's five-minute Check question to stay
+visible with the answer and reasoning behind an on-page reveal control,
+rather than always-visible prose or (for weeks 6 and 7) deferred to the end
+of Evaluate.
+
+### Decisions and reasons
+
+- Converted all 12 `src/content/sessions/*.md` files to `.mdx` so
+  `<PredictionCheck />` can be placed inline in each file's own body rather
+  than centrally after the whole rendered `<Content />`. Confirmed MDX
+  support was already available transitively (`astro-theme-university` and
+  `astromotion` both depend on `@astrojs/mdx`, and `src/decks/*.deck.mdx`
+  already used it) — no `mdx()` integration needed adding to
+  `astro.config.ts`; the build picked the `.mdx` files up unchanged.
+  Removed the `predictionCheck` frontmatter field (now redundant) and the
+  centralised render block in `src/pages/sessions/[slug].astro`.
+  Each widget now sits at the end of "Before the workshop" (or the specimen
+  intro for week 1), the same position the original design settled on.
+- Wrapped every existing "*Indicative answer.*"/"*Check answer.*" paragraph
+  in `<details><summary>View answer and reasoning</summary>…</details>` in
+  place, so the question stays visible on the page and the reasoning is an
+  explicit reveal rather than always-on prose. Confirmed first
+  (`grep -rn` across `spec/`) that no spec test constrains this text's
+  location or wording.
+- Weeks 6 (`06-stemma.md`) and 7 (`07-ancestry.md`) previously deferred
+  their Check answer to a paragraph inside `## Evaluate — 30 minutes`, with
+  a "(Answer at the end of Evaluate...)" cross-reference in the Check
+  section. Moved that paragraph up into the Check section's own `<details>`
+  toggle and deleted the deferred copy and the cross-reference, so the
+  answer now lives with its question like every other week.
+- Week 5 (`05-scriptorium.md`) has no separate indicative-answer paragraph —
+  the Check question defines the three error classes as the answer. Added a
+  minimal `<details>` noting this is a recall check with no separate hidden
+  answer, for consistency with the other 11 weeks' toggle pattern.
+
+### Verification
+
+`mise exec -- pnpm astro check`: 0 errors, 0 warnings (one pre-existing,
+unrelated hint in `packs/week-06/build.ts`). `mise exec -- pnpm check`
+(build + `vitest run spec`): 161/161 tests, 20 files, all green, including
+`spec/reveal-unlinked.test.ts`. Grepped the built `dist/sessions/*/index.html`
+directly: every `reveal/` occurrence is plain text (`<code>reveal/</code>`),
+never an `href`; exactly one `<details>` block and two
+`prediction-check`-class matches (button label + script hook) per page for
+weeks with a widget.
+
 ### Template for subsequent observed results
 
 - What was tested and with which materials/version:
