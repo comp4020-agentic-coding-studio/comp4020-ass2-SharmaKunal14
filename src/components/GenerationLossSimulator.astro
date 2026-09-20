@@ -1,0 +1,297 @@
+---
+// Applies week 1's own counting rule (packs/week-01/build.ts) to arbitrary
+// text, live, in the browser. Each generation corrupts the PREVIOUS
+// generation's output, not the original -- that compounding is what
+// "generation loss" means. Math.random() drives the corruption, so the
+// counting step stays a deterministic function of two strings while the
+// strings themselves differ run to run -- the same distinction week 1's
+// worked answer draws between the algorithm and the world it measures.
+export interface Props {
+  /** Seed sample text shown in the textarea on first load. */
+  sampleText?: string;
+  /** Default number of generations (slider default). */
+  defaultGenerations?: number;
+  /** Default per-generation error rate, 1-20 (percent). */
+  defaultErrorRate?: number;
+}
+
+const {
+  sampleText = "The quick brown fox jumps over the lazy dog. 0O1lI5S8B2Z6G9g",
+  defaultGenerations = 8,
+  defaultErrorRate = 6,
+} = Astro.props;
+---
+
+<div
+  class="gls"
+  data-sample-text={sampleText}
+  data-default-generations={defaultGenerations}
+  data-default-error-rate={defaultErrorRate}
+  data-confusable-chars="0O 1lI 5S 8B 2Z 6G 9g"
+>
+  <label class="gls__field">
+    Text to copy
+    <textarea class="gls__input" rows="3">{sampleText}</textarea>
+  </label>
+
+  <div class="gls__controls">
+    <label class="gls__field">
+      Generations: <output class="gls__generations-value">{defaultGenerations}</output>
+      <input type="range" class="gls__generations" min="0" max="20" step="1" value={defaultGenerations} />
+    </label>
+    <label class="gls__field">
+      Error rate per generation: <output class="gls__rate-value">{defaultErrorRate}%</output>
+      <input type="range" class="gls__rate" min="1" max="20" step="1" value={defaultErrorRate} />
+    </label>
+    <button type="button" class="gls__reroll">Re-roll (same settings, new randomness)</button>
+  </div>
+
+  <div class="gls__output">
+    <h2 class="gls__result-heading">Generation {defaultGenerations} output</h2>
+    <pre class="gls__result-text"></pre>
+
+    <h2>Cumulative error, by generation</h2>
+    <div class="gls__bars" role="img" aria-label="Cumulative error percentage per generation"></div>
+    <ul class="gls__bars-fallback visually-hidden"></ul>
+
+    <h2>Count (final generation vs. original)</h2>
+    <dl class="gls__stats">
+      <dt>Misreadings</dt>
+      <dd class="gls__stat-misreadings"></dd>
+      <dt>Illegibles</dt>
+      <dd class="gls__stat-illegibles"></dd>
+      <dt>Total</dt>
+      <dd class="gls__stat-total"></dd>
+    </dl>
+  </div>
+</div>
+
+<style>
+  .gls__field {
+    display: block;
+    margin-block: 0.75rem;
+  }
+
+  .gls__input {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 1rem;
+    margin-block-start: 0.3rem;
+  }
+
+  .gls__controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .gls__controls input[type="range"] {
+    width: 100%;
+  }
+
+  .gls__result-text {
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-size: 1.1rem;
+  }
+
+  .gls__bars {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .gls__bar-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .gls__bar-label {
+    flex: 0 0 2.5rem;
+    font-size: 0.8rem;
+    opacity: 0.75;
+  }
+
+  .gls__bar-track {
+    flex: 1 1 auto;
+    background: var(--at-bg-alt);
+    border-radius: 4px;
+    overflow: hidden;
+    height: 0.75rem;
+  }
+
+  .gls__bar-fill {
+    height: 100%;
+    background: var(--at-text-secondary);
+  }
+
+  .gls__stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+  }
+
+  .gls__stats dt {
+    font-weight: 600;
+  }
+
+  .gls__stats dd {
+    margin: 0;
+  }
+</style>
+
+<script>
+  function initGenerationLossSimulators() {
+    for (const root of document.querySelectorAll<HTMLElement>(".gls")) {
+      if (root.dataset.initialised === "true") continue;
+      root.dataset.initialised = "true";
+
+      const ILLEGIBLE = "·";
+      const confusableGroups = root.dataset.confusableChars!.split(" ").map((g) => g.split(""));
+      const confusableMap = new Map<string, string[]>();
+      for (const group of confusableGroups) {
+        for (const ch of group) {
+          confusableMap.set(ch, group.filter((c) => c !== ch));
+        }
+      }
+
+      const input = root.querySelector<HTMLTextAreaElement>(".gls__input")!;
+      const generationsSlider = root.querySelector<HTMLInputElement>(".gls__generations")!;
+      const rateSlider = root.querySelector<HTMLInputElement>(".gls__rate")!;
+      const generationsValue = root.querySelector<HTMLElement>(".gls__generations-value")!;
+      const rateValue = root.querySelector<HTMLElement>(".gls__rate-value")!;
+      const rerollButton = root.querySelector<HTMLButtonElement>(".gls__reroll")!;
+      const resultHeading = root.querySelector<HTMLElement>(".gls__result-heading")!;
+      const resultText = root.querySelector<HTMLElement>(".gls__result-text")!;
+      const barsContainer = root.querySelector<HTMLElement>(".gls__bars")!;
+      const barsFallback = root.querySelector<HTMLElement>(".gls__bars-fallback")!;
+      const statMisreadings = root.querySelector<HTMLElement>(".gls__stat-misreadings")!;
+      const statIllegibles = root.querySelector<HTMLElement>(".gls__stat-illegibles")!;
+      const statTotal = root.querySelector<HTMLElement>(".gls__stat-total")!;
+
+      // One generation: copy `text`, corrupting each character with
+      // probability `rate`. Substitution only -- length never changes, so a
+      // later diff against the original stays a valid position-by-position
+      // comparison (countErrors below requires equal lengths, exactly like
+      // packs/week-01/build.ts).
+      function degradeOnce(text: string, rate: number): string {
+        let out = "";
+        for (const ch of text) {
+          if (Math.random() < rate) {
+            const neighbours = confusableMap.get(ch.toUpperCase());
+            if (neighbours && neighbours.length && Math.random() < 0.7) {
+              const pick = neighbours[Math.floor(Math.random() * neighbours.length)];
+              out += ch === ch.toUpperCase() ? pick : pick.toLowerCase();
+            } else if (/[a-zA-Z0-9]/.test(ch)) {
+              out += ILLEGIBLE;
+            } else {
+              out += ch;
+            }
+          } else {
+            out += ch;
+          }
+        }
+        return out;
+      }
+
+      // Each step corrupts the PREVIOUS output, not the original -- true
+      // compounding generation loss, not independent per-generation noise.
+      function runChain(original: string, generations: number, ratePercent: number): string[] {
+        const rate = ratePercent / 100;
+        const history = [original];
+        let current = original;
+        for (let g = 1; g <= generations; g++) {
+          current = degradeOnce(current, rate);
+          history.push(current);
+        }
+        return history;
+      }
+
+      // Exact port of packs/week-01/build.ts's countErrors: position-by-
+      // position diff of two equal-length strings, split into misreadings
+      // (any other mismatch) and illegibles (the ILLEGIBLE marker).
+      function countErrors(original: string, finalText: string) {
+        if (original.length !== finalText.length) {
+          throw new Error("lengths differ, rule cannot apply");
+        }
+        let misreadings = 0;
+        let illegibles = 0;
+        for (let i = 0; i < original.length; i++) {
+          if (original[i] === finalText[i]) continue;
+          if (finalText[i] === ILLEGIBLE) illegibles++;
+          else misreadings++;
+        }
+        return { misreadings, illegibles, total: misreadings + illegibles };
+      }
+
+      function cumulativeErrorSeries(original: string, history: string[]): number[] {
+        return history.map((text) => {
+          if (!original.length) return 0;
+          const { total } = countErrors(original, text);
+          return (total / original.length) * 100;
+        });
+      }
+
+      function render() {
+        const original = input.value;
+        const generations = Number(generationsSlider.value);
+        const ratePercent = Number(rateSlider.value);
+        generationsValue.textContent = String(generations);
+        rateValue.textContent = `${ratePercent}%`;
+
+        const history = runChain(original, generations, ratePercent);
+        const final = history[history.length - 1];
+        const series = cumulativeErrorSeries(original, history);
+
+        resultHeading.textContent = `Generation ${generations} output`;
+        resultText.textContent = final;
+
+        barsContainer.replaceChildren();
+        barsFallback.replaceChildren();
+        series.forEach((pct, g) => {
+          const row = document.createElement("div");
+          row.className = "gls__bar-row";
+          const label = document.createElement("span");
+          label.className = "gls__bar-label";
+          label.textContent = `G${g}`;
+          const track = document.createElement("div");
+          track.className = "gls__bar-track";
+          const fill = document.createElement("div");
+          fill.className = "gls__bar-fill";
+          fill.style.width = `${Math.min(100, pct).toFixed(1)}%`;
+          track.appendChild(fill);
+          row.append(label, track);
+          barsContainer.appendChild(row);
+
+          const li = document.createElement("li");
+          li.textContent = `Generation ${g}: ${pct.toFixed(1)}% cumulative error`;
+          barsFallback.appendChild(li);
+        });
+
+        if (!original.length) {
+          statMisreadings.textContent = "0";
+          statIllegibles.textContent = "0";
+          statTotal.textContent = "0";
+          return;
+        }
+        const { misreadings, illegibles, total } = countErrors(original, final);
+        statMisreadings.textContent = String(misreadings);
+        statIllegibles.textContent = String(illegibles);
+        statTotal.textContent = String(total);
+      }
+
+      input.addEventListener("input", render);
+      generationsSlider.addEventListener("input", render);
+      rateSlider.addEventListener("input", render);
+      rerollButton.addEventListener("click", render);
+
+      render();
+    }
+  }
+
+  document.addEventListener("astro:page-load", initGenerationLossSimulators);
+  initGenerationLossSimulators();
+</script>

@@ -1,0 +1,41 @@
+---
+import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import GenerationLossSimulator from "../../components/GenerationLossSimulator.astro";
+import { siteConfig } from "../../site-config";
+
+// Root-absolute hrefs written by hand in an .astro file skip Astro base
+// handling: they work on localhost and 404 on the deployed path.
+const week1Href = `${import.meta.env.BASE_URL}sessions/01-photocopy/`;
+---
+
+<ContentLayout
+  title="Generation-loss simulator"
+  description="Watch text degrade across repeated copies, and see why the same settings never produce the same result twice."
+  {...siteConfig}
+>
+  <p class="lede">
+    Week 1 asked you to count how a copy becomes harder to read, and drew a
+    careful line between three claims: the counting rule is deterministic,
+    your own repeatability is something you can check, and two readers still
+    disagree because resolving a damaged mark is an interpretation. This page
+    runs the same rule on text instead of a scanned card, so you can watch
+    generation loss compound in real time, and re-run the same settings to
+    see that the <em>outcome</em> is not deterministic even though the
+    <em>counting</em> is.
+  </p>
+
+  <GenerationLossSimulator />
+
+  <p>
+    See <a href={week1Href}>Week 1: The office that ate itself</a>{" "}
+    for the graded activity this page supplements — it does not replace the
+    pack, the worksheet or the worked answer.
+  </p>
+</ContentLayout>
+
+<style>
+  .lede {
+    font-size: 1.1rem;
+    line-height: 1.5;
+  }
+</style>
