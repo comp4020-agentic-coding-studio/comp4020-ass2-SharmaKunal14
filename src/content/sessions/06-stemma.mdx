@@ -80,6 +80,21 @@ shared ancestor. A table with one strong point and one misleading point
 supports the tree built on the strong one.
 </FiveMinuteCheck>
 
+Try it on any pair from this same three-witness table: pick two witnesses and
+see which points they share and how strong each one is, using week 5's
+strong/weak rule. This is practice on the toy table above, not your own
+workshop evidence — it has nothing to say about the five real witnesses
+(`A` through `E`) you work with from Investigate onward.
+
+<StemmaEdgeChecker
+  points={[
+    { id: 1, type: "substitution", carriers: ["A"] },
+    { id: 2, type: "haplography", carriers: ["B", "C"] },
+    { id: 3, type: "substitution", carriers: ["A", "C"] },
+  ]}
+  witnesses={["A", "B", "C"]}
+/>
+
 ## Receive — 15 minutes
 
 Confirm every disagreement point in your table is classified by type (from
@@ -103,20 +118,9 @@ implausible-to-repeat error under one hypothesised ancestor. Draw the
 nesting — which groups sit inside which — as a tree, or as an edge list if
 drawing is not available to you.
 
-Before you commit an edge to your tree, check it against the check-stage
-table below: pick the two witnesses and see which points they share and how
-strong each one is. This reports evidence strength only — it never tells you
-whether the edge is in the real tree, since that answer is still locked
-behind `reveal/`.
-
-<StemmaEdgeChecker
-  points={[
-    { id: 1, type: "substitution", carriers: ["A"] },
-    { id: 2, type: "haplography", carriers: ["B", "C"] },
-    { id: 3, type: "substitution", carriers: ["A", "C"] },
-  ]}
-  witnesses={["A", "B", "C"]}
-/>
+Apply the same strong/weak rule the Check-stage tool above practised, now to
+your own five-witness evidence table — nothing here reports the answer for
+you, since that stays locked behind `reveal/`.
 
 **Justify and challenge selected edges (10 minutes).** For every edge you
 drew, write the one shared feature it rests on. Then pick your least certain
