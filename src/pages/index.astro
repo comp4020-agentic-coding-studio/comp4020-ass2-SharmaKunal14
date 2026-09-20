@@ -2,6 +2,7 @@
 import Card from "astro-theme-university/components/Card.astro";
 import CardGrid from "astro-theme-university/components/CardGrid.astro";
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import CourseTimetable from "../components/CourseTimetable.astro";
 import { courseMeta } from "../course-config";
 import { sessionLabels, siteConfig } from "../site-config";
 
@@ -79,6 +80,16 @@ const archiveHref = `${import.meta.env.BASE_URL}archive/`;
     this</em>, where the evidence genuinely does not settle it. Saying so well is
     worth full marks.
   </p>
+
+  <h2>The timetable</h2>
+  <p>
+    Every week pairs a Monday lecture with a Wednesday workshop and a five-minute
+    Generation Check at its start. An assessment's own due date can land after
+    the week it was introduced — worked practice keeps going in the weeks
+    between — so the table below places each one on the week it actually falls
+    due.
+  </p>
+  <CourseTimetable />
 
   <h2>Where to go next</h2>
   <CardGrid columns={2}>

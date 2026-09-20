@@ -1,0 +1,157 @@
+---
+import { getPublishedCollection } from "astro-course-university/content";
+import { withBase } from "astro-theme-university/url";
+import { formatCourseDate } from "../lib/dates";
+
+const sessions = (await getPublishedCollection("sessions")).sort((a, b) => a.data.week - b.data.week);
+const lectures = await getPublishedCollection("lectures");
+const assessments = await getPublishedCollection("assessments");
+
+const lectureByWeek = new Map(lectures.map((lecture) => [lecture.data.week, lecture]));
+
+const weeklyChecks = assessments.filter((assessment) => assessment.data.series === "weekly");
+const oneOff = assessments.filter((assessment) => assessment.data.series !== "weekly");
+
+// An assessment's `week:` field names the week it is introduced, not the week
+// it falls due — several are worked practice for weeks after their own. Place
+// each one's due badge on the session whose date is the latest that still
+// falls on or before the due date, or the final session if the due date is
+// later than the whole course (a post-course due date, e.g. the last piece).
+function dueWeekFor(due: Date): number {
+  let candidate = sessions[0].data.week;
+  for (const session of sessions) {
+    if (session.data.date.getTime() <= due.getTime()) {
+      candidate = session.data.week;
+    }
+  }
+  return candidate;
+}
+
+const dueByWeek = new Map<number, { title: string; id: string; due: Date }[]>();
+for (const assessment of oneOff) {
+  const week = dueWeekFor(assessment.data.due);
+  const list = dueByWeek.get(week) ?? [];
+  list.push({ title: assessment.data.title, id: assessment.id, due: assessment.data.due });
+  dueByWeek.set(week, list);
+}
+
+const rows = sessions.map((session) => ({
+  week: session.data.week,
+  date: session.data.date,
+  session,
+  lecture: lectureByWeek.get(session.data.week),
+  due: dueByWeek.get(session.data.week) ?? [],
+}));
+---
+
+<div class="timetable-wrap">
+  <table class="timetable">
+    <caption>Twelve weeks, one Monday lecture and one Wednesday workshop each, plus what is due.</caption>
+    <thead>
+      <tr>
+        <th scope="col">Week</th>
+        <th scope="col">Lecture</th>
+        <th scope="col">Workshop</th>
+        <th scope="col">Weekly check</th>
+        <th scope="col">Also due</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((row) => (
+          <tr>
+            <th scope="row">
+              Week {row.week}
+              <br />
+              <small>{formatCourseDate(row.date)}</small>
+            </th>
+            <td>
+              {row.lecture ? (
+                <a href={withBase(`/lectures/${row.lecture.id}/`)}>{row.lecture.data.title}</a>
+              ) : (
+                <span class="none">—</span>
+              )}
+            </td>
+            <td>
+              <a href={withBase(`/sessions/${row.session.id}/`)}>{row.session.data.title}</a>
+            </td>
+            <td>
+              {weeklyChecks.length > 0 ? (
+                <a href={withBase(`/assessments/${weeklyChecks[0].id}/`)}>{weeklyChecks[0].data.title}</a>
+              ) : (
+                <span class="none">—</span>
+              )}
+            </td>
+            <td>
+              {row.due.length > 0 ? (
+                <ul class="due-list">
+                  {row.due.map((item) => (
+                    <li>
+                      <a href={withBase(`/assessments/${item.id}/`)}>{item.title}</a>
+                      <br />
+                      <small>due {formatCourseDate(item.due)}</small>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <span class="none">—</span>
+              )}
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .timetable-wrap {
+    overflow-x: auto;
+    margin-block: 1.5rem 2rem;
+  }
+
+  .timetable {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 40rem;
+  }
+
+  .timetable caption {
+    text-align: left;
+    margin-block-end: 0.75rem;
+    color: var(--at-text-secondary);
+    font-size: 0.95rem;
+  }
+
+  .timetable th,
+  .timetable td {
+    border: 1px solid var(--at-border, #ccc);
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    vertical-align: top;
+    font-size: 0.95rem;
+  }
+
+  .timetable thead th {
+    background: var(--at-bg-alt);
+  }
+
+  .timetable tbody th {
+    background: var(--at-bg-alt);
+    white-space: nowrap;
+  }
+
+  .due-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .due-list li + li {
+    margin-block-start: 0.5rem;
+  }
+
+  .none {
+    color: var(--at-text-secondary);
+  }
+</style>
