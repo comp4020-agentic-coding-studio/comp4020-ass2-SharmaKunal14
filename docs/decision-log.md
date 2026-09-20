@@ -3072,3 +3072,66 @@ with the base path applied. The distinctiveness judgement is a reading,
 not a measurement: the bullet and target counts are objective, but
 whether the twelve weeks *feel* distinct to a marker is not something
 this repo can check.
+
+## 2026-09-21 — A third mis-cited claim in PROCESS.md, and the pattern behind all three
+
+**Scope:** `PROCESS.md`.
+
+### The error
+
+The account said the Calling Bullshit and CS 007 decisions "both became
+`CLAUDE.md` rules (`7d0a745`)". Checked the diff: `7d0a745` adds exactly
+two rules, the citation-locator rule and the concrete-specimen rule —
+both from Calling Bullshit. The CS 007 deck refusal is **not** in it.
+
+It did become a rule, in a different commit: `9ec7c71` adds the rule that
+every lecture's deck closes with a `## Text walkthrough` "so the deck
+view is not the only way to reach the material", enforced by
+`spec/deck-coverage.test.ts`. So the refusal was encoded and harnessed —
+the citation was simply wrong, which is worse than a missing one, because
+a marker following it finds a diff that does not contain the claim.
+
+**The pattern, now three for three.** Every one of these errors was a
+clause asserting a relationship — "both", "the same review", "until" —
+written while compressing, and every one survived `check:evidence`,
+which confirms a hash resolves and nothing more. The rule this produces:
+a quantifier in a cited sentence requires re-reading the diff, not the
+commit subject.
+
+### Corrections
+
+- Named both source courses and traced each to the rule it actually
+  produced and the check that does or does not enforce it: Calling
+  Bullshit → two rules (`7d0a745`), one of which later got a check
+  (`ca7cbb2`); CS 007 → the text-walkthrough rule and
+  `spec/deck-coverage.test.ts` (`9ec7c71`).
+- **Narrowed the reveal claim.** `spec/reveal-unlinked.test.ts` matches
+  `href="…/packs/…/reveal/…"` only. Week 1's answer is a top-level
+  `worked-answer.md`, so that test never covered it. The text now says
+  what the test scans, and presents the week-1 DOM-shim run as the
+  separate evidence that gap required — citing `4c83ef8`, which carries
+  the verification record, alongside `9b257b5`, which is the
+  implementation.
+- **Dropped a universal claim.** "No test catches a mislabelling like
+  that" became "The existing tests did not catch that misleading
+  placement" — a statement about this suite, which is all the evidence
+  supports.
+- **Made the direction explicit once**, from the recorded week-6
+  intervention: what was rejected (the checker's placement under
+  Investigate), what was asked for (move it beside the table it uses,
+  reword both sections), and what evidence was required before accepting
+  it (built HTML showing the checker ahead of Receive).
+- **Gave the omission its reason.** Declining to author "what you should
+  find" text now states why: the replay widget may only echo a finding a
+  week already states publicly, so it can neither invent a result nor
+  surface a withheld answer.
+
+### Verification and limits
+
+`wc -w PROCESS.md`: 594. `check:evidence`: 13 cited commits resolve, and
+each was additionally confirmed reachable from `main` with `git
+merge-base --is-ancestor`. `mise exec -- pnpm check`: 161/161 tests, 0
+accessibility violations, no broken links, 52 pages built. Every factual
+clause was re-read against its own diff this round rather than against
+the commit subject line — the check that would have caught all three
+errors the first time.
