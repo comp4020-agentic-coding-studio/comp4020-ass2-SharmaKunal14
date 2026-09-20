@@ -3135,3 +3135,42 @@ accessibility violations, no broken links, 52 pages built. Every factual
 clause was re-read against its own diff this round rather than against
 the commit subject line — the check that would have caught all three
 errors the first time.
+
+## 2026-09-21 — PROCESS.md: named specimens, fault before fix, and a stated limit
+
+**Scope:** `PROCESS.md`, on the author's own revised draft.
+
+### Decisions and reasons
+
+- **The opening broke a rule the document itself claims.** It described the
+  weeks as working on "photocopies, image files and records of who handled
+  them", while paragraph three reports adopting the `CLAUDE.md` rule to
+  name each week's example specifically — a rule whose own wording is
+  "rather than 'a photograph'". Replaced with three specimens taken from
+  the course content: a legibility card, the *Ordinance of the
+  Copy-House*, and the manifests behind Output 7. Each was grepped out of
+  `src/content/` before use; an earlier candidate, "legibility test card",
+  was rejected because that phrase appears only in this log and never in
+  the course, where week 1 says "legibility card".
+- **Week 4's second review presented its remedy before its fault.** It read
+  "traced how `quality=78` distinguished the two routes" and only then
+  mentioned the inconclusive label. Reordered so the defect — evidence
+  marked inconclusive whose contents were decisive — arrives first.
+- **The limitation stated coverage, not a limit.** "The verification
+  reported here covers author review, checks of files and generated pages,
+  and simulated webpage behaviour" enumerates what was done without saying
+  what follows from it. It now closes the document as its own paragraph
+  and names the consequence: nobody but the author has attempted these
+  activities, so the standard set in the opening remains a reasoned claim
+  rather than an observed result. Ending on the limit rather than on the
+  summary is deliberate.
+
+### Verification and limits
+
+`wc -w PROCESS.md`: 588 words, inside 400-600. `check:evidence`: 15 cited
+commits resolve, each also confirmed reachable from `main` via `git
+merge-base --is-ancestor`. `mise exec -- pnpm check`: 161/161 tests, 0
+accessibility violations, no broken links, 52 pages built. The three
+specimen names were verified against `src/content/`, not recalled — the
+correction of "legibility test card" to "legibility card" is exactly the
+failure this log has now recorded four times.

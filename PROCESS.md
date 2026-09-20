@@ -1,78 +1,83 @@
 # Process overview
 
-SLOP8350, "Generation Loss," is built on one distinction: "identical" and
-"derived from" are different claims, and a course that blurs them cannot
-teach anyone to check evidence. Every week — photocopies,
-re-encoded JPEGs, custody chains — asks the
-same question of a different artefact: what changed, and can the evidence
-in front of a student answer that?
-[`4b30563`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/4b30563)
-replaced the starter content with this course.
+SLOP8350, "Generation Loss," asks two different questions: are these copies
+identical, and what evidence shows one was made from another? Each week
+applies them to one named specimen: a legibility card, the *Ordinance of
+the Copy-House*, the manifests behind Output 7. I replaced the starter
+content with this course
+([`4b30563`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/4b30563)).
+My standard was that students should be able to investigate a claim using
+the materials provided.
 
-That question tested my own work too. Week 4's first build
-passed 75 green tests and was still unusable: it withheld a prediction no
-formula could derive, pointed at evidence with no file behind it, and
-asserted a forensic technique the literature says may not apply. I
-rewrote those contracts
+Reviewing Week 4 after 75 passing tests sharpened that standard. I supplied
+the predictions students needed, added the evidence files they would inspect,
+and replaced a forensic claim with a documented record suited to the exercise.
+These changes made each investigation step traceable to supplied material
 ([`d7863b6`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/d7863b6)).
-Review found why: item E2 was declared
-non-discriminating, but the excerpt a student opens read `quality=78`,
-matching one route's final save and contradicting the other's. The tests
-read the declaration and never the file. I made both routes end with the
-same save, added a contract checking declared values against file
-content, then reintroduced the fault to confirm the suite caught it
+A second review found evidence marked inconclusive whose contents read
+`quality=78` — decisive between the two processing routes. I gave both the
+same final save setting and added checks comparing labels with the files
+students open. Deliberately reintroducing
+faults confirmed that the new checks detected them; I then restored the
+corrected version
 ([`11fa9c5`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/11fa9c5)).
+My acceptance standard now covered both internal consistency and whether
+students had the evidence needed to act.
 
-The brief's example courses pulled both ways, and both became harness rules. From Calling Bullshit I took
-reachability as an obligation: my own policy said a resolving URL is not
-proof of a claim, leaving the opposite
-failure open: a correctly cited reading a student cannot reach. That
-became two `CLAUDE.md` rules: citation form, and naming each week's
-specimen concretely
+Other courses helped shape my instructions to the agent. From Calling
+Bullshit, I adopted two `CLAUDE.md` rules: give readings a page or section
+reference plus a link or original summary, and name each week's example
+specifically
 ([`7d0a745`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/7d0a745)).
-Only the citation rule later got a check
-([`ca7cbb2`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/ca7cbb2)),
-and it tests citation form — locator plus link or stated summary — not
-whether a link resolves. From CS 007 I refused the deck as sole
-artefact, since a week's content here is its evidence pack; that became
-the rule that every deck closes with a text walkthrough, enforced by
-`spec/deck-coverage.test.ts`
+This joined source accuracy with access to the reading. The reading rule
+gained an automated check for citation wording; source accessibility and
+clear example selection remain editorial responsibilities
+([`ca7cbb2`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/ca7cbb2)).
+Reviewing CS 007's slide-based delivery helped me choose evidence packs
+alongside lectures, giving students the files needed for investigation
+([`7d0a745`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/7d0a745)).
+I also required decks to end with a written walkthrough. The deck test
+checks that linked files exist and contain the walkthrough heading;
+the section's content and placement remain editorial responsibilities
 ([`9ec7c71`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/9ec7c71)).
 
-Another rule came from a bug the tests could not see: several workshops'
-Deposit steps linked straight to their answer file, ungated. I
-unlinked every reveal and wrote `spec/reveal-unlinked.test.ts`, scanning
-the built site for any unconditional link into a pack's `reveal/`
-folder
+I strengthened the prediction-before-feedback sequence by removing direct
+answer links from several workshops and adding a test scanning built pages
+for links into answer folders named `reveal/`
 ([`bf9f600`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/bf9f600),
 [`7c7c89f`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/7c7c89f)).
-Safe, but it wasted the predict-then-check pedagogy the course argues
-for, so I gated it instead of reverting: the link activates only once a
-student's own locked prediction exists in `localStorage` — a learning
-nudge, not access control
-([`671776e`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/671776e)).
-Week 1's answer is a top-level `worked-answer.md`, outside that test's
-scope, so extending the gate there needed its own evidence: the built
-script run through a Node DOM shim in both lock states, locked setting no
-`href`, unlocked the correct pack-root path
+To preserve access to useful feedback, I then introduced links that unlock
+after students lock in a prediction in their browser. The answers remain
+publicly accessible; the lock guides the order of learning rather than
+restricting access to the files
+([`671776e`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/671776e),
+[`08195f5`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/08195f5)).
+Week 1's top-level `worked-answer.md` needed a separate check. A Node script
+simulating webpage elements confirmed both states: the answer link stayed
+inactive before a prediction was locked and activated with the correct path
+afterwards
 ([`9b257b5`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/9b257b5),
 [`4c83ef8`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/4c83ef8)).
 
-Reviewing a screenshot of week 6, I rejected what had shipped: the
-edge-checker sat under Investigate, where students reason about their own
-five witnesses, while its `A`/`B`/`C` are the toy table from Check — so
-its position implied it tested their real evidence.
-The existing tests did not catch that misleading placement. I asked for
-it to move beside the table it actually uses, both sections reworded, and
-required the built HTML to show the checker ahead of Receive before
-accepting it
-([`9896cef`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/9896cef)).
+In a Week 6 screenshot, the comparison tool appeared beside the five-document
+investigation, suggesting it checked the students' evidence. It actually used
+three example documents. I asked for it to move beside its example and for
+both sections to explain which documents it used. Checking the generated page
+confirmed the new position. This aligned what the page communicated with what
+the tool actually did
+([`9896cef`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/9896cef),
+[`37bb699`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/37bb699)).
 
-I declined to write "what you should find" text for the seven weeks that
-publish none: the replay widget may only echo a finding a week already
-states publicly, so it can neither invent a result nor surface an answer
-still withheld
+I added the prediction-comparison feature to the five workshops that already
+displayed expected findings, reusing that text alongside the student's prediction.
+I kept it out of the other seven so each comparison used an existing public
+finding and preserved the planned timing of answer releases
 ([`0718709`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/0718709)).
-What I have not established: nobody but their author has attempted these
-activities. An author check and a DOM simulation are not a student trial,
-so "a student can now do this" stays a reasoned claim.
+Together, these decisions shaped how I directed the agent: supply usable
+evidence, keep examples clearly labelled, and support each accepted change
+with a check suited to the teaching purpose.
+
+Every check reported here is author verification — file and page
+inspection, and a simulated browser. Nobody but me has attempted these
+activities, so the standard I set remains a reasoned claim, not an
+observed result.
