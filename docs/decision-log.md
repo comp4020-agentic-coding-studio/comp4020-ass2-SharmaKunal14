@@ -2118,3 +2118,43 @@ cards, one title each, and the check-link count matches 12 rows plus the
 explanatory sentence's own link.
 
 **Commit:** `ebb9c58`.
+
+## 2026-09-21 — Extended PROCESS.md's narrative past the hero-image redesign
+
+**Scope:** The user asked whether `PROCESS.md` needed updating for recent
+changes and asked for a coherent story of the whole development. Its "How I
+got here" section stopped at the hero-image redesign
+([`9c10596`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/9c10596)),
+leaving roughly thirty subsequent commits — everything in this session and
+the one before it — unnarrated. UI/docs only — no `src/content` or
+`src/decks` change.
+
+### Decisions and reasons
+
+- Extended the section chronologically rather than rewriting it, adding new
+  paragraphs for: the archive-page restructure; the predict-then-reveal
+  widget's rollout to all 12 workshops and its later reposition into MDX
+  files with a `<details>` toggle for Check answers; the generation-loss
+  simulator and progress dashboard, including their two follow-up fixes
+  (invisible error bars, dashboard redesign); the weeks 5–12 `spec:` bullet
+  rewrite; and the homepage timetable through its contrast fix, quiz-style
+  Check conversion, and card-based redesign.
+- The existing gated-reveal paragraph referenced "the site's
+  predict-then-reveal widget" as something that already existed, but the
+  widget's own introduction was never narrated — inserted the new
+  predict-then-reveal paragraph immediately before it, in the reveal saga's
+  own thematic block, so that reference resolves instead of pointing at
+  nothing.
+- Cited only commit SHAs already present in this decision log's own entries
+  (verified against `git log`, not invented), per `CLAUDE.md`'s rule against
+  fabricating commit hashes, timings or observations.
+
+### Verification and limits
+
+`mise exec -- pnpm check` green: 161/161 tests, 0 accessibility violations,
+no broken links — expected, since prose in a root Markdown file participates
+in no build step or spec. Cross-checked every cited SHA's real commit
+message via `git show -s --format=%B` before writing the sentence
+describing it.
+
+**Commit:** `5cb0aba`.
