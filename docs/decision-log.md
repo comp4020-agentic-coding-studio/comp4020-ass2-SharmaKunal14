@@ -1933,3 +1933,38 @@ through from the code rather than exercised in `astro dev`/`astro preview`.
 
 **Commits:** 4715c81 (simulator page + component), dbb2f1f (nav link + week
 1 cross-link), 118474c (progress dashboard), and this entry.
+
+## 2026-09-21 — Distinct `spec:` bullets for weeks 5–12
+
+**Scope:** A content-coherence read-through, checked against the
+assignment's "response to the brief" criterion, found that weeks 5–12 all
+carried the identical three `spec:` lines in their MDX frontmatter, copied
+verbatim from week to week, while weeks 1–4 each had distinct,
+task-specific bullets. Read side by side, that is exactly the "starter
+with the nouns swapped" pattern the brief marks down regardless of whether
+CI passes — even though nothing here is checked mechanically, since
+`spec:` bullets are documentation of intent, not asserted by any spec test.
+
+### Decisions and reasons
+
+- Each week's three bullets were rewritten to name that week's own
+  artefact and judgement call — e.g. week 5's error-type classification,
+  week 6's competing-tree justification, week 9's condition-scoped
+  conclusion, week 12's named accepted loss — rather than paraphrasing the
+  same "state the question / separate observed from inferred / name an
+  alternative" template eight times.
+- No workshop's actual task content, stages, timing or assessment
+  cross-links changed — only the `spec:` frontmatter array, which is
+  reference documentation of what the week trains, not machine-checked
+  against the page body.
+
+### Verification and limits
+
+`mise exec -- pnpm check` was run after the edit: 161/161 tests across 20
+files, 0 accessibility violations, all links respect base, no broken
+links. No spec's contract changed and no new day of content work was
+introduced (today's `## 2026-09-21` entries already cover it), so
+`spec/decision-log-freshness.test.ts` needed no new date, only this entry
+for legibility of process.
+
+**Commits:** 099f4d9 (spec bullets, weeks 5–12), and this entry.
