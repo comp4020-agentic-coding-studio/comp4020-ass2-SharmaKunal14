@@ -31,9 +31,8 @@ spec:
   - you can state the week's question in your own words before you start
   - your evidence table separates what you observed from what you inferred
   - you name one alternative explanation your evidence does not rule out
-predictionCheck:
-  prompt: "What do you expect the restoration to get right, and where do you expect it to fail, before opening reveal?"
 ---
+import PredictionCheck from "../../components/PredictionCheck.astro";
 
 > Does a convincing restoration match the original?
 
@@ -69,6 +68,11 @@ images. Do not open `reveal/` yet.
    consistent with the blur, so the correct description of its failure here
    is narrower than "the AI invented a person."
 
+<PredictionCheck
+  sessionSlug="10-enhance"
+  prompt="What do you expect the restoration to get right, and where do you expect it to fail, before opening reveal?"
+/>
+
 ## Check — 5 minutes
 
 Feature f4 in this week's pack sits inside a block whose four source cells are
@@ -77,12 +81,17 @@ the restored value at f4 exactly matches the retained source. Does that match
 show bilinear interpolation recovered real detail at f4? State your answer
 and why in one sentence.
 
+<details>
+<summary>View answer and reasoning</summary>
+
 *Indicative answer.* No — the interpolation produced the same smoothly
 blended value it would have produced regardless of which true sub-cell value
 was asked about; that it happened to round to the correct tone for f4 is
 verified only because the retained source exists to check it against, and the
 same algorithm was wrong at three other checked features in blocks with the
 same kind of internal variation.
+
+</details>
 
 ## Receive — 15 minutes
 

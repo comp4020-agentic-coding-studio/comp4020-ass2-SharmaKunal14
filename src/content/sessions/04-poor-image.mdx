@@ -31,10 +31,8 @@ spec:
   - you state the tolerance under which two histories count as indistinguishable
   - your request for further evidence says in advance what result would separate the routes
   - your report records what remains unresolved rather than choosing to look decisive
-predictionCheck:
-  prompt: "Pick one item from the evidence menu. What result would favour route A, and what result would favour route B?"
-  revealFile: "/packs/week-04/evidence-menu.csv"
 ---
+import PredictionCheck from "../../components/PredictionCheck.astro";
 
 > Can different histories fit the same available image evidence?
 
@@ -51,6 +49,12 @@ Open the [week 4 pack](/packs/week-04/) and read `observations.csv` and
 (2009), available free at e-flux.com. Read it for the argument about what
 circulation does to images. The lecture is explicit about which of its claims
 are cultural and which would need separate technical evidence.
+
+<PredictionCheck
+  sessionSlug="04-poor-image"
+  prompt="Pick one item from the evidence menu. What result would favour route A, and what result would favour route B?"
+  revealFile="/packs/week-04/evidence-menu.csv"
+/>
 
 ## Last week, and this week
 
@@ -185,11 +189,16 @@ week 11 asks what a provenance record for it would and would not establish.
 Two route cards fit a supplied thumbnail. Propose one available evidence item
 that could distinguish them, and explain how.
 
+<details>
+<summary>View answer and reasoning</summary>
+
 *Indicative answer.* Any item is acceptable if you say in advance what result
 would favour which route. An answer that proposes an item, explains what it
 would show, and then notes that the item may turn out to be non-discriminating
 scores the limitation point. "The evidence remains insufficient" is a correct
 answer here when it is argued.
+
+</details>
 
 ## Assessment
 

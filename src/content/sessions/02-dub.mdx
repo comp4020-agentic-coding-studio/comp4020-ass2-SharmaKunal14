@@ -31,9 +31,8 @@ spec:
   - every relationship you propose names the specific feature that supports it
   - you state the assumption under which that feature is good evidence
   - you test one alternative explanation and say why you rejected it
-predictionCheck:
-  prompt: "Where do you expect the six features to diverge between recordings W, X, Y and Z, before you read the feature table?"
 ---
+import PredictionCheck from "../../components/PredictionCheck.astro";
 
 > Which shared features are useful evidence of a common intermediate copy?
 
@@ -49,6 +48,11 @@ Open the [week 2 pack](/packs/week-02/) and read `feature-table.csv` and
 North India* (University of Chicago Press, 1993), introduction and chapter 3, on
 duplication as a distribution system and what it cost in fidelity. No linkable
 copy exists; the lecture states the specific claim used.
+
+<PredictionCheck
+  sessionSlug="02-dub"
+  prompt="Where do you expect the six features to diverge between recordings W, X, Y and Z, before you read the feature table?"
+/>
 
 ## The specimen
 
@@ -145,11 +149,16 @@ A fresh feature table. One pair of copies shares a local dropout; another pair
 shares a raised noise floor. Which better supports a proposed relationship, and
 why?
 
+<details>
+<summary>View answer and reasoning</summary>
+
 *Indicative answer.* The dropout, because it is a one-off event at a fixed
 location, and independent occurrence in two copies would be a coincidence.
 Raised noise is what dubbing does, so it is expected everywhere. Independent
 introduction of the dropout is still possible — it is less likely, not ruled out,
 and an answer that says so scores the limitation point.
+
+</details>
 
 ## Assessment
 

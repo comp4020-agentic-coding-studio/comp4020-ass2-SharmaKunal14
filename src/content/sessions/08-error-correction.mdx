@@ -30,9 +30,8 @@ spec:
   - you can state the week's question in your own words before you start
   - your evidence table separates what you observed from what you inferred
   - you name one alternative explanation your evidence does not rule out
-predictionCheck:
-  prompt: "State this week's question in your own words, before you start."
 ---
+import PredictionCheck from "../../components/PredictionCheck.astro";
 
 > What resources can protect a message from a specified error pattern?
 
@@ -52,17 +51,27 @@ that bound is the whole week.
 `1`→`111`, `0`→`000`, `1`→`111`, `1`→`111` — the transmitted codeword is
 `111 000 111 111` (12 bits).
 
+<PredictionCheck
+  sessionSlug="08-error-correction"
+  prompt="State this week's question in your own words, before you start."
+/>
+
 ## Check — 5 minutes
 
 Received: `101 000 111 111`. Decode each triplet by majority vote and write
 the recovered 4-bit payload. Then state, in one sentence, the assumption
 under which your decoded answer is reliable.
 
+<details>
+<summary>View answer and reasoning</summary>
+
 *Indicative answer.* `101`→majority `1`; the rest match the codeword exactly.
 Recovered payload: `1011` — correct, despite the single flipped bit in the
 first triplet. The assumption: **at most one bit error per triplet.** Feedback
 below (Evaluate) supplies a received block where that assumption fails and the
 majority vote is confidently wrong.
+
+</details>
 
 ## Receive — 15 minutes
 

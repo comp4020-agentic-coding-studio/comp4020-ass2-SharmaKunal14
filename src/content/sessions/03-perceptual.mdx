@@ -31,9 +31,8 @@ spec:
   - your protocol names one independent variable and lists what you held fixed
   - your prediction is written before you look at the matching results
   - your conclusion is limited to the source, settings and measure you actually used
-predictionCheck:
-  prompt: "What do you expect the corrected comparison to show, before you look at the matching results?"
 ---
+import PredictionCheck from "../../components/PredictionCheck.astro";
 
 > How would we test whether repeated re-encoding caused a measured change?
 
@@ -48,6 +47,11 @@ Open the [week 3 pack](/packs/week-03/) and read `the-comparison.txt` and
 **Reading.** Jonathan Sterne, *MP3: The Meaning of a Format* (Duke University
 Press, 2012), chapter 1, on perceptual coding as a theory about a listener.
 Available through the library; the lecture states the specific claim used.
+
+<PredictionCheck
+  sessionSlug="03-perceptual"
+  prompt="What do you expect the corrected comparison to show, before you look at the matching results?"
+/>
 
 ## Last week, and this week
 
@@ -162,6 +166,9 @@ A comparison changes both the bitrate and the number of encoding cycles.
 Identify the confound, specify one corrected comparison, and state its remaining
 limit.
 
+<details>
+<summary>View answer and reasoning</summary>
+
 *Indicative answer.* Two variables move together, so the difference cannot be
 attributed to either. Correct it by holding the bitrate fixed and varying only
 the cycle count. The remaining limit is that the result then applies to that
@@ -170,6 +177,8 @@ about another.
 
 The mark is for the design. Naming the codec, or guessing which condition came
 first, earns nothing here.
+
+</details>
 
 ## Assessment
 

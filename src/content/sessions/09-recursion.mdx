@@ -30,9 +30,8 @@ spec:
   - you can state the week's question in your own words before you start
   - your evidence table separates what you observed from what you inferred
   - you name one alternative explanation your evidence does not rule out
-predictionCheck:
-  prompt: "What do you expect recursive re-estimation to do to the rare category, before opening reveal?"
 ---
+import PredictionCheck from "../../components/PredictionCheck.astro";
 
 > Under what conditions can recursive sampling lose rare cases?
 
@@ -57,6 +56,11 @@ early error accumulation and, later, the permanent loss of low-frequency
 ("tail") cases — and this workshop tests a small, fully stated instance of
 that mechanism rather than asking you to read the paper's own experiments.
 
+<PredictionCheck
+  sessionSlug="09-recursion"
+  prompt="What do you expect recursive re-estimation to do to the rare category, before opening reveal?"
+/>
+
 ## Check — 5 minutes
 
 The rare category F's count across three seeds of the "fully recursive"
@@ -65,11 +69,16 @@ seed 47 — 0, 0, 0. Does this table support the claim "recursive resampling
 always loses rare categories by round 5"? State your answer and why in one
 sentence.
 
+<details>
+<summary>View answer and reasoning</summary>
+
 *Indicative answer.* No — two of the three seeds show category F's count
 recovering, not shrinking, by round 5. Only one seed (47) lost it, and once
 it reached zero it stayed at zero. The supported claim is narrower: recursive
 resampling **can** permanently lose a rare category, not that it reliably
 does on every run.
+
+</details>
 
 ## Receive — 15 minutes
 
