@@ -48,6 +48,22 @@ reveal from every session page, deck and pack index, and wrote
 href so the link can't quietly come back
 ([`bf9f600`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/bf9f600),
 [`7c7c89f`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/7c7c89f)).
+
+The site itself was "too boring," so I added a predict-then-reveal widget
+to the workshops: a textarea that locks a prediction into `localStorage`
+before comparing it against real data, wiring 11 of 12 workshops' own
+existing "write down what you expect first" pedagogy into something a
+student actually has to do
+([`751ab1e`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/751ab1e),
+[`1dcfc5b`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/1dcfc5b)).
+Asked to move it back to its originally designed inline position and to
+make each five-minute Check's answer an on-page reveal rather than
+always-visible prose, I converted every session file to `.mdx` so the
+widget could sit inside each week's own body instead of after the whole
+rendered page, and wrapped each Check's indicative answer in a `<details>`
+toggle
+([`8046912`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/8046912),
+[`bac3ed2`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/bac3ed2)).
 A fully hidden reveal was safe but wasted pedagogy the course argues for
 elsewhere: commit to a prediction, then check it. Rather than revert the
 unlink, I loosened it: `packs/pack-index.ts` gained an optional gated
@@ -71,6 +87,66 @@ The twelve hero images were then redesigned from text cards to textless
 abstract motifs, since the theme's `Hero.astro` already overlays the real
 page title
 ([`9c10596`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/9c10596)).
+The archive page opened straight into two abstract governance rules with no
+statement of what the archive actually is or why audio and image files
+aren't published there; I added a purpose line and a card grid to each
+collection, then a callout stating the evidence-as-data reasoning upfront so
+a reader isn't left assuming the missing media is an oversight
+([`d41b7cf`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/d41b7cf),
+[`9f2aad2`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/9f2aad2)).
+
+With the deadline explicitly set aside for a session, the ask shifted to
+more interactive, creative work. I built a live generation-loss simulator —
+degrading a student's own text across generations using week 1's exact
+counting rule, ported client-side, so "identical" versus "derived from"
+stops being an abstraction and becomes something a slider changes in front
+of you — and a progress dashboard that reads the predict-then-reveal
+records the site already writes across all twelve workshops, so it needed
+no new state of its own
+([`4715c81`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/4715c81),
+[`dbb2f1f`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/dbb2f1f),
+[`118474c`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/118474c)).
+The simulator's own scoped styles turned out not to apply to elements it
+built at runtime with `document.createElement`, so every error bar rendered
+at zero height until I marked those selectors `:global`; a follow-up pass
+added a one-line caption above each section and rebuilt the dashboard as a
+progress bar and card grid instead of a plain checkmark list
+([`0488aed`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/0488aed),
+[`d1e6f89`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/d1e6f89)).
+
+A content read-through against the assignment's "response to the brief"
+criterion found weeks 5 through 12 all carrying the identical three `spec:`
+bullets, copied verbatim — exactly the "starter with the nouns swapped"
+pattern the brief marks down even though nothing here is machine-checked.
+Each week's bullets were rewritten to name that week's own artefact and
+judgement call instead of paraphrasing the same template eight times
+([`099f4d9`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/099f4d9)).
+
+A homepage timetable followed, one row per week naming that week's
+lecture, workshop, recurring Generation Check and anything due — with due
+dates placed by computing, per assessment, the latest session on or before
+its actual due timestamp rather than trusting the week it was introduced,
+since those two differ for several pieces
+([`c428041`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/c428041)).
+Its header text turned out illegible against the theme's dark header
+background, and every row's Check link pointed at the same generic
+overview instead of that week's own evidence and question; I fixed the
+missing color and mapped each week to its real anchor
+([`67a00ad`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/67a00ad)).
+The Check itself was still a `<details>` disclosure that handed over the
+indicative answer to anyone who expanded it with no requirement to answer
+first, so I turned it into a small submit-then-reveal quiz: a textarea a
+student commits an answer to before the indicative answer appears, with
+the response kept in the same kind of namespaced `localStorage` record the
+prediction widget uses, but under its own key so the two never collide
+([`9b6eb05`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/9b6eb05)).
+Told the timetable repeated itself — the same "Lecture"/"Workshop" pair and
+the same "Weekly check" phrase down every row, since a week's lecture and
+workshop always share one title — I was given explicit room to change the
+layout, not just its styling, and replaced the table with a week-card list:
+one title per week, three short role pills pointing at the three pages that
+title actually names
+([`ebb9c58`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/ebb9c58)).
 
 Every decision above, including mutation-testing tables proving each new
 contract fails when the defect is reintroduced, is recorded in
