@@ -182,9 +182,9 @@ ${JSON.stringify(pack.supportedStemma, null, 2)}
     {
       sessionSlug: "06-stemma",
       files: [
-        { name: "archetype.txt", what: "the reconstructed archetype -- locks until you commit a prediction" },
+        { path: "reveal/archetype.txt", what: "the reconstructed archetype -- locks until you commit a prediction" },
         {
-          name: "production-log.md",
+          path: "reveal/production-log.md",
           what: "how the witnesses were produced, and the argument -- locks until you commit a prediction",
         },
       ],

@@ -164,7 +164,7 @@ ${(pack.trueStructure.edges as { parent: string; child: string; how: string }[])
       sessionSlug: "02-dub",
       files: [
         {
-          name: "construction-log.md",
+          path: "reveal/construction-log.md",
           what: "how the source and copies were built, and the argument -- locks until you commit a prediction",
         },
       ],

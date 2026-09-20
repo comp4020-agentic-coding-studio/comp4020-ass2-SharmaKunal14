@@ -230,7 +230,7 @@ function main(): void {
       sessionSlug: "09-recursion",
       files: [
         {
-          name: "analysis.md",
+          path: "reveal/analysis.md",
           what: "the analysis and argument -- locks until you commit a prediction",
         },
       ],

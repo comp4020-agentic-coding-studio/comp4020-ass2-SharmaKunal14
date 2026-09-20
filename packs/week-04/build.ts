@@ -180,7 +180,7 @@ function main(): void {
       sessionSlug: "04-poor-image",
       files: [
         {
-          name: "analysis.md",
+          path: "reveal/analysis.md",
           what: "the analysis and argument -- locks until you commit a prediction",
         },
       ],

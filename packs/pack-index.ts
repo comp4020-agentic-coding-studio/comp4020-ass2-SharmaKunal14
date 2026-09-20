@@ -13,14 +13,16 @@
 // never smuggle in something the index itself doesn't already show, and
 // spec/pack-zip.test.ts checks that stays true.
 //
-// A pack's reveal/ files are listed on this same page (the optional `reveal`
-// argument below) but stay locked until the browser finds a locked prediction
-// for that workshop in localStorage — the same `prediction:<sessionSlug>`
-// record src/components/PredictionCheck.astro writes on the workshop page
-// itself, since both pages share one origin. The static HTML never contains
-// a real `href` into reveal/: each reveal link starts as `href="#"` with the
-// filename in a `data-reveal-name` attribute, and only gets a working `href`
-// set by the inline script once the lock check passes. That keeps
+// A pack's answer files (a reveal/ subfolder, or for week 1 a top-level
+// worked-answer.md) are listed on this same page (the optional `reveal`
+// argument below) but stay locked until the browser finds a locked
+// prediction for that workshop in localStorage — the same
+// `prediction:<sessionSlug>` record src/components/PredictionCheck.astro
+// writes on the workshop page itself, since both pages share one origin. The
+// static HTML never contains a real `href` into an answer file: each reveal
+// link starts as `href="#"` with its path (relative to the pack dir) in a
+// `data-reveal-path` attribute, and only gets a working `href` set by the
+// inline script once the lock check passes. That keeps
 // spec/reveal-unlinked.test.ts's build-time scan (which looks for a literal
 // `href="...reveal/..."` in the shipped HTML) meaningful: it still catches a
 // reveal link that was wired in unconditionally, it just no longer forbids
@@ -34,16 +36,27 @@ export interface PackFile {
   what: string;
 }
 
+export interface RevealFile {
+  /** Path to the file relative to the pack directory, e.g.
+   *  "reveal/analysis.md" or (week 1 only) "worked-answer.md". */
+  path: string;
+  what: string;
+}
+
 export interface PackReveal {
   /** The workshop's session slug, e.g. "07-ancestry" — matches the
    *  `prediction:<sessionSlug>` localStorage key PredictionCheck.astro writes. */
   sessionSlug: string;
-  files: PackFile[];
+  files: RevealFile[];
 }
 
 function extBadge(name: string): string {
   const ext = name.split(".").pop() ?? "";
   return ext.toUpperCase();
+}
+
+function basename(path: string): string {
+  return path.split("/").pop() ?? path;
 }
 
 function fmtBytes(bytes: number): string {
@@ -85,10 +98,10 @@ export function writePackIndex(
         </p>
         <ul class="reveal-list" hidden>
           ${reveal.files
-            .map(
-              (f) =>
-                `<li><a href="#" data-reveal-name="${f.name}"><code>${f.name}</code></a><span class="badge">${extBadge(f.name)}</span><span class="what">${f.what}</span></li>`,
-            )
+            .map((f) => {
+              const name = basename(f.path);
+              return `<li><a href="#" data-reveal-path="${f.path}"><code>${name}</code></a><span class="badge">${extBadge(name)}</span><span class="what">${f.what}</span></li>`;
+            })
             .join("\n          ")}
         </ul>
       </section>
@@ -107,9 +120,9 @@ export function writePackIndex(
           section.querySelector(".reveal-locked-note").hidden = true;
           var list = section.querySelector(".reveal-list");
           list.hidden = false;
-          var links = list.querySelectorAll("a[data-reveal-name]");
+          var links = list.querySelectorAll("a[data-reveal-path]");
           for (var i = 0; i < links.length; i++) {
-            links[i].setAttribute("href", "./reveal/" + links[i].getAttribute("data-reveal-name"));
+            links[i].setAttribute("href", "./" + links[i].getAttribute("data-reveal-path"));
           }
         })();
       </script>`

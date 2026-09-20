@@ -95,7 +95,7 @@
           this page to open these files.
         </p>
         <ul class="reveal-list" hidden>
-          <li><a href="#" data-reveal-name="analysis.md"><code>analysis.md</code></a><span class="badge">MD</span><span class="what">the analysis and argument -- locks until you commit a prediction</span></li>
+          <li><a href="#" data-reveal-path="reveal/analysis.md"><code>analysis.md</code></a><span class="badge">MD</span><span class="what">the analysis and argument -- locks until you commit a prediction</span></li>
         </ul>
       </section>
       <script>
@@ -113,9 +113,9 @@
           section.querySelector(".reveal-locked-note").hidden = true;
           var list = section.querySelector(".reveal-list");
           list.hidden = false;
-          var links = list.querySelectorAll("a[data-reveal-name]");
+          var links = list.querySelectorAll("a[data-reveal-path]");
           for (var i = 0; i < links.length; i++) {
-            links[i].setAttribute("href", "./reveal/" + links[i].getAttribute("data-reveal-name"));
+            links[i].setAttribute("href", "./" + links[i].getAttribute("data-reveal-path"));
           }
         })();
       </script>

@@ -204,7 +204,7 @@ function main(): void {
       sessionSlug: "12-originals",
       files: [
         {
-          name: "analysis.md",
+          path: "reveal/analysis.md",
           what: "the analysis and argument -- locks until you commit a prediction",
         },
       ],

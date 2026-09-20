@@ -165,7 +165,7 @@ function main(): void {
       sessionSlug: "10-enhance",
       files: [
         {
-          name: "analysis.md",
+          path: "reveal/analysis.md",
           what: "the analysis and argument -- locks until you commit a prediction",
         },
       ],

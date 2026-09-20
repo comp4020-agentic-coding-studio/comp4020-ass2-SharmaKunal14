@@ -221,9 +221,17 @@ what a legibility test card is for.
       { name: "g4-r2.txt", what: "generation 4, reader R2" },
       { name: "g8-r1.txt", what: "generation 8, reader R1" },
       { name: "g8-r2.txt", what: "generation 8, reader R2" },
-      { name: "worked-answer.md", what: "the answer and the argument -- open it after your own table" },
       { name: "README.txt", what: "what is in this folder" },
-    ]);
+    ],
+    {
+      sessionSlug: "01-photocopy",
+      files: [
+        {
+          path: "worked-answer.md",
+          what: "the answer and the argument -- locks until you commit a prediction",
+        },
+      ],
+    });
 
   console.log(`week-01 pack: ${rows.length} transcriptions, worksheet and worked answer written`);
 }
