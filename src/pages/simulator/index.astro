@@ -2,6 +2,7 @@
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
 import GenerationLossSimulator from "../../components/GenerationLossSimulator.astro";
 import CharacterDiffVisualizer from "../../components/CharacterDiffVisualizer.astro";
+import ResamplingSimulator from "../../components/ResamplingSimulator.astro";
 import { siteConfig } from "../../site-config";
 import { withBase } from "astro-theme-university/url";
 
@@ -48,6 +49,7 @@ const usedBy = {
     { id: "01-photocopy", label: "Week 1: The office that ate itself" },
     { id: "05-scriptorium", label: "Week 5: The scriptorium" },
   ],
+  resampling: [{ id: "09-recursion", label: "Week 9: The curse of recursion" }],
 };
 ---
 
@@ -81,6 +83,15 @@ const usedBy = {
         Paste two equal-length strings and see every position marked as a
         match, a misreading or an illegible mark — the counting rule shown
         inline over the text.
+      </p>
+    </li>
+    <li class="chooser__card">
+      <a class="chooser__link" href="#resampling-simulator">Resampling simulator</a>
+      <p class="chooser__blurb">
+        Edit a small category distribution and watch what happens across
+        rounds when each round re-estimates from the previous round's own
+        sample instead of the true distribution — an illustrative analogy
+        of week 9's shape, not its dataset or seeds.
       </p>
     </li>
   </ul>
@@ -118,6 +129,27 @@ const usedBy = {
       itself, character by character.
     </p>
     <CharacterDiffVisualizer presets={diffPresets} />
+  </section>
+
+  <section id="resampling-simulator" class="tool-section">
+    <h2>Resampling simulator</h2>
+    <p class="tool-section__used-in">
+      Used in:{" "}
+      {usedBy.resampling.map((s, i) => (
+        <>
+          {i > 0 && ", "}
+          <a href={sessionHref(s.id)}>{s.label}</a>
+        </>
+      ))}
+    </p>
+    <p class="lede">
+      Week 9's pack draws its own categories from its own seeded model — this
+      tool is a separate, editable illustration of the same shape, not that
+      dataset or those seeds. Try shrinking one category's weight to a
+      couple of percent, then compare the "fully recursive" condition
+      against "baseline" over several rounds.
+    </p>
+    <ResamplingSimulator />
   </section>
 
   <p class="arrival-note">

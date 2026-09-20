@@ -1,0 +1,374 @@
+---
+// Ports the SHAPE of week 9's categorical resampling model
+// (packs/week-09/build.ts) client-side, as an illustrative analogy --
+// not the pack's own model.json data or its seeded mulberry32 PRNG, since
+// that is the actual assessed dataset. This tool uses an editable,
+// generic category distribution and Math.random(), so it can build
+// intuition for what re-estimating a sampling distribution from a prior
+// sample does over many rounds, without reproducing the graded artifact.
+export interface Props {
+  /** "label:weight" pairs, comma-separated. Weights need not sum to 100 -- they are normalised. */
+  defaultCategories?: string;
+  /** Default number of resampling rounds after round 0. */
+  defaultRounds?: number;
+  /** Samples drawn per round. Fixed, not user-editable, to keep the control surface small. */
+  roundSize?: number;
+}
+
+const {
+  defaultCategories = "A:30,B:25,C:20,D:15,E:7,F:3",
+  defaultRounds = 5,
+  roundSize = 200,
+} = Astro.props;
+---
+
+<div
+  class="rs"
+  data-default-categories={defaultCategories}
+  data-default-rounds={defaultRounds}
+  data-round-size={roundSize}
+>
+  <label class="rs__field">
+    Category distribution (label:weight pairs, comma-separated)
+    <input type="text" class="rs__categories" value={defaultCategories} />
+  </label>
+
+  <fieldset class="rs__model">
+    <legend>Condition</legend>
+    <p class="rs__caption">
+      Round 0 always draws from the true distribution. From round 1, each
+      condition estimates its next round's sampling distribution
+      differently.
+    </p>
+    <label class="rs__radio">
+      <input type="radio" name="rs__condition" class="rs__condition-baseline" value="baseline" checked />
+      Baseline — every round draws from the true distribution, never from a prior sample
+    </label>
+    <label class="rs__radio">
+      <input type="radio" name="rs__condition" class="rs__condition-full" value="full-recursive" />
+      Fully recursive — every later round estimates entirely from the previous round's own sample
+    </label>
+    <label class="rs__radio">
+      <input type="radio" name="rs__condition" class="rs__condition-retained" value="retained-mix" />
+      Retained mix — each round blends the previous sample with a fresh true-distribution draw
+    </label>
+  </fieldset>
+
+  <div class="rs__controls">
+    <label class="rs__field">
+      Rounds: <output class="rs__rounds-value">{defaultRounds}</output>
+      <input type="range" class="rs__rounds" min="2" max="10" step="1" value={defaultRounds} />
+    </label>
+    <button type="button" class="rs__reroll">Re-roll (same settings, new randomness)</button>
+  </div>
+
+  <div class="rs__output">
+    <h2>Rarest category, round by round</h2>
+    <p class="rs__caption rs__rare-caption"></p>
+    <div class="rs__bars" role="img" aria-label="Rarest category's share of the sample, per round"></div>
+    <ul class="rs__bars-fallback visually-hidden"></ul>
+
+    <h2>Full distribution by round</h2>
+    <p class="rs__caption">
+      Counts out of {roundSize} draws per round, from one simulated run of
+      the selected condition — not week 9's own dataset or seeds, and not
+      re-run automatically when you change the condition; use "Re-roll" to
+      draw again.
+    </p>
+    <div class="rs__table-wrap">
+      <table class="rs__table">
+        <thead>
+          <tr class="rs__table-head"></tr>
+        </thead>
+        <tbody class="rs__table-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<style>
+  .rs__field {
+    display: block;
+    margin-block: 0.75rem;
+  }
+
+  .rs__categories {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 1rem;
+    margin-block-start: 0.3rem;
+  }
+
+  .rs__model {
+    margin-block: 0.75rem;
+    padding: 0.75rem;
+    border: 1px solid var(--at-border, #ccc);
+    border-radius: 0.5rem;
+  }
+
+  .rs__radio {
+    display: block;
+    font-size: 0.9rem;
+    margin-block: 0.3rem;
+  }
+
+  .rs__controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .rs__controls input[type="range"] {
+    width: 100%;
+  }
+
+  .rs__caption {
+    font-size: 0.85rem;
+    opacity: 0.75;
+    margin-block: 0.25rem 0.75rem;
+  }
+
+  .rs__bars {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  /* Bar rows and table rows are created client-side via
+     document.createElement, so they never receive Astro's scoping
+     attribute -- these rules must be :global or they silently never
+     match, and the bars render at zero height (see
+     GenerationLossSimulator.astro, which hit this same bug first). */
+  :global(.rs__bar-row) {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  :global(.rs__bar-label) {
+    flex: 0 0 3rem;
+    font-size: 0.8rem;
+    opacity: 0.75;
+  }
+
+  :global(.rs__bar-track) {
+    flex: 1 1 auto;
+    background: var(--at-bg-alt);
+    border-radius: 4px;
+    overflow: hidden;
+    height: 0.75rem;
+  }
+
+  :global(.rs__bar-fill) {
+    height: 100%;
+    background: var(--at-text-secondary);
+  }
+
+  .rs__table-wrap {
+    overflow-x: auto;
+  }
+
+  :global(.rs__table) {
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    width: 100%;
+  }
+
+  :global(.rs__table th),
+  :global(.rs__table td) {
+    border: 1px solid var(--at-border, #ccc);
+    padding: 0.3rem 0.5rem;
+    text-align: right;
+  }
+
+  :global(.rs__table th:first-child),
+  :global(.rs__table td:first-child) {
+    text-align: left;
+  }
+</style>
+
+<script>
+  function initResamplingSimulators() {
+    for (const root of document.querySelectorAll<HTMLElement>(".rs")) {
+      if (root.dataset.initialised === "true") continue;
+      root.dataset.initialised = "true";
+
+      const roundSize = Number(root.dataset.roundSize);
+
+      const categoriesInput = root.querySelector<HTMLInputElement>(".rs__categories")!;
+      const roundsSlider = root.querySelector<HTMLInputElement>(".rs__rounds")!;
+      const roundsValue = root.querySelector<HTMLElement>(".rs__rounds-value")!;
+      const conditionBaseline = root.querySelector<HTMLInputElement>(".rs__condition-baseline")!;
+      const conditionFull = root.querySelector<HTMLInputElement>(".rs__condition-full")!;
+      const conditionRetained = root.querySelector<HTMLInputElement>(".rs__condition-retained")!;
+      const rerollButton = root.querySelector<HTMLButtonElement>(".rs__reroll")!;
+      const rareCaption = root.querySelector<HTMLElement>(".rs__rare-caption")!;
+      const barsContainer = root.querySelector<HTMLElement>(".rs__bars")!;
+      const barsFallback = root.querySelector<HTMLElement>(".rs__bars-fallback")!;
+      const tableHead = root.querySelector<HTMLElement>(".rs__table-head")!;
+      const tableBody = root.querySelector<HTMLElement>(".rs__table-body")!;
+
+      // "label:weight,label:weight" -> normalised probability vector.
+      // Malformed entries (no ":", non-numeric weight, weight <= 0) are
+      // dropped rather than crashing the tool on a typo mid-edit.
+      function parseCategories(spec: string): { labels: string[]; probs: number[] } {
+        const labels: string[] = [];
+        const weights: number[] = [];
+        for (const part of spec.split(",")) {
+          const [label, weightRaw] = part.split(":").map((s) => s.trim());
+          const weight = Number(weightRaw);
+          if (!label || !Number.isFinite(weight) || weight <= 0) continue;
+          labels.push(label);
+          weights.push(weight);
+        }
+        const total = weights.reduce((a, b) => a + b, 0);
+        const probs = total > 0 ? weights.map((w) => w / total) : weights.map(() => 0);
+        return { labels, probs };
+      }
+
+      // Categorical sample of size n from a probability vector, via
+      // Math.random() -- deliberately not the pack's seeded mulberry32,
+      // since this tool is a generic illustration, not a graded artifact.
+      function draw(labels: string[], probs: number[], n: number): string[] {
+        const cum: number[] = [];
+        probs.reduce((acc, p, i) => (cum[i] = acc + p), 0);
+        const out: string[] = [];
+        for (let i = 0; i < n; i++) {
+          const r = Math.random();
+          let idx = cum.findIndex((c) => r < c);
+          if (idx === -1) idx = labels.length - 1;
+          out.push(labels[idx]);
+        }
+        return out;
+      }
+
+      function counts(labels: string[], sample: string[]): number[] {
+        return labels.map((label) => sample.filter((s) => s === label).length);
+      }
+
+      function normalise(freqs: number[]): number[] {
+        const total = freqs.reduce((a, b) => a + b, 0);
+        return total === 0 ? freqs.map(() => 0) : freqs.map((f) => f / total);
+      }
+
+      // Same three-condition shape as packs/week-09/build.ts's
+      // simulateRun: baseline always redraws from the true distribution;
+      // full-recursive re-estimates entirely from the previous round's own
+      // sample; retained-mix blends the previous sample with a fresh
+      // true-distribution draw before re-estimating.
+      function simulateRun(
+        labels: string[],
+        trueProbs: number[],
+        condition: "baseline" | "full-recursive" | "retained-mix",
+        rounds: number,
+      ): string[][] {
+        const samples: string[][] = [draw(labels, trueProbs, roundSize)];
+        for (let r = 1; r <= rounds; r++) {
+          const prev = samples[r - 1];
+          let probs: number[];
+          if (condition === "baseline") {
+            probs = trueProbs;
+          } else if (condition === "full-recursive") {
+            probs = normalise(counts(labels, prev));
+          } else {
+            const fresh = draw(labels, trueProbs, roundSize);
+            const prevCounts = counts(labels, prev);
+            const freshCounts = counts(labels, fresh);
+            probs = normalise(prevCounts.map((c, i) => c + freshCounts[i]));
+          }
+          samples.push(draw(labels, probs, roundSize));
+        }
+        return samples;
+      }
+
+      function render() {
+        const { labels, probs } = parseCategories(categoriesInput.value);
+        const rounds = Number(roundsSlider.value);
+        roundsValue.textContent = String(rounds);
+
+        barsContainer.replaceChildren();
+        barsFallback.replaceChildren();
+        tableHead.replaceChildren();
+        tableBody.replaceChildren();
+
+        if (!labels.length) {
+          rareCaption.textContent = "Add at least one valid label:weight pair to run this.";
+          return;
+        }
+
+        const rareIndex = probs.indexOf(Math.min(...probs));
+        const rareLabel = labels[rareIndex];
+        const condition: "baseline" | "full-recursive" | "retained-mix" = conditionFull.checked
+          ? "full-recursive"
+          : conditionRetained.checked
+            ? "retained-mix"
+            : "baseline";
+
+        rareCaption.textContent = `Category "${rareLabel}" has the smallest true share (${(probs[rareIndex] * 100).toFixed(1)}%). Each bar below is its percentage of that round's ${roundSize} draws.`;
+
+        const samples = simulateRun(labels, probs, condition, rounds);
+        const roundCounts = samples.map((sample) => counts(labels, sample));
+
+        roundCounts.forEach((cs, r) => {
+          const rareCount = cs[rareIndex];
+          const pct = (rareCount / roundSize) * 100;
+          const row = document.createElement("div");
+          row.className = "rs__bar-row";
+          const rowLabel = document.createElement("span");
+          rowLabel.className = "rs__bar-label";
+          rowLabel.textContent = `R${r}`;
+          const track = document.createElement("div");
+          track.className = "rs__bar-track";
+          const fill = document.createElement("div");
+          fill.className = "rs__bar-fill";
+          fill.style.width = `${Math.min(100, pct).toFixed(1)}%`;
+          track.appendChild(fill);
+          row.append(rowLabel, track);
+          barsContainer.appendChild(row);
+
+          const li = document.createElement("li");
+          li.textContent = `Round ${r}: category ${rareLabel} was ${rareCount} of ${roundSize} draws (${pct.toFixed(1)}%)`;
+          barsFallback.appendChild(li);
+        });
+
+        const headRow = document.createElement("tr");
+        const roundHeader = document.createElement("th");
+        roundHeader.textContent = "Round";
+        headRow.appendChild(roundHeader);
+        for (const label of labels) {
+          const th = document.createElement("th");
+          th.textContent = label;
+          headRow.appendChild(th);
+        }
+        tableHead.appendChild(headRow);
+
+        roundCounts.forEach((cs, r) => {
+          const row = document.createElement("tr");
+          const roundCell = document.createElement("td");
+          roundCell.textContent = `R${r}`;
+          row.appendChild(roundCell);
+          for (const count of cs) {
+            const td = document.createElement("td");
+            td.textContent = String(count);
+            row.appendChild(td);
+          }
+          tableBody.appendChild(row);
+        });
+      }
+
+      categoriesInput.addEventListener("input", render);
+      roundsSlider.addEventListener("input", render);
+      conditionBaseline.addEventListener("change", render);
+      conditionFull.addEventListener("change", render);
+      conditionRetained.addEventListener("change", render);
+      rerollButton.addEventListener("click", render);
+
+      render();
+    }
+  }
+
+  document.addEventListener("astro:page-load", initResamplingSimulators);
+  initResamplingSimulators();
+</script>
