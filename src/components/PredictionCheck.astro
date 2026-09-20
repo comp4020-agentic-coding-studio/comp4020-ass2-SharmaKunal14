@@ -49,7 +49,7 @@ const revealHref = revealFile ? `${import.meta.env.BASE_URL}${revealFile.replace
     </div>
     <p class="prediction-check__locked-at" hidden></p>
     {whatYouShouldFind && (
-      <div class="prediction-check__replay" hidden>
+      <div class="prediction-check__replay" aria-live="polite" hidden>
         <div class="prediction-check__replay-col">
           <h3>Your prediction</h3>
           <p class="prediction-check__replay-yours"></p>
@@ -60,7 +60,7 @@ const revealHref = revealFile ? `${import.meta.env.BASE_URL}${revealFile.replace
         </div>
       </div>
     )}
-    <div class="prediction-check__result" hidden></div>
+    <div class="prediction-check__result" aria-live="polite" hidden></div>
   </div>
 </Callout>
 
@@ -126,7 +126,9 @@ const revealHref = revealFile ? `${import.meta.env.BASE_URL}${revealFile.replace
       const replay = root.querySelector<HTMLElement>(".prediction-check__replay");
       const replayYours = root.querySelector<HTMLElement>(".prediction-check__replay-yours");
 
-      function renderLocked(text: string, at: string) {
+      // moveFocus only on a real lock: this also runs on load to restore a
+      // saved prediction, where stealing focus would yank the reader mid-page.
+      function renderLocked(text: string, at: string, moveFocus = false) {
         input.value = text;
         input.disabled = true;
         lockButton.hidden = true;
@@ -138,6 +140,7 @@ const revealHref = revealFile ? `${import.meta.env.BASE_URL}${revealFile.replace
           replayYours.textContent = text;
           replay.hidden = false;
         }
+        if (moveFocus) revealButton.focus();
       }
 
       function renderUnlocked() {
@@ -150,6 +153,7 @@ const revealHref = revealFile ? `${import.meta.env.BASE_URL}${revealFile.replace
         result.hidden = true;
         result.textContent = "";
         if (replay) replay.hidden = true;
+        lockButton.focus();
       }
 
       let saved: { text: string; lockedAt: string } | null = null;
@@ -173,7 +177,7 @@ const revealHref = revealFile ? `${import.meta.env.BASE_URL}${revealFile.replace
           // Private browsing or a full quota — the lock still applies for this
           // page view even if it won't persist across a reload.
         }
-        renderLocked(record.text, record.lockedAt);
+        renderLocked(record.text, record.lockedAt, true);
       });
 
       clearButton.addEventListener("click", () => {

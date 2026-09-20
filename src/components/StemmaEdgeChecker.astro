@@ -24,16 +24,20 @@ const { points, witnesses } = Astro.props;
   <div class="sec__pickers">
     <label class="sec__field">
       Witness A
-      <select class="sec__witness-a"></select>
+      <select class="sec__witness-a">
+        {witnesses.map((w) => <option value={w}>{w}</option>)}
+      </select>
     </label>
     <label class="sec__field">
       Witness B
-      <select class="sec__witness-b"></select>
+      <select class="sec__witness-b">
+        {witnesses.map((w, i) => <option value={w} selected={i === 1}>{w}</option>)}
+      </select>
     </label>
     <button type="button" class="sec__check">Check this edge</button>
   </div>
 
-  <div class="sec__result" hidden>
+  <div class="sec__result" aria-live="polite" hidden>
     <p class="sec__summary"></p>
     <ul class="sec__points"></ul>
     <p class="sec__caveat">
@@ -108,17 +112,8 @@ const { points, witnesses } = Astro.props;
       const summary = root.querySelector<HTMLElement>(".sec__summary")!;
       const pointsList = root.querySelector<HTMLElement>(".sec__points")!;
 
-      for (const select of [witnessA, witnessB]) {
-        select.replaceChildren(
-          ...witnesses.map((w) => {
-            const option = document.createElement("option");
-            option.value = w;
-            option.textContent = w;
-            return option;
-          }),
-        );
-      }
-      if (witnesses.length > 1) witnessB.selectedIndex = 1;
+      // Options are rendered server-side so both pickers are usable before
+      // (and without) this script.
 
       function checkEdge() {
         const a = witnessA.value;

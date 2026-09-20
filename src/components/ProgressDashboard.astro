@@ -21,7 +21,10 @@ const sessionData = visible.map((s) => ({ id: s.id, title: s.data.title, week: s
     </div>
   </div>
   <ul class="progress-dashboard__grid" hidden></ul>
-  <p class="progress-dashboard__unavailable" hidden>
+  {/* Ships visible so it is the state a reader gets when the script never
+      runs at all, not only when localStorage throws. init() hides it on the
+      success path. */}
+  <p class="progress-dashboard__unavailable">
     Progress tracking isn't available in this browser (private browsing or
     storage disabled). Your predictions and checks still work normally on
     each workshop page — see the full list of {sessionData.length} workshops
@@ -178,6 +181,7 @@ const sessionData = visible.map((s) => ({ id: s.id, title: s.data.title, week: s
         continue;
       }
 
+      unavailable.hidden = true;
       summary.hidden = false;
       predictionText.textContent = `${committedIds.size} of ${sessions.length} workshops: prediction committed.`;
       predictionFill.style.width = `${sessions.length ? (committedIds.size / sessions.length) * 100 : 0}%`;

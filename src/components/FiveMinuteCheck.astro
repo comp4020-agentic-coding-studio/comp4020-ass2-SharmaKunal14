@@ -26,7 +26,7 @@ const storageKey = `check:${sessionSlug}`;
       <button type="button" class="five-minute-check__edit" hidden>Edit my answer</button>
     </div>
     <p class="five-minute-check__submitted-at" hidden></p>
-    <div class="five-minute-check__answer" hidden>
+    <div class="five-minute-check__answer" aria-live="polite" hidden>
       <p class="five-minute-check__answer-label"><strong>Indicative answer</strong></p>
       <slot />
     </div>
@@ -83,7 +83,9 @@ const storageKey = `check:${sessionSlug}`;
       const submittedAt = root.querySelector<HTMLElement>(".five-minute-check__submitted-at")!;
       const answer = root.querySelector<HTMLElement>(".five-minute-check__answer")!;
 
-      function renderSubmitted(text: string, at: string) {
+      // moveFocus only on a real submit: this also runs on load to restore a
+      // saved answer, where stealing focus would yank the reader mid-page.
+      function renderSubmitted(text: string, at: string, moveFocus = false) {
         input.value = text;
         input.disabled = true;
         submitButton.hidden = true;
@@ -91,6 +93,7 @@ const storageKey = `check:${sessionSlug}`;
         submittedAt.hidden = false;
         submittedAt.textContent = `Submitted ${new Date(at).toLocaleString()}.`;
         answer.hidden = false;
+        if (moveFocus) editButton.focus();
       }
 
       function renderUnsubmitted() {
@@ -122,7 +125,7 @@ const storageKey = `check:${sessionSlug}`;
           // Private browsing or a full quota — the submission still applies
           // for this page view even if it won't persist across a reload.
         }
-        renderSubmitted(record.text, record.submittedAt);
+        renderSubmitted(record.text, record.submittedAt, true);
       });
 
       editButton.addEventListener("click", () => {

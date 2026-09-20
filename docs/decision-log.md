@@ -2924,3 +2924,82 @@ each check establishes. No independent party has confirmed that
 `reading-citations.test.ts` cannot be satisfied by a well-formed citation
 to an unreachable source — on the contrary, by construction it can be,
 which is why the rule is described as editorial in part.
+
+## 2026-09-21 — Interactive widgets audited for keyboard, resize and no-JS
+
+**Scope:** `GenerationLossSimulator`, `ResamplingSimulator`,
+`StemmaEdgeChecker`, `PredictionCheck`, `FiveMinuteCheck`,
+`ProgressDashboard`, `CharacterDiffVisualizer`, `CourseTimetable`.
+
+### Why this was done
+
+The `axe` scan in the build passes on all 62 pages, but it inspects
+**static** HTML. It cannot see a region that changes silently after a
+click, focus that lands on `<body>`, or a widget that renders as nothing
+when its script does not run. Those are exactly the conditions the
+artefact criterion names. So the audit was a deliberate look at the
+states the automated check cannot reach, not a re-run of it.
+
+### Defects found and fixed
+
+- **Two fallbacks that could not fall back.** `ProgressDashboard` shipped
+  its summary, its grid **and** its "progress tracking isn't available"
+  note all `hidden`; only the script's `catch` branch unhid the note, so
+  if the script never ran at all the dashboard rendered as empty space.
+  The note now ships visible and the success path hides it.
+  `StemmaEdgeChecker` shipped two empty `<select>`s populated only by
+  script; the options are now rendered server-side from the `witnesses`
+  prop and the script only reads them.
+- **A page that misdescribed its own behaviour.** The resampling
+  simulator's caption said "changing the mode above doesn't redraw on its
+  own", while every condition radio is bound to `render()`, which redraws
+  with fresh `Math.random()` draws. Reworded to state that each control
+  redraws, and to warn that switching mode changes the randomness and the
+  mode together — so two runs are not a controlled comparison. This is
+  the same defect class as `9896cef`: a label asserting something the
+  underlying evidence does not support.
+- **Silent result regions.** Seven dynamic regions updated with no
+  announcement. Added `aria-live="polite"` to the resampling takeaway,
+  the stemma verdict, the prediction replay and fetch-result panels, the
+  five-minute-check answer and the character-diff result. For the chain
+  simulator a dedicated `visually-hidden` status line was added instead,
+  because marking the whole output block live would read an entire
+  degraded passage aloud on every slider keystroke.
+- **Focus dropped to `<body>`.** `FiveMinuteCheck` and `PredictionCheck`
+  hid the very button the user had just activated. Focus now moves to the
+  control that replaces it. Both render functions also run on load to
+  restore saved state, so the focus move is behind a `moveFocus`
+  parameter that only the click paths pass — restoring a saved answer
+  must not yank a reader mid-page.
+- **36 links, 3 accessible names.** The home-page timetable repeated
+  "Lecture"/"Workshop"/"Check" twelve times each, so a links list could
+  not tell week 2 from week 11. Each now carries a `visually-hidden`
+  week number.
+
+### A trade-off taken deliberately
+
+Shipping the dashboard's unavailable note visible means a JS-enabled
+reader may see it briefly before the deferred module script hides it.
+That flash is the price of not rendering as blank space when the script
+is slow, blocked or broken, and the message is accurate for as long as it
+shows. Accepted rather than adding a render-blocking inline script to
+suppress it.
+
+### Verification and limits
+
+`mise exec -- pnpm check`: 161/161 tests, 0 accessibility violations, no
+broken links, 52 pages built. Each fix re-checked in `dist/`, not just in
+source: `aria-live` regions went from 0 to 3 on `/simulator/` and 4 on
+week 6; the stemma page now ships 6 `<option>` elements; the dashboard
+note ships without `hidden`; the home page carries 36 "for week N"
+suffixes.
+
+**Not established.** This was a source-and-built-HTML audit. No browser
+was driven, so nothing here demonstrates real keyboard traversal, real
+screen-reader output, real behaviour while resizing mid-interaction, or
+real throttled-network rendering. The repo has no Playwright or Puppeteer
+and none was added this close to the deadline. Resize was reasoned about
+from the CSS rather than observed: no `min-width` above 2px exists in any
+built stylesheet or inline style, and every bar fill is a percentage, so
+there is no fixed dimension to strand — but "no measured width in the
+source" is a weaker claim than "watched it reflow".

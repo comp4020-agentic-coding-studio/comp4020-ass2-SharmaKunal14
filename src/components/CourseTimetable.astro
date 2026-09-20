@@ -81,17 +81,17 @@ const weeklyCheckHref =
           <ul class="week-card__roles">
             <li>
               {row.lecture ? (
-                <a href={withBase(`/lectures/${row.lecture.id}/`)}>Lecture</a>
+                <a href={withBase(`/lectures/${row.lecture.id}/`)}>Lecture<span class="visually-hidden"> for week {row.week}</span></a>
               ) : (
                 <span class="none">Lecture —</span>
               )}
             </li>
             <li>
-              <a href={withBase(`/sessions/${row.session.id}/`)}>Workshop</a>
+              <a href={withBase(`/sessions/${row.session.id}/`)}>Workshop<span class="visually-hidden"> for week {row.week}</span></a>
             </li>
             <li>
               <a href={withBase(`/sessions/${row.session.id}/#${row.check.id}`)} title={row.check.label}>
-                Check
+                Check<span class="visually-hidden"> for week {row.week}</span>
               </a>
             </li>
           </ul>

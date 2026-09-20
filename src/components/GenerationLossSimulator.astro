@@ -79,6 +79,9 @@ const {
   </div>
 
   <div class="gls__output">
+    {/* A one-line spoken summary. Putting aria-live on the whole output block
+        instead would read the entire degraded passage aloud on every keystroke. */}
+    <p class="gls__status visually-hidden" aria-live="polite"></p>
     <h2 class="gls__result-heading">Generation {defaultGenerations} output</h2>
     <pre class="gls__result-text"></pre>
 
@@ -92,7 +95,7 @@ const {
     <ul class="gls__bars-fallback visually-hidden"></ul>
 
     <h2>Which confusable characters this run affected</h2>
-    <p class="gls__caption gls__confusable-caption" hidden>
+    <p class="gls__caption gls__confusable-caption">
       Week 1's card was built from characters that look like one another —{" "}
       <code>0O</code>, <code>1lI</code>, <code>5S</code>, <code>8B</code>,{" "}
       <code>2Z</code>, <code>6G</code>, <code>9g</code>. Each bar is how many
@@ -255,6 +258,7 @@ const {
       const rerollButton = root.querySelector<HTMLButtonElement>(".gls__reroll")!;
       const resultHeading = root.querySelector<HTMLElement>(".gls__result-heading")!;
       const resultText = root.querySelector<HTMLElement>(".gls__result-text")!;
+      const status = root.querySelector<HTMLElement>(".gls__status")!;
       const barsContainer = root.querySelector<HTMLElement>(".gls__bars:not(.gls__confusable-bars)")!;
       const barsFallback = root.querySelector<HTMLElement>(".gls__bars-fallback:not(.gls__confusable-bars-fallback)")!;
       const confusableCaption = root.querySelector<HTMLElement>(".gls__confusable-caption")!;
@@ -429,12 +433,16 @@ const {
           statTotal.textContent = "0";
           confusableCaption.hidden = true;
           confusableEmpty.hidden = true;
+          status.textContent = "No text to copy yet — type something to start a chain.";
           return;
         }
         const { misreadings, illegibles, total } = countErrors(original, final);
         statMisreadings.textContent = String(misreadings);
         statIllegibles.textContent = String(illegibles);
         statTotal.textContent = String(total);
+        status.textContent =
+          `Generation ${generations}: ${misreadings} misreadings, ${illegibles} illegibles, ` +
+          `${total} of ${original.length} characters changed.`;
 
         const tally = confusableTally(original, final);
         const entries = [...tally.entries()].sort((a, b) => b[1] - a[1]);

@@ -101,7 +101,7 @@ const {
 
     <div class="rs__panel rs__panel--results">
       <h3 class="rs__panel-title">3. Watch the rarest category</h3>
-      <p class="rs__takeaway"></p>
+      <p class="rs__takeaway" aria-live="polite"></p>
 
       <div class="rs__watch">
         <p class="rs__caption rs__rare-caption"></p>
@@ -114,9 +114,11 @@ const {
         <p class="rs__caption">
           Think of each row as a jar of {roundSize} marbles for that round —
           every coloured stripe is one category's share of that round's
-          draws. This is not week 9's own dataset or seeds. Changing the
-          mode above doesn't redraw on its own; press "Re-roll" to draw a
-          fresh set.
+          draws. This is not week 9's own dataset or seeds. Every control
+          here draws a fresh set, so switching mode changes the randomness
+          and the mode at once — to compare two modes on like-for-like
+          luck, switch back and forth a few times rather than reading one
+          pair of runs as the difference.
         </p>
         <ul class="rs__legend"></ul>
         <div class="rs__stacks"></div>

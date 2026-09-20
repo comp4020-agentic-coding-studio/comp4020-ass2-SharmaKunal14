@@ -36,11 +36,11 @@ const {
   <div class="cdv__fields">
     <label class="cdv__field">
       Original
-      <textarea class="cdv__original" rows="3">{original}</textarea>
+      <textarea class="cdv__original" rows="3" maxlength="2000">{original}</textarea>
     </label>
     <label class="cdv__field">
       Copy
-      <textarea class="cdv__copy" rows="3">{copy}</textarea>
+      <textarea class="cdv__copy" rows="3" maxlength="2000">{copy}</textarea>
     </label>
   </div>
 
@@ -51,7 +51,7 @@ const {
     are the same length.
   </p>
 
-  <div class="cdv__result">
+  <div class="cdv__result" aria-live="polite">
     <h2>Character by character</h2>
     <p class="cdv__caption">
       <span class="cdv__key cdv__key--match">match</span>{" "}
