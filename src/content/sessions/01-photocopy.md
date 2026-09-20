@@ -31,6 +31,8 @@ spec:
   - you can apply the counting rule twice to the same transcription and get the same number
   - your table separates a misread character from an illegible one
   - you can say what your numbers do not establish
+predictionCheck:
+  prompt: "What do you expect to be lost or changed across the four photocopy generations, before you count anything?"
 ---
 
 > How can we measure a copy becoming harder to read?

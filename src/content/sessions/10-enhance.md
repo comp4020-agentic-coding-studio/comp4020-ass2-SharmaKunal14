@@ -31,6 +31,8 @@ spec:
   - you can state the week's question in your own words before you start
   - your evidence table separates what you observed from what you inferred
   - you name one alternative explanation your evidence does not rule out
+predictionCheck:
+  prompt: "What do you expect the restoration to get right, and where do you expect it to fail, before opening reveal?"
 ---
 
 > Does a convincing restoration match the original?

@@ -30,6 +30,8 @@ spec:
   - you can state the week's question in your own words before you start
   - your evidence table separates what you observed from what you inferred
   - you name one alternative explanation your evidence does not rule out
+predictionCheck:
+  prompt: "What do you expect recursive re-estimation to do to the rare category, before opening reveal?"
 ---
 
 > Under what conditions can recursive sampling lose rare cases?

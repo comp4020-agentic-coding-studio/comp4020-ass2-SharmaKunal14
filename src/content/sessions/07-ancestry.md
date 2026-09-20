@@ -30,6 +30,9 @@ spec:
   - you can state the week's question in your own words before you start
   - your evidence table separates what you observed from what you inferred
   - you name one alternative explanation your evidence does not rule out
+predictionCheck:
+  prompt: "As the error rate rises, what do you expect to happen to agreement with the ancestor at generation 40?"
+  revealFile: "/packs/week-07/results.csv"
 ---
 
 > What happens to ancestry inference as copying errors increase?

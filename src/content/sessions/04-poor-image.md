@@ -31,6 +31,9 @@ spec:
   - you state the tolerance under which two histories count as indistinguishable
   - your request for further evidence says in advance what result would separate the routes
   - your report records what remains unresolved rather than choosing to look decisive
+predictionCheck:
+  prompt: "Pick one item from the evidence menu. What result would favour route A, and what result would favour route B?"
+  revealFile: "/packs/week-04/evidence-menu.csv"
 ---
 
 > Can different histories fit the same available image evidence?

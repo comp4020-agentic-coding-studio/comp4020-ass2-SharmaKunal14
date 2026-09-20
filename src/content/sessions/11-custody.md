@@ -33,6 +33,9 @@ spec:
   - you can state the week's question in your own words before you start
   - your evidence table separates what you observed from what you inferred
   - you name one alternative explanation your evidence does not rule out
+predictionCheck:
+  prompt: "Which fields do you expect to differ between the before and after manifests, before you diff them yourself?"
+  revealFile: "/packs/week-11/manifest-after.json"
 ---
 
 > What does a provenance record establish, and what can it omit?

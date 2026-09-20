@@ -31,6 +31,8 @@ spec:
   - every relationship you propose names the specific feature that supports it
   - you state the assumption under which that feature is good evidence
   - you test one alternative explanation and say why you rejected it
+predictionCheck:
+  prompt: "Where do you expect the six features to diverge between recordings W, X, Y and Z, before you read the feature table?"
 ---
 
 > Which shared features are useful evidence of a common intermediate copy?

@@ -31,6 +31,8 @@ spec:
   - your protocol names one independent variable and lists what you held fixed
   - your prediction is written before you look at the matching results
   - your conclusion is limited to the source, settings and measure you actually used
+predictionCheck:
+  prompt: "What do you expect the corrected comparison to show, before you look at the matching results?"
 ---
 
 > How would we test whether repeated re-encoding caused a measured change?
