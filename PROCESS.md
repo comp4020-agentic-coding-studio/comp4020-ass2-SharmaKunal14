@@ -189,6 +189,12 @@ character belonged to, and rendered as one bar per group, reusing the
 existing bar markup and `:global` CSS pattern rather than inventing a new
 chart type
 ([`4a4f4e1`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/4a4f4e1)).
+Next, `PredictionCheck` gained an optional `whatYouShouldFind` prop that
+shows a locked prediction beside a short quote of that same week's own
+published findings — but a survey first found only 5 of 12 weeks actually
+publish a "What you should find" section, so the prop is wired into only
+those five rather than invented for the rest
+([`0718709`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-SharmaKunal14/commit/0718709)).
 
 Every decision above, including mutation-testing tables proving each new
 contract fails when the defect is reintroduced, is recorded in

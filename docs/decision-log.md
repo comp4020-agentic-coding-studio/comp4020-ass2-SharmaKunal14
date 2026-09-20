@@ -2405,3 +2405,48 @@ the hidden/empty-state toggling were reasoned through from the script
 logic and the built HTML rather than clicked through in a running page.
 
 **Commit:** `4a4f4e1`.
+
+## 2026-09-21 — Prediction-vs-findings replay added to PredictionCheck
+
+**Scope:** `src/components/PredictionCheck.astro`; `01-photocopy.mdx`,
+`02-dub.mdx`, `03-perceptual.mdx`, `04-poor-image.mdx`, `06-stemma.mdx`.
+
+### Decisions and reasons
+
+- Second of the five agreed interactive elements. Added an optional
+  `whatYouShouldFind?: string` prop to `PredictionCheck.astro`: when set
+  and a prediction is locked, an always-visible two-column block appears
+  showing the student's own locked text beside the prop's text, labelled
+  "Your prediction" and "What the workshop found". This is additive to
+  the existing `revealFile` reveal-button mechanism, not a replacement —
+  `04-poor-image.mdx` keeps both.
+- Before writing any prop values, surveyed all 12 session files for a
+  `## What you should find` heading (`awk` scan, recorded in this
+  session's working notes): only `01-photocopy`, `02-dub`, `03-perceptual`,
+  `04-poor-image` and `06-stemma` have one. The other seven weeks'
+  findings live only behind the locked `reveal/` folder. Per CLAUDE.md's
+  "do not invent... learner observations" instruction, the prop is wired
+  into only those five files, and every string passed is a verbatim or
+  near-verbatim quote of that same file's own already-published section —
+  nothing paraphrased into a new claim, nothing sourced from `reveal/`.
+- The seven weeks without a published findings section are deliberately
+  left without this prop. Adding a plausible-sounding summary there would
+  either fabricate a finding or leak the locked answer early; neither is
+  acceptable, so the feature is scoped narrower than "all 12 weeks"
+  rather than faked to look complete.
+
+### Verification and limits
+
+`mise exec -- pnpm check`: 161/161 tests, 0 accessibility violations, no
+broken links, 52 pages built. Re-ran `spec/reveal-unlinked.test.ts` on its
+own after this change specifically, since it touches session pages that
+already mention "reveal/" in prose: still 2/2 passing — the new prop adds
+no href into any reveal path, only inline text already public on the
+page. Grepped `dist/sessions/01-photocopy/index.html` for the new class
+names (`prediction-check__replay`, `-col`, `-yours`, `-found`) to confirm
+the block shipped. Not exercised in a live browser in this session; the
+locked-state rendering and the always-visible toggle were reasoned
+through from the script logic rather than clicked through in a running
+page.
+
+**Commit:** `0718709`.
